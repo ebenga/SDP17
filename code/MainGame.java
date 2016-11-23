@@ -10,4 +10,32 @@
  * 	recieve input from Screen.java
  * 	run combat sequences
  * 	etc
+
+Example code:
+while(!gameOver){
+  //run a players turn
+  //at the end of each players turn, save game state
+  // move dragon
+  nextTurn()
+}
+
+//X is given from UI when player selects place to move to
+public void moveTo(Space X){
+  currentPlayer.currentSpace = X;
+  action(currentPlayer)
+}
+
+private void action(Player A){
+  //handles the action of what happens on the space depending on the space type
+  switch(currentPlayer.currentSpace.type):
+  case bazaar:
+  case fields:
+  case desert:
+  ...
+}
+
+public void nextTurn(){
+  currentPlayer = currentPlayer.next;
+  Castle.rotate();
+}
  */
