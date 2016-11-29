@@ -9,9 +9,23 @@ public interface PlayerInterface {
 	
 	/**
 	 * 
+	 * @param add the number of HPs to add to this players HPs
+	 * @return the total number of HPs this player now has
+	 */
+	public int setHealthPoints(int add); 
+	
+	/**
+	 * 
 	 * @return the combat power of this player
 	 */
 	public int getCombatPower();
+	
+	/**
+	 * 
+	 * @param add the number of points to add to this players CPs
+	 * @return the total number of CPs this play now has
+	 */
+	public int setCombatPower(int add); 
 	
 	/**
 	 * 
@@ -21,9 +35,23 @@ public interface PlayerInterface {
 	
 	/**
 	 * 
+	 * @param add the number of gold to add to this player
+	 * @return the total gold this player now has
+	 */
+	public int setGold(int add); 
+	
+	/**
+	 * 
 	 * @return the amount of food this player has
 	 */
 	public int getFood(); 
+	
+	/**
+	 * 
+	 * @param add
+	 * @return
+	 */
+	public int setFood(int add); 
 	
 	/**
 	 * 
@@ -33,10 +61,35 @@ public interface PlayerInterface {
 	public boolean[] getKeys(); 
 	
 	/**
+	 * Adds the key of courage to this players set of keys
+	 * Note: Players never 'loose' keys so we don't need to handle 'deleteKey'
+	 * @return the length 3 key array after the new key has been added
+	 */
+	public boolean[] setKeyofCourage();
+	
+	/**
+	 * Adds the key of wisdom to this players set of keys
+	 * @return the length 3 key array after the new key has been added
+	 */
+	public boolean[] setKeyofWisdom();
+	
+	/**
+	 * Adds the key of strength to this players set of keys
+	 * @return the length 3 key array after the new key has been added
+	 */
+	public boolean[] setKeyofStrength();
+	
+	/**
 	 * 
 	 * @return true iff the player has 0 food
 	 */
 	public boolean isStarving(); 
+	
+	/**
+	 * 
+	 * @param state is true if the player will be set to starving, false if setting to not starving
+	 */
+	public void setStarving(boolean state); 
 	
 	/**
 	 * 
@@ -46,15 +99,29 @@ public interface PlayerInterface {
 	
 	/**
 	 * 
+	 * @param state is true if the player will be set to diseased, false if setting to not diseased
+	 */
+	public void setDiseased(boolean state); 
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public boolean isSlowed();
 	
 	/**
 	 * 
+	 * @param state is true if the player will be set to slowed, false if setting to not slowed
+	 */
+	public void setSlowed(boolean state); 
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public boolean isLost(); 
+	
+	public void setLost(boolean state); 
 	
 	/**
 	 * 
@@ -69,4 +136,15 @@ public interface PlayerInterface {
 	 */
 	public Space move(Space s);
 	
+	/**
+	 * 
+	 * @return a Trap object if the player has a trap, or null if they don't
+	 */
+	public Trap getTrap();
+	
+	/**
+	 * A player can only hold 1 trap at a time. If a player come across a new trap but already has one, they get to choose which to keep.
+	 * @param t the trap the player picked up
+	 */
+	public void setTrap(Trap t); 
 }
