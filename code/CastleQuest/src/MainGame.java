@@ -1,9 +1,11 @@
 /* The main driver for the game
  * For loaded games, will prompt for the load through Screen.java
  * for new games:
- * initialize spaces
+ * initialize board --> which makes space graph
  * initialize players
- * starts dragon
+ * add players to board
+ * initialize dragon
+ * add dragon to board
  * goes through player configuration (choosing color, etc?)
  * starts game
  * Will house functions to:
@@ -11,31 +13,12 @@
  * 	run combat sequences
  * 	etc
 
-Example code:
-while(!gameOver){
-  //run a players turn
-  //at the end of each players turn, save game state
-  // move dragon
-  nextTurn()
-}
 
-//X is given from UI when player selects place to move to
-public void moveTo(Space X){
-  currentPlayer.currentSpace = X;
-  action(currentPlayer)
-}
-
-private void action(Player A){
-  //handles the action of what happens on the space depending on the space type
-  switch(currentPlayer.currentSpace.type):
-  case bazaar:
-  case fields:
-  case desert:
-  ...
-}
-
-public void nextTurn(){
-  currentPlayer = currentPlayer.next;
-  Castle.rotate();
-}
  */
+//import java.util.*;
+public class MainGame{
+	public static void main(String[] args){
+		System.out.println("Hello World");
+	}
+}
+
