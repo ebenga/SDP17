@@ -138,6 +138,18 @@ public interface PlayerInterface {
 	
 	/**
 	 * 
+	 * @return true if the player is robbed
+	 */
+	public boolean isRobbed(); 
+	
+	/**
+	 * 
+	 * @param state true if setting to robbed. false if setting to not robbed
+	 */
+	public void setRobbed(boolean state); 
+	
+	/**
+	 * 
 	 * @return a Trap object if the player has a trap, or null if they don't
 	 */
 	public Trap getTrap();
@@ -147,4 +159,35 @@ public interface PlayerInterface {
 	 * @param t the trap the player picked up
 	 */
 	public void setTrap(Trap t); 
+	
+	/**
+	 * 
+	 * @return an @Armor object
+	 */
+	public Armor getArmor(); 
+	
+	/**
+	 * 
+	 * @param a length 3 array of strings for [Helm, Chest, Grieves]
+	 */
+	public void setArmor(String[] a); 
+	
+	/**
+	 * 
+	 * @return a Weapon object
+	 */
+	public Weapon getWeapon(); 
+	
+	public void setWeapon(String w); 
+	
+	public Potion getPotion(); 
+	
+	public void setPotion(String p); 
+	
+	public MagicItem getMagicItem(); 
+	
+	public void setMagicItem(String i); 
+	
+	
+	
 }
