@@ -1,6 +1,13 @@
 
 public interface TrapInterface {
-	
+	/*
+	 * Potions
+	 * magical items
+	 * traps
+	 * keys of greatness
+	 * weapons
+	 * armor
+	 */
 	
 	/**
 	 * 
