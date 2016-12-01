@@ -3,3 +3,7 @@
 /SpaceInterface.class
 /TrapInterface.class
 /MainGame.class
+/Trap.class
+/Space.class
+/Player.class
+/Board.class
