@@ -5,13 +5,13 @@ from threading import Thread
 
 GPIO.setwarnings(False)
 
-LED_G=18
+LED_G=10
 LED_R=15
 LED_B=11
 
-CATH_TOP = 7
+CATH_TOP = 8
 CATH_MID = 16
-CATH_BOT = 24
+CATH_BOT = 13
 
 delay = 1/200
 # print "-----DELAY = %f-----"%delay
