@@ -13,15 +13,21 @@ public class Space implements SpaceInterface {
 	}
 
 	@Override
-	public void setNeighbors() {
+	public void setNeighbors(Space[] s) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void setPlayers() {
+	public void setPlayers(Player[] p) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public Player[] getPlayers() {
+		// TODO Auto-generated method stub
+		return null; 
 	}
 
 	@Override

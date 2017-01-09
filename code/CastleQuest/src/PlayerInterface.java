@@ -188,6 +188,4 @@ public interface PlayerInterface {
 	
 	public void setMagicItem(String i); 
 	
-	
-	
 }

@@ -7,14 +7,14 @@ public interface SpaceInterface {
 	 * 
 	 */
 	public Space[] getNeighbors(); 
-	public void setNeighbors(Space[]); 
+	public void setNeighbors(Space[] s); 
 	
 	/**
 	 * 
 	 * @return all players that are on this space
 	 */
 	public Player[] getPlayers();
-	public void setPlayers(Player[]);
+	public void setPlayers(Player[] p);
 	
 	/**
 	 * 

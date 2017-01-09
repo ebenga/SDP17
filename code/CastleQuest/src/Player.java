@@ -188,4 +188,28 @@ public class Player implements PlayerInterface {
 
 	}
 
+	@Override
+	public Armor getArmor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Weapon getWeapon() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Potion getPotion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MagicItem getMagicItem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
