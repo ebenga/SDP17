@@ -1,0 +1,83 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+
+public class Screen {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Screen window = new Screen();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Screen() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 340, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new CardLayout(0, 0));
+		
+		JPanel startPanel = new JPanel();
+		frame.getContentPane().add(startPanel, "name_257946467045291");
+		
+		JPanel playerStartPanel = new JPanel();
+		frame.getContentPane().add(playerStartPanel, "name_257948874350106");
+		
+		JPanel settingsPanel = new JPanel();
+		frame.getContentPane().add(settingsPanel, "name_257950747583981");
+		
+		JPanel inventoryPanel = new JPanel();
+		frame.getContentPane().add(inventoryPanel, "name_257953235220668");
+		
+		JPanel movePanel = new JPanel();
+		frame.getContentPane().add(movePanel, "name_257955706103938");
+		
+		JPanel panel = new JPanel();
+		frame.getContentPane().add(panel, "name_264104150585210");
+		
+		JPanel panel_1 = new JPanel();
+		frame.getContentPane().add(panel_1, "name_264106582521953");
+		
+		JPanel panel_2 = new JPanel();
+		frame.getContentPane().add(panel_2, "name_264108286407165");
+		
+		JPanel panel_3 = new JPanel();
+		frame.getContentPane().add(panel_3, "name_264109808785584");
+		
+		JPanel panel_4 = new JPanel();
+		frame.getContentPane().add(panel_4, "name_264249039774567");
+		
+		JPanel panel_5 = new JPanel();
+		frame.getContentPane().add(panel_5, "name_264250839698398");
+		
+		JPanel panel_6 = new JPanel();
+		frame.getContentPane().add(panel_6, "name_264252265201973");
+	}
+}
