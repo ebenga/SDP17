@@ -23,9 +23,6 @@ public class Player implements PlayerInterface {
 	private boolean[] Keys = {false,false,false};
 	private Potion potion;
 	private Trap trap;
-	private Armor armor;
-	private Weapon weapon;
-	private MagicItem magicItem;
 	
 	public String getHomeKingdom(){
 		return homeKingdom;
@@ -54,26 +51,26 @@ public class Player implements PlayerInterface {
 	
 	@Override
 	public int getHealthPoints() {
-		// returns health points
+		// TODO Auto-generated method stub
 		return HP;
 	}
 
 	@Override
 	public int setHealthPoints(int h) {
-		// sets the player's hp
+		// TODO Auto-generated method stub
 		HP = h;
 		return 0;
 	}
 
 	@Override
 	public int getCombatPower() {
-		// returns cp
+		// TODO Auto-generated method stub
 		return CP;
 	}
 
 	@Override
 	public int setCombatPower(int c) {
-		// sets cp
+		// TODO Auto-generated method stub
 		CP = c;
 		return 0;
 	}
@@ -216,19 +213,9 @@ public class Player implements PlayerInterface {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void useTrap(){
-		// TODO: use trap on current space
-		
-		trap = null; //removes trap from inventory
-	}
 
-	public boolean hasArmor(){
-		return armor != null;
-	}
-	
 	@Override
-	public void setArmor(String a) {
+	public void setArmor(String[] a) {
 		// TODO Auto-generated method stub
 
 	}
@@ -239,10 +226,6 @@ public class Player implements PlayerInterface {
 		return null;
 	}
 
-	public boolean hasWeapon(){
-		return weapon != null;
-	}
-	
 	@Override
 	public void setWeapon(String w) {
 		// TODO Auto-generated method stub
@@ -269,16 +252,6 @@ public class Player implements PlayerInterface {
 	public Potion getPotion() {
 		// TODO Auto-generated method stub
 		return potion;
-	}
-	
-	public void usePotion(){
-		//TODO: use potion to effect HP, CP, or diseased status
-		
-		potion = null; //remove potion from inventory after use
-	}
-	
-	public boolean hasMagicItem(){
-		return magicItem != null;
 	}
 	
 	@Override

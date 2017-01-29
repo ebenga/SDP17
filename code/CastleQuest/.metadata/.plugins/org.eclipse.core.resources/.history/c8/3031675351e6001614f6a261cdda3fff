@@ -257,7 +257,7 @@ public class Screen {
 		playerStartPanel.add(lblHP);
 		
 		lblCP = new JLabel("CP:");
-		lblCP.setForeground(Color.BLUE);
+		lblCP.setForeground(new Color(0, 0, 0));
 		lblCP.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCP.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblCP.setBounds(10, 345, 104, 25);
@@ -358,16 +358,16 @@ public class Screen {
 		
 		lblcurrentWeapon = new JLabel("null");
 		lblcurrentWeapon.setHorizontalAlignment(SwingConstants.LEFT);
-		lblcurrentWeapon.setForeground(Color.BLUE);
+		lblcurrentWeapon.setForeground(Color.BLACK);
 		lblcurrentWeapon.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblcurrentWeapon.setBounds(10, 213, 141, 25);
+		lblcurrentWeapon.setBounds(10, 213, 104, 25);
 		inventoryPanel.add(lblcurrentWeapon);
 		
 		lblcurrentArmor = new JLabel("null");
 		lblcurrentArmor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblcurrentArmor.setForeground(Color.RED);
 		lblcurrentArmor.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblcurrentArmor.setBounds(10, 132, 141, 25);
+		lblcurrentArmor.setBounds(10, 132, 104, 25);
 		inventoryPanel.add(lblcurrentArmor);
 		
 		lblWeapon = new JLabel("Weapon");
@@ -379,10 +379,6 @@ public class Screen {
 		btnPotion = new JButton("Null");
 		btnPotion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(currentPlayer.hasPotion()){
-					currentPlayer.usePotion();
-					repopulate();
-				}
 			}
 		});
 		btnPotion.setFont(new Font("Cambria", Font.BOLD, 14));
@@ -391,14 +387,6 @@ public class Screen {
 		inventoryPanel.add(btnPotion);
 		
 		btnTrap = new JButton("null");
-		btnTrap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(currentPlayer.hasTrap()){
-					currentPlayer.useTrap();
-					repopulate();
-				}
-			}
-		});
 		btnTrap.setFont(new Font("Cambria", Font.BOLD, 14));
 		btnTrap.setBackground(Color.GRAY);
 		btnTrap.setBounds(10, 370, 152, 47);
@@ -544,7 +532,6 @@ public class Screen {
 		
 		//========================= INVENTORY SCREEN ======================================
 		
-		//KEYS
 		//{courage, wisdom, strength}
 		String keys = "";
 		if(currentPlayer.getKeys()[0]){
@@ -561,7 +548,6 @@ public class Screen {
 		}
 		keyPane.setText(keys);
 		
-		//POTION
 		if(currentPlayer.hasPotion()){
 			btnPotion.setText(currentPlayer.getPotion().getType());
 			btnTrap.setBackground(Color.WHITE);
@@ -569,32 +555,12 @@ public class Screen {
 		else {
 			btnPotion.setText("No Potions");
 		}
-		//TRAPS
 		if(currentPlayer.hasTrap()){
 			btnTrap.setText(currentPlayer.getTrap().getType());
 			btnTrap.setBackground(Color.WHITE);
 		}
 		else {
 			btnTrap.setText("No Traps");
-		}
-		
-		//ARMOR
-		if(currentPlayer.hasArmor()){
-			lblcurrentArmor.setText(currentPlayer.getArmor().getType() + ": +" + currentPlayer.getArmor().getEffect() + "HP");
-		} else {
-			lblcurrentArmor.setText("No Armor: +0HP");
-		}
-		//WEAPON
-		if(currentPlayer.hasWeapon()){
-			lblcurrentWeapon.setText(currentPlayer.getWeapon().getType() + ": +" + currentPlayer.getWeapon().getEffect() + "CP");
-		} else {
-			lblcurrentWeapon.setText("No Weapon: +0CP");
-		}
-		//MAGICAL ITEM
-		if(currentPlayer.hasMagicItem()){
-			magicPane.setText(currentPlayer.getMagicItem().getType()+"\n" + currentPlayer.getMagicItem().getEffect());
-		} else {
-			magicPane.setText("No Magical Items!");
 		}
 		
 	}

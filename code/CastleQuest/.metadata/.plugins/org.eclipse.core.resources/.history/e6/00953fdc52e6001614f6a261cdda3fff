@@ -379,10 +379,6 @@ public class Screen {
 		btnPotion = new JButton("Null");
 		btnPotion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(currentPlayer.hasPotion()){
-					currentPlayer.usePotion();
-					repopulate();
-				}
 			}
 		});
 		btnPotion.setFont(new Font("Cambria", Font.BOLD, 14));
@@ -391,14 +387,6 @@ public class Screen {
 		inventoryPanel.add(btnPotion);
 		
 		btnTrap = new JButton("null");
-		btnTrap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(currentPlayer.hasTrap()){
-					currentPlayer.useTrap();
-					repopulate();
-				}
-			}
-		});
 		btnTrap.setFont(new Font("Cambria", Font.BOLD, 14));
 		btnTrap.setBackground(Color.GRAY);
 		btnTrap.setBounds(10, 370, 152, 47);

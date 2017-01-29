@@ -167,7 +167,7 @@ public interface PlayerInterface {
 	 * 
 	 * @param a length 3 array of strings for [Helm, Chest, Grieves]
 	 */
-	public void setArmor(String a); 
+	public void setArmor(String[] a); 
 	
 	/**
 	 * 

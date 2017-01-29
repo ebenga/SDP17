@@ -216,12 +216,6 @@ public class Player implements PlayerInterface {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void useTrap(){
-		// TODO: use trap on current space
-		
-		trap = null; //removes trap from inventory
-	}
 
 	public boolean hasArmor(){
 		return armor != null;
@@ -269,12 +263,6 @@ public class Player implements PlayerInterface {
 	public Potion getPotion() {
 		// TODO Auto-generated method stub
 		return potion;
-	}
-	
-	public void usePotion(){
-		//TODO: use potion to effect HP, CP, or diseased status
-		
-		potion = null; //remove potion from inventory after use
 	}
 	
 	public boolean hasMagicItem(){

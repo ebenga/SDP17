@@ -1,19 +1,16 @@
 
 public class Potion implements ItemInterface {
 
-	
-	private String type;
-	
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
-		return type;
+		return null;
 	}
 
 	@Override
 	public void setType(String t) {
 		// TODO Auto-generated method stub
-		type = t;
+
 	}
 
 	@Override
