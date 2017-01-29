@@ -1,0 +1,148 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JPanel;
+import java.awt.CardLayout;
+import javax.swing.JTextPane;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Screen {
+
+	private JFrame frame;
+	private JPanel startPanel;
+	private JPanel playerStartPanel;
+	private JPanel settingsPanel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Screen window = new Screen();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Screen() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 340, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new CardLayout(0, 0));
+		
+		startPanel = new JPanel();
+		startPanel.setBackground(Color.LIGHT_GRAY);
+		frame.getContentPane().add(startPanel, "name_257946467045291");
+		startPanel.setLayout(null);
+		
+		JLabel titleLabel = new JLabel("CASTLE QUEST");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Cambria", Font.BOLD, 30));
+		titleLabel.setBounds(10, 64, 304, 94);
+		startPanel.add(titleLabel);
+		
+		JButton btnSettings = new JButton("Settings");
+		btnSettings.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnSettings.setBackground(new Color(128, 128, 128));
+		btnSettings.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnSettings.setBounds(204, 11, 110, 25);
+		startPanel.add(btnSettings);
+		
+		JLabel lblNewLabel = new JLabel("Number of Players:");
+		lblNewLabel.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblNewLabel.setBounds(90, 148, 152, 25);
+		startPanel.add(lblNewLabel);
+		
+		JButton btnOnePlayer = new JButton("ONE");
+		btnOnePlayer.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnOnePlayer.setBackground(Color.WHITE);
+		btnOnePlayer.setBounds(90, 184, 119, 40);
+		startPanel.add(btnOnePlayer);
+		
+		JButton btnTwoPlayer = new JButton("TWO");
+		btnTwoPlayer.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnTwoPlayer.setBackground(Color.WHITE);
+		btnTwoPlayer.setBounds(90, 242, 119, 40);
+		startPanel.add(btnTwoPlayer);
+		
+		JButton btnThreePlayer = new JButton("THREE");
+		btnThreePlayer.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnThreePlayer.setBackground(Color.WHITE);
+		btnThreePlayer.setBounds(90, 304, 121, 40);
+		startPanel.add(btnThreePlayer);
+		
+		JButton btnFourPlayer = new JButton("FOUR");
+		btnFourPlayer.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnFourPlayer.setBackground(Color.WHITE);
+		btnFourPlayer.setBounds(88, 361, 121, 40);
+		startPanel.add(btnFourPlayer);
+		
+		playerStartPanel = new JPanel();
+		frame.getContentPane().add(playerStartPanel, "name_257948874350106");
+		playerStartPanel.setLayout(null);
+		
+		settingsPanel = new JPanel();
+		frame.getContentPane().add(settingsPanel, "name_257950747583981");
+		settingsPanel.setLayout(null);
+		
+		JPanel inventoryPanel = new JPanel();
+		frame.getContentPane().add(inventoryPanel, "name_257953235220668");
+		inventoryPanel.setLayout(null);
+		
+		JPanel movePanel = new JPanel();
+		frame.getContentPane().add(movePanel, "name_257955706103938");
+		movePanel.setLayout(null);
+		
+		JPanel combatPanel = new JPanel();
+		frame.getContentPane().add(combatPanel, "name_264104150585210");
+		combatPanel.setLayout(null);
+		
+		JPanel bazzarPanel = new JPanel();
+		frame.getContentPane().add(bazzarPanel, "name_264106582521953");
+		bazzarPanel.setLayout(null);
+		
+		JPanel ruinPanel = new JPanel();
+		frame.getContentPane().add(ruinPanel, "name_264108286407165");
+		ruinPanel.setLayout(null);
+		
+		JPanel cavePanel = new JPanel();
+		frame.getContentPane().add(cavePanel, "name_264109808785584");
+		cavePanel.setLayout(null);
+		
+		JPanel rotatePanel = new JPanel();
+		frame.getContentPane().add(rotatePanel, "name_264249039774567");
+		rotatePanel.setLayout(null);
+		
+		JPanel dragonPanel = new JPanel();
+		frame.getContentPane().add(dragonPanel, "name_264250839698398");
+		dragonPanel.setLayout(null);
+	}
+}

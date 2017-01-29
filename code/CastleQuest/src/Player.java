@@ -8,51 +8,88 @@
  */
 public class Player implements PlayerInterface {
 
+	private Player next;
+	private boolean finalPlayer = false;
+	private String homeKingdom;
+	private int gold = 100;
+	private int HP = 100;
+	private int CP = 20;
+	private int Food = 5;
+	
+	public String getHomeKingdom(){
+		return homeKingdom;
+	}
+	
+	public void setHomeKingdom(String s){
+		homeKingdom = s;
+	}
+	
+	public void makeFinalPlayer(){
+		finalPlayer = true;
+	}
+	
+	public boolean isFinalPlayer(){
+		return finalPlayer;
+	}
+	
+	public void setNextPlayer(Player p){
+		next = p;
+	}
+	
+	public Player nextPlayer() {
+		//returns the next player
+		return next;
+	}
+	
 	@Override
 	public int getHealthPoints() {
 		// TODO Auto-generated method stub
-		return 0;
+		return HP;
 	}
 
 	@Override
-	public int setHealthPoints(int add) {
+	public int setHealthPoints(int h) {
 		// TODO Auto-generated method stub
+		HP = h;
 		return 0;
 	}
 
 	@Override
 	public int getCombatPower() {
 		// TODO Auto-generated method stub
-		return 0;
+		return CP;
 	}
 
 	@Override
-	public int setCombatPower(int add) {
+	public int setCombatPower(int c) {
 		// TODO Auto-generated method stub
+		CP = c;
 		return 0;
 	}
 
 	@Override
 	public int getGold() {
 		// TODO Auto-generated method stub
-		return 0;
+		return gold;
 	}
 
 	@Override
-	public int setGold(int add) {
+	public int setGold(int g) {
 		// TODO Auto-generated method stub
+		gold = g;
 		return 0;
 	}
 
 	@Override
 	public int getFood() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Food;
 	}
 
 	@Override
-	public int setFood(int add) {
+	public int setFood(int f) {
 		// TODO Auto-generated method stub
+		Food = f;
 		return 0;
 	}
 
