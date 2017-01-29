@@ -15,6 +15,12 @@ public class Player implements PlayerInterface {
 	private int HP = 100;
 	private int CP = 20;
 	private int Food = 5;
+	private boolean Lost = false;
+	private boolean Slowed = false;
+	private boolean Diseased = false;
+	private boolean Robbed = false;
+	private boolean Starving = false;
+	private boolean[] Keys = {false,false,false};
 	
 	public String getHomeKingdom(){
 		return homeKingdom;
@@ -96,73 +102,74 @@ public class Player implements PlayerInterface {
 	@Override
 	public boolean[] getKeys() {
 		// TODO Auto-generated method stub
-		return null;
+		//{courage, wisdom, strength}
+		return Keys;
 	}
 
 	@Override
-	public boolean[] setKeyofCourage() {
+	public void setKeyofCourage(boolean state) {
 		// TODO Auto-generated method stub
-		return null;
+		Keys[0] = state;
 	}
 
 	@Override
-	public boolean[] setKeyofWisdom() {
+	public void setKeyofWisdom(boolean state) {
 		// TODO Auto-generated method stub
-		return null;
+		Keys[1] = state;
 	}
 
 	@Override
-	public boolean[] setKeyofStrength() {
+	public void setKeyofStrength(boolean state) {
 		// TODO Auto-generated method stub
-		return null;
+		Keys[2] = state;
 	}
 
 	@Override
 	public boolean isStarving() {
 		// TODO Auto-generated method stub
-		return false;
+		return Starving;
 	}
 
 	@Override
 	public void setStarving(boolean state) {
 		// TODO Auto-generated method stub
-
+			Starving = state;
 	}
 
 	@Override
 	public boolean isDiseased() {
 		// TODO Auto-generated method stub
-		return false;
+		return Diseased;
 	}
 
 	@Override
 	public void setDiseased(boolean state) {
 		// TODO Auto-generated method stub
-
+		Diseased = state;
 	}
 
 	@Override
 	public boolean isSlowed() {
 		// TODO Auto-generated method stub
-		return false;
+		return Slowed;
 	}
 
 	@Override
 	public void setSlowed(boolean state) {
 		// TODO Auto-generated method stub
-
+		Slowed = state;
 	}
 
 	@Override
 	public boolean isLost() {
 		// TODO Auto-generated method stub
-		return false;
+		return Lost;
 	}
 
 	@Override
 	public void setLost(boolean state) {
 		// TODO Auto-generated method stub
-
+			Lost = state;
 	}
 
 	@Override
@@ -180,13 +187,13 @@ public class Player implements PlayerInterface {
 	@Override
 	public boolean isRobbed() {
 		// TODO Auto-generated method stub
-		return false;
+		return Robbed;
 	}
 
 	@Override
 	public void setRobbed(boolean state) {
 		// TODO Auto-generated method stub
-
+		Robbed = state;
 	}
 
 	@Override
@@ -206,29 +213,17 @@ public class Player implements PlayerInterface {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public Armor getArmor() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void setWeapon(String w) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void setPotion(String p) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setMagicItem(String i) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Armor getArmor() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -238,9 +233,21 @@ public class Player implements PlayerInterface {
 	}
 
 	@Override
+	public void setPotion(String p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public Potion getPotion() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void setMagicItem(String i) {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

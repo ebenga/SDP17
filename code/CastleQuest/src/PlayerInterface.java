@@ -61,27 +61,24 @@ public interface PlayerInterface {
 	public boolean[] getKeys(); 
 	
 	/**
-	 * Adds the key of courage to this players set of keys
-	 * Note: Players never 'loose' keys so we don't need to handle 'deleteKey'
-	 * @return the length 3 key array after the new key has been added
+	 * @return the length 3 key array {courage, wisdom, strength}
 	 */
-	public boolean[] setKeyofCourage();
+	public void setKeyofCourage(boolean state);
 	
 	/**
 	 * Adds the key of wisdom to this players set of keys
-	 * @return the length 3 key array after the new key has been added
+	 * 
 	 */
-	public boolean[] setKeyofWisdom();
+	public void setKeyofWisdom(boolean state);
 	
 	/**
 	 * Adds the key of strength to this players set of keys
-	 * @return the length 3 key array after the new key has been added
+	 * 
 	 */
-	public boolean[] setKeyofStrength();
+	public void setKeyofStrength(boolean state);
 	
 	/**
-	 * 
-	 * @return true iff the player has 0 food
+	 *sets the placeholder for key of strength to true
 	 */
 	public boolean isStarving(); 
 	

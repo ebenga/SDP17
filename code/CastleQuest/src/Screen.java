@@ -45,6 +45,10 @@ public class Screen {
 	private JLabel lblCP;
 	private JLabel lblFood;
 	private JLabel lblStatus;
+	private JTextPane statusPane;
+	private JTextPane keyPane;
+	private JTextPane magicPane;
+	private JLabel lblTotalCp;
 	
 
 	/**
@@ -174,6 +178,13 @@ public class Screen {
 		frame.getContentPane().add(playerStartPanel, "name_257948874350106");
 		playerStartPanel.setLayout(null);
 		
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.WHITE);
+		separator.setForeground(Color.BLACK);
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(113, 273, 1, 150);
+		playerStartPanel.add(separator);
+		
 		btnSave = new JButton("Save");
 		btnSave.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnSave.setBackground(Color.GRAY);
@@ -188,36 +199,68 @@ public class Screen {
 		playerStartPanel.add(lblcurrentPlayer);
 		
 		btnInventory = new JButton("Inventory");
+		btnInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				playerStartPanel.setVisible(false);
+				repopulate();
+				if(currentPlayer.isLost()){
+					currentPlayer.setLost(false);
+					currentPlayer = currentPlayer.nextPlayer();
+					rotatePanel.setVisible(true);
+				}
+				else{
+					inventoryPanel.setVisible(true);
+				}
+			}
+		});
 		btnInventory.setBackground(Color.WHITE);
 		btnInventory.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnInventory.setBounds(25, 105, 125, 47);
 		playerStartPanel.add(btnInventory);
 		
 		btnMove = new JButton("Move");
+		btnMove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				playerStartPanel.setVisible(false);
+				repopulate();
+				if(currentPlayer.isLost()){
+					currentPlayer.setLost(false);
+					currentPlayer = currentPlayer.nextPlayer();
+					rotatePanel.setVisible(true);
+				}
+				else{
+					movePanel.setVisible(true);
+				}
+			}
+		});
 		btnMove.setBackground(Color.WHITE);
 		btnMove.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnMove.setBounds(160, 105, 125, 47);
 		playerStartPanel.add(btnMove);
 		
 		lblGold = new JLabel("Gold:");
+		lblGold.setForeground(Color.ORANGE);
 		lblGold.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGold.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblGold.setBounds(10, 273, 104, 25);
 		playerStartPanel.add(lblGold);
 		
 		lblHP = new JLabel("HP:");
+		lblHP.setForeground(Color.RED);
 		lblHP.setHorizontalAlignment(SwingConstants.LEFT);
 		lblHP.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblHP.setBounds(10, 309, 104, 25);
 		playerStartPanel.add(lblHP);
 		
 		lblCP = new JLabel("CP:");
+		lblCP.setForeground(new Color(0, 0, 0));
 		lblCP.setHorizontalAlignment(SwingConstants.LEFT);
 		lblCP.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblCP.setBounds(10, 345, 104, 25);
 		playerStartPanel.add(lblCP);
 		
 		lblFood = new JLabel("Food:");
+		lblFood.setForeground(Color.GREEN);
 		lblFood.setHorizontalAlignment(SwingConstants.LEFT);
 		lblFood.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblFood.setBounds(10, 381, 104, 25);
@@ -229,12 +272,13 @@ public class Screen {
 		lblStatus.setBounds(63, 208, 179, 38);
 		playerStartPanel.add(lblStatus);
 		
-		//===================== SETTINGS PAGE =============================
-		
-		settingsPanel = new JPanel();
-		settingsPanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(settingsPanel, "name_257950747583981");
-		settingsPanel.setLayout(null);
+		statusPane = new JTextPane();
+		statusPane.setEditable(false);
+		statusPane.setForeground(Color.RED);
+		statusPane.setFont(new Font("Cambria", Font.BOLD, 16));
+		statusPane.setBackground(Color.LIGHT_GRAY);
+		statusPane.setBounds(124, 273, 190, 150);
+		playerStartPanel.add(statusPane);
 		
 		//==================== INVENTORY PAGE =============================
 		
@@ -242,6 +286,77 @@ public class Screen {
 		inventoryPanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(inventoryPanel, "name_257953235220668");
 		inventoryPanel.setLayout(null);
+		
+		JButton btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				inventoryPanel.setVisible(false);
+				repopulate();
+				playerStartPanel.setVisible(true);
+			}
+		});
+		btnBack.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBack.setBackground(Color.GRAY);
+		btnBack.setBounds(10, 11, 110, 25);
+		inventoryPanel.add(btnBack);
+		
+		JLabel lblInventory = new JLabel("Inventory");
+		lblInventory.setHorizontalAlignment(SwingConstants.CENTER);
+		lblInventory.setFont(new Font("Cambria", Font.BOLD, 22));
+		lblInventory.setBounds(54, 47, 214, 47);
+		inventoryPanel.add(lblInventory);
+		
+		JLabel lblKeys = new JLabel("Keys");
+		lblKeys.setHorizontalAlignment(SwingConstants.CENTER);
+		lblKeys.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblKeys.setBounds(195, 90, 103, 42);
+		inventoryPanel.add(lblKeys);
+		
+		keyPane = new JTextPane();
+		keyPane.setFont(new Font("Cambria", Font.BOLD, 16));
+		keyPane.setEditable(false);
+		keyPane.setBackground(Color.LIGHT_GRAY);
+		keyPane.setBounds(195, 132, 119, 128);
+		inventoryPanel.add(keyPane);
+		
+		JLabel lblArmor = new JLabel("Armor");
+		lblArmor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblArmor.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblArmor.setBounds(10, 90, 103, 42);
+		inventoryPanel.add(lblArmor);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setOrientation(SwingConstants.VERTICAL);
+		separator_1.setForeground(Color.BLACK);
+		separator_1.setBackground(Color.WHITE);
+		separator_1.setBounds(161, 110, 1, 175);
+		inventoryPanel.add(separator_1);
+		
+		JLabel lblItems = new JLabel("Items");
+		lblItems.setHorizontalAlignment(SwingConstants.CENTER);
+		lblItems.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblItems.setBounds(10, 283, 103, 42);
+		inventoryPanel.add(lblItems);
+		
+		JLabel lblMagicalItems = new JLabel("Magical Item");
+		lblMagicalItems.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMagicalItems.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblMagicalItems.setBounds(173, 283, 141, 42);
+		inventoryPanel.add(lblMagicalItems);
+		
+		magicPane = new JTextPane();
+		magicPane.setFont(new Font("Cambria", Font.BOLD, 16));
+		magicPane.setEditable(false);
+		magicPane.setBackground(Color.LIGHT_GRAY);
+		magicPane.setBounds(183, 322, 119, 128);
+		inventoryPanel.add(magicPane);
+		
+		lblTotalCp = new JLabel("Total CP: ");
+		lblTotalCp.setHorizontalAlignment(SwingConstants.LEFT);
+		lblTotalCp.setForeground(Color.BLUE);
+		lblTotalCp.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblTotalCp.setBounds(10, 240, 104, 25);
+		inventoryPanel.add(lblTotalCp);
 		
 		//==================== MOVE SELECTION PAGE =========================
 		
@@ -291,6 +406,13 @@ public class Screen {
 		dragonPanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(dragonPanel, "name_264250839698398");
 		dragonPanel.setLayout(null);
+		
+		//===================== SETTINGS PAGE =============================
+		
+		settingsPanel = new JPanel();
+		settingsPanel.setBackground(Color.LIGHT_GRAY);
+		frame.getContentPane().add(settingsPanel, "name_257950747583981");
+		settingsPanel.setLayout(null);
 	}
 	
 	public void boarder(){
@@ -342,16 +464,55 @@ public class Screen {
 		currentPlayer = playerOne;
 		repopulate();
 
-		//TODO: SET BOARD
+		//TODO: SET PHYSICAL BOARD
 	}
 	
 	//sets all the labels and text fields to the right value for the current player
 	public void repopulate(){
+		//==================== PLAYER START SCREEN ============================
 		lblcurrentPlayer.setText("Knight of " + currentPlayer.getHomeKingdom());
 		lblGold.setText("Gold: "+currentPlayer.getGold());
 		lblHP.setText("HP: " + currentPlayer.getHealthPoints());
 		lblCP.setText("CP: " + currentPlayer.getCombatPower());
 		lblFood.setText("Food: " + currentPlayer.getFood());
+		String stats = "";
+		if(currentPlayer.isDiseased()){
+			stats += "Diseased: 1/2 HP\n";
+		}
+		if(currentPlayer.isLost()){
+			stats += "Lost: Turn Skipped\n";
+		}
+		if(currentPlayer.isRobbed()){
+			stats += "You have been Robbed!\n";
+		}
+		if(currentPlayer.isSlowed()){
+			stats += "Slowed: Consuming 2x Food\n";
+		}
+		if(currentPlayer.isStarving()){
+			stats += "Starving: Loosing HP\n";
+		}
+		if(stats.length()<3){
+			stats = "No Negative Effects\n";
+		}
+		statusPane.setText(stats);
+		
+		//========================= INVENTORY SCREEN ======================================
+		
+		//{courage, wisdom, strength}
+		String keys = "";
+		if(currentPlayer.getKeys()[0]){
+			keys += "Key of Courage\n";
+		}
+		if(currentPlayer.getKeys()[1]){
+			keys += "Key of Wisdom\n";
+		}
+		if(currentPlayer.getKeys()[2]){
+			keys += "Key of Strength\n";
+		}
+		if(keys.length()<3){
+			keys = "No Keys Yet!\n";
+		}
+		keyPane.setText(keys);
 		
 	}
 }
