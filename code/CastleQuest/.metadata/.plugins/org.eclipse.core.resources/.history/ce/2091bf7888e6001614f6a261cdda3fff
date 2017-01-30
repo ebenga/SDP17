@@ -63,10 +63,6 @@ public class Screen {
 	private JLabel lblMove;
 	private JButton btnStay;
 	private JLabel lblStay;
-	private JLabel lblRotate;
-	private JLabel lblRotateArrow;
-	private JButton btnReady;
-	private JLabel lblTurnOver;
 	
 
 	/**
@@ -493,6 +489,7 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer = currentPlayer.nextPlayer();
+				repopulate();
 				rotatePanel.setVisible(true);
 			}
 		});
@@ -531,41 +528,9 @@ public class Screen {
 		//==================== ROTATE PAGE ==================================
 		
 		rotatePanel = new JPanel();
-		rotatePanel.setBackground(Color.BLACK);
+		rotatePanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(rotatePanel, "name_264249039774567");
 		rotatePanel.setLayout(null);
-		
-		lblRotate = new JLabel("ROTATE TO NEXT PLAYER");
-		lblRotate.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRotate.setForeground(Color.WHITE);
-		lblRotate.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblRotate.setBounds(10, 116, 304, 51);
-		rotatePanel.add(lblRotate);
-		
-		lblRotateArrow = new JLabel("");
-		lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/leftRotate.png")));
-		lblRotateArrow.setBounds(33, 151, 255, 287);
-		rotatePanel.add(lblRotateArrow);
-		
-		btnReady = new JButton("Ready");
-		btnReady.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rotatePanel.setVisible(false);
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
-		btnReady.setBackground(Color.LIGHT_GRAY);
-		btnReady.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnReady.setBounds(106, 22, 101, 45);
-		rotatePanel.add(btnReady);
-		
-		lblTurnOver = new JLabel("TURN OVER");
-		lblTurnOver.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTurnOver.setForeground(Color.RED);
-		lblTurnOver.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblTurnOver.setBounds(10, 53, 304, 82);
-		rotatePanel.add(lblTurnOver);
 		
 		//==================== DRAGON PAGE ==================================
 		
@@ -717,17 +682,6 @@ public class Screen {
 		} else {
 			magicPane.setText("No Magical Items!");
 		}
-		
-		
-		//================================ ROTATE SCREEN ===========================================================
-		//ARROW
-		if(currentPlayer.isFinalPlayer()){
-			lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/rightRotate.png")));
-		} else {
-			lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/leftRotate.png")));
-		}
-		//label
-		lblRotate.setText("ROTATE TO " + currentPlayer.nextPlayer().getHomeKingdom());
 		
 	}
 }
