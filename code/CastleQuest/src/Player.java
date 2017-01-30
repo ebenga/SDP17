@@ -6,7 +6,7 @@
  * where the player is
  * LED color, player looks, other customizations
  */
-public class Player implements PlayerInterface {
+public class Player {
 
 	private Player next;
 	private boolean finalPlayer = false;
@@ -26,11 +26,11 @@ public class Player implements PlayerInterface {
 	private Armor armor;
 	private Weapon weapon;
 	private MagicItem magicItem;
+	private Space currentSpace;
 	
 	public String getHomeKingdom(){
 		return homeKingdom;
 	}
-	
 	public void setHomeKingdom(String s){
 		homeKingdom = s;
 	}
@@ -38,7 +38,6 @@ public class Player implements PlayerInterface {
 	public void makeFinalPlayer(){
 		finalPlayer = true;
 	}
-	
 	public boolean isFinalPlayer(){
 		return finalPlayer;
 	}
@@ -46,251 +45,166 @@ public class Player implements PlayerInterface {
 	public void setNextPlayer(Player p){
 		next = p;
 	}
-	
 	public Player nextPlayer() {
 		//returns the next player
 		return next;
 	}
 	
-	@Override
 	public int getHealthPoints() {
 		// returns health points
 		return HP;
 	}
-
-	@Override
-	public int setHealthPoints(int h) {
+	public void setHealthPoints(int h) {
 		// sets the player's hp
 		HP = h;
-		return 0;
 	}
 
-	@Override
 	public int getCombatPower() {
 		// returns cp
 		return CP;
 	}
-
-	@Override
-	public int setCombatPower(int c) {
+	public void setCombatPower(int c) {
 		// sets cp
 		CP = c;
-		return 0;
 	}
-
-	@Override
+	
 	public int getGold() {
-		// TODO Auto-generated method stub
 		return gold;
 	}
-
-	@Override
-	public int setGold(int g) {
-		// TODO Auto-generated method stub
+	public void setGold(int g) {
 		gold = g;
-		return 0;
 	}
 
-	@Override
 	public int getFood() {
-		// TODO Auto-generated method stub
 		return Food;
 	}
-
-	@Override
-	public int setFood(int f) {
-		// TODO Auto-generated method stub
+	public void setFood(int f) {
 		Food = f;
-		return 0;
 	}
 
-	@Override
 	public boolean[] getKeys() {
-		// TODO Auto-generated method stub
 		//{courage, wisdom, strength}
 		return Keys;
 	}
-
-	@Override
 	public void setKeyofCourage(boolean state) {
-		// TODO Auto-generated method stub
 		Keys[0] = state;
 	}
-
-	@Override
 	public void setKeyofWisdom(boolean state) {
-		// TODO Auto-generated method stub
 		Keys[1] = state;
 	}
-
-	@Override
 	public void setKeyofStrength(boolean state) {
-		// TODO Auto-generated method stub
 		Keys[2] = state;
 	}
 
-	@Override
 	public boolean isStarving() {
-		// TODO Auto-generated method stub
+		// TODO chang hp?
 		return Starving;
 	}
-
-	@Override
 	public void setStarving(boolean state) {
-		// TODO Auto-generated method stub
+		// TODO change hp?
 			Starving = state;
 	}
 
-	@Override
 	public boolean isDiseased() {
-		// TODO Auto-generated method stub
+		// TODO change hp?
 		return Diseased;
 	}
-
-	@Override
 	public void setDiseased(boolean state) {
-		// TODO Auto-generated method stub
+		// TODO change hp?
 		Diseased = state;
 	}
 
-	@Override
 	public boolean isSlowed() {
-		// TODO Auto-generated method stub
+		// TODO cause food to decrease?
 		return Slowed;
 	}
-
-	@Override
 	public void setSlowed(boolean state) {
-		// TODO Auto-generated method stub
+		// TODO cause food to decrease?
 		Slowed = state;
 	}
 
-	@Override
 	public boolean isLost() {
-		// TODO Auto-generated method stub
 		return Lost;
 	}
-
-	@Override
 	public void setLost(boolean state) {
-		// TODO Auto-generated method stub
 			Lost = state;
 	}
 
-	@Override
 	public Space getSpace() {
-		// TODO Auto-generated method stub
-		return null;
+		return currentSpace;
+	}
+	public void setSpace(Space s) {
+		currentSpace = s;
 	}
 
-	@Override
-	public Space move(Space s) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isRobbed() {
-		// TODO Auto-generated method stub
+		// TODO remove gold?
 		return Robbed;
 	}
-
-	@Override
 	public void setRobbed(boolean state) {
-		// TODO Auto-generated method stub
+		// TODO remove gold and stuff?
 		Robbed = state;
 	}
 
 	public boolean hasTrap(){
 		return trap!=null;
 	}
-	
-	@Override
 	public Trap getTrap() {
-		// TODO Auto-generated method stub
-		return null;
+		return trap;
 	}
-
-	@Override
 	public void setTrap(Trap t) {
-		// TODO Auto-generated method stub
-
+		trap = t;
 	}
-	
 	public void useTrap(){
 		// TODO: use trap on current space
-		
 		trap = null; //removes trap from inventory
 	}
 
 	public boolean hasArmor(){
 		return armor != null;
 	}
-	
-	@Override
-	public void setArmor(String a) {
-		// TODO Auto-generated method stub
-
+	public void setArmor(Armor a) {
+		// TODO add to cp?
+		armor = a;
 	}
-	
-	@Override
 	public Armor getArmor() {
-		// TODO Auto-generated method stub
-		return null;
+		return armor;
 	}
 
 	public boolean hasWeapon(){
 		return weapon != null;
 	}
-	
-	@Override
-	public void setWeapon(String w) {
-		// TODO Auto-generated method stub
-
+	public void setWeapon(Weapon w) {
+		// TODO update weapon effects
+		weapon = w;
 	}
-
-	@Override
 	public Weapon getWeapon() {
-		// TODO Auto-generated method stub
-		return null;
+		return weapon;
 	}
 
 	public boolean hasPotion(){
 		return potion!=null;
 	}
-	
-	@Override
-	public void setPotion(String p) {
-		// TODO Auto-generated method stub
-
+	public void setPotion(Potion p) {
+		potion = p;
 	}
-
-	@Override
 	public Potion getPotion() {
-		// TODO Auto-generated method stub
 		return potion;
-	}
-	
+	}	
 	public void usePotion(){
 		//TODO: use potion to effect HP, CP, or diseased status
-		
 		potion = null; //remove potion from inventory after use
 	}
 	
 	public boolean hasMagicItem(){
 		return magicItem != null;
 	}
-	
-	@Override
-	public void setMagicItem(String i) {
-		// TODO Auto-generated method stub
-
+	public void setMagicItem(MagicItem i) {
+		//TODO: add effects?
+		magicItem = i;
 	}
-
-	@Override
 	public MagicItem getMagicItem() {
-		// TODO Auto-generated method stub
-		return null;
+		return magicItem;
 	}
 
 }

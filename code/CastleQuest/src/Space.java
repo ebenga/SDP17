@@ -4,42 +4,66 @@
  * keys are player dependent, so only the player who needs this key could get it
  */
 
-public class Space implements SpaceInterface {
+public class Space {
 
-	@Override
-	public Space[] getNeighbors() {
-		// TODO Auto-generated method stub
-		return null;
+	private int id;
+	private Space innerNeighbor;
+	private Space outerNeighbor;
+	private Space clockNeighbor;
+	private Space countNeighbor;
+	private Trap trap;
+	private String type;
+	private String icon;
+	
+	
+	public void setInner(Space s){
+		innerNeighbor = s;
 	}
-
-	@Override
-	public void setNeighbors(Space[] s) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setPlayers(Player[] p) {
-		// TODO Auto-generated method stub
-
+	public Space getInner(){
+		return innerNeighbor;
 	}
 	
-	@Override
-	public Player[] getPlayers() {
-		// TODO Auto-generated method stub
-		return null; 
+	public void setOuter(Space s){
+		outerNeighbor = s;
+	}
+	public Space getOuter(){
+		return outerNeighbor;
+	}
+	
+	public void setClock(Space s){
+		clockNeighbor = s;
+	}
+	public Space getClock(){
+		return clockNeighbor;
+	}
+	
+	
+	public void setCount(Space s){
+		countNeighbor = s;
+	}
+	public Space getCount(){
+		return countNeighbor;
+	}
+	
+	public void setTrap(Trap t){
+		trap = t;
+	}
+	public Trap getTrap(){
+		return trap;
+	}
+	
+	public void setType(String t){
+		type = t;
+	}
+	public String getType(){
+		return type;
 	}
 
-	@Override
-	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setIcon(String t){
+		icon = t;
 	}
-
-	@Override
-	public void setActive(boolean a) {
-		// TODO Auto-generated method stub
-
+	public String getIcon(){
+		return icon;
 	}
 
 }

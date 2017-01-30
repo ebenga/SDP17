@@ -1,0 +1,26 @@
+
+public class Board implements BoardInterface {
+
+	private Space p1;
+	private Space p2;
+	private Space p3;
+	private Space p4;
+	private Space d;
+	
+	public void initialize(int players){
+		
+	}
+	
+	@Override
+	public void addPlayer(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void update(Player p) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -18,6 +18,7 @@ import javax.swing.JSeparator;
 
 public class Screen {
 
+	private Board gameBoard;
 	private JFrame frame;
 	private JPanel startPanel;
 	private JPanel playerStartPanel;
@@ -90,6 +91,7 @@ public class Screen {
 	 */
 	public Screen() {
 		currentPlayer = new Player();
+		gameBoard = new Board();
 		initialize();
 	}
 
@@ -590,6 +592,7 @@ public class Screen {
 				playerOne.setHomeKingdom("Lassallax");
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
+				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour);
 				break;
 			case 2:
 				playerOne = new Player();
@@ -599,6 +602,7 @@ public class Screen {
 				playerOne.setNextPlayer(playerTwo);
 				playerTwo.setNextPlayer(playerOne);
 				playerTwo.makeFinalPlayer();
+				gameBoard.initialize(2, playerOne, playerTwo, playerThree, playerFour);
 				break;
 			case 3:
 				playerOne = new Player();
@@ -611,6 +615,7 @@ public class Screen {
 				playerTwo.setNextPlayer(playerThree);
 				playerThree.setNextPlayer(playerOne);
 				playerThree.makeFinalPlayer();
+				gameBoard.initialize(3, playerOne, playerTwo, playerThree, playerFour);
 				break;
 			case 4:
 				playerOne = new Player();
@@ -626,6 +631,7 @@ public class Screen {
 				playerThree.setNextPlayer(playerFour);
 				playerFour.setNextPlayer(playerOne);
 				playerFour.makeFinalPlayer();
+				gameBoard.initialize(4, playerOne, playerTwo, playerThree, playerFour);
 				break;
 		}
 		currentPlayer = playerOne;
@@ -685,7 +691,7 @@ public class Screen {
 		//POTION
 		if(currentPlayer.hasPotion()){
 			btnPotion.setText(currentPlayer.getPotion().getType());
-			btnTrap.setBackground(Color.WHITE);
+			btnPotion.setBackground(Color.WHITE);
 		}
 		else {
 			btnPotion.setText("No Potions");
@@ -721,13 +727,18 @@ public class Screen {
 		
 		//================================ ROTATE SCREEN ===========================================================
 		//ARROW
-		if(currentPlayer.isFinalPlayer()){
-			lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/rightRotate.png")));
+		if(numPlayers > 1){
+			if(currentPlayer.isFinalPlayer()){
+				lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/rightRotate.png")));
+			} else {
+				lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/leftRotate.png")));
+			}
+			//label
+			lblRotate.setText("ROTATE TO " + currentPlayer.nextPlayer().getHomeKingdom());
 		} else {
-			lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/leftRotate.png")));
+			lblRotate.setText("WAITING FOR " + currentPlayer.nextPlayer().getHomeKingdom());
+			lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/black.png")));
 		}
-		//label
-		lblRotate.setText("ROTATE TO " + currentPlayer.nextPlayer().getHomeKingdom());
 		
 	}
 }
