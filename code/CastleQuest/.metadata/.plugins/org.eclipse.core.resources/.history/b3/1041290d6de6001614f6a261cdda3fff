@@ -54,13 +54,6 @@ public class Screen {
 	private JButton btnPotion;
 	private JButton btnTrap;
 	private JButton button;
-	private JLabel lblRight;
-	private JLabel lblUp;
-	private JLabel lblLeft;
-	private JLabel lblDown;
-	private JLabel lblCharactersLeft;
-	private JLabel lblCharactersRight;
-	private JLabel lblMove;
 	
 
 	/**
@@ -195,7 +188,7 @@ public class Screen {
 		separator.setBackground(Color.WHITE);
 		separator.setForeground(Color.BLACK);
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setBounds(120, 273, 1, 150);
+		separator.setBounds(113, 273, 1, 150);
 		playerStartPanel.add(separator);
 		
 		btnSave = new JButton("Save");
@@ -290,7 +283,7 @@ public class Screen {
 		statusPane.setForeground(Color.RED);
 		statusPane.setFont(new Font("Cambria", Font.BOLD, 16));
 		statusPane.setBackground(Color.LIGHT_GRAY);
-		statusPane.setBounds(143, 273, 171, 150);
+		statusPane.setBounds(124, 273, 190, 150);
 		playerStartPanel.add(statusPane);
 		
 		//==================== INVENTORY PAGE =============================
@@ -328,7 +321,7 @@ public class Screen {
 		keyPane = new JTextPane();
 		keyPane.setEditable(false);
 		keyPane.setText("null");
-		keyPane.setFont(new Font("Cambria", Font.BOLD, 14));
+		keyPane.setFont(new Font("Cambria", Font.BOLD, 16));
 		keyPane.setBackground(Color.LIGHT_GRAY);
 		keyPane.setBounds(172, 132, 142, 128);
 		inventoryPanel.add(keyPane);
@@ -343,7 +336,7 @@ public class Screen {
 		separator_1.setOrientation(SwingConstants.VERTICAL);
 		separator_1.setForeground(Color.BLACK);
 		separator_1.setBackground(Color.WHITE);
-		separator_1.setBounds(168, 110, 1, 175);
+		separator_1.setBounds(161, 110, 1, 175);
 		inventoryPanel.add(separator_1);
 		
 		JLabel lblItems = new JLabel("Items");
@@ -360,7 +353,7 @@ public class Screen {
 		
 		magicPane = new JTextPane();
 		magicPane.setForeground(Color.MAGENTA);
-		magicPane.setFont(new Font("Cambria", Font.BOLD, 14));
+		magicPane.setFont(new Font("Cambria", Font.BOLD, 16));
 		magicPane.setEditable(false);
 		magicPane.setBackground(Color.LIGHT_GRAY);
 		magicPane.setBounds(183, 308, 119, 128);
@@ -369,15 +362,15 @@ public class Screen {
 		lblcurrentWeapon = new JLabel("null");
 		lblcurrentWeapon.setHorizontalAlignment(SwingConstants.LEFT);
 		lblcurrentWeapon.setForeground(Color.BLUE);
-		lblcurrentWeapon.setFont(new Font("Cambria", Font.BOLD, 14));
-		lblcurrentWeapon.setBounds(10, 213, 152, 25);
+		lblcurrentWeapon.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblcurrentWeapon.setBounds(10, 213, 141, 25);
 		inventoryPanel.add(lblcurrentWeapon);
 		
 		lblcurrentArmor = new JLabel("null");
 		lblcurrentArmor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblcurrentArmor.setForeground(Color.RED);
-		lblcurrentArmor.setFont(new Font("Cambria", Font.BOLD, 14));
-		lblcurrentArmor.setBounds(10, 132, 152, 25);
+		lblcurrentArmor.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblcurrentArmor.setBounds(10, 132, 141, 25);
 		inventoryPanel.add(lblcurrentArmor);
 		
 		lblWeapon = new JLabel("Weapon");
@@ -432,49 +425,6 @@ public class Screen {
 		button.setBackground(Color.GRAY);
 		button.setBounds(10, 11, 110, 25);
 		movePanel.add(button);
-		
-		lblRight = new JLabel("");
-		lblRight.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblRight.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblRight.setIcon(new ImageIcon(Screen.class.getResource("/resources/rightArrow.png")));
-		lblRight.setBounds(198, 208, 50, 50);
-		movePanel.add(lblRight);
-		
-		lblUp = new JLabel("In");
-		lblUp.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblUp.setIcon(new ImageIcon(Screen.class.getResource("/resources/upArrow.png")));
-		lblUp.setBounds(133, 147, 90, 50);
-		movePanel.add(lblUp);
-		
-		lblLeft = new JLabel("");
-		lblLeft.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblLeft.setIcon(new ImageIcon(Screen.class.getResource("/resources/leftArrow.png")));
-		lblLeft.setBounds(70, 208, 50, 50);
-		movePanel.add(lblLeft);
-		
-		lblDown = new JLabel("Out");
-		lblDown.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblDown.setIcon(new ImageIcon(Screen.class.getResource("/resources/downArrow.png")));
-		lblDown.setBounds(133, 269, 90, 50);
-		movePanel.add(lblDown);
-		
-		lblCharactersLeft = new JLabel("Clockwise");
-		lblCharactersLeft.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCharactersLeft.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblCharactersLeft.setBounds(10, 185, 123, 34);
-		movePanel.add(lblCharactersLeft);
-		
-		lblCharactersRight = new JLabel("Counter-Clockwise");
-		lblCharactersRight.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCharactersRight.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblCharactersRight.setBounds(183, 185, 138, 34);
-		movePanel.add(lblCharactersRight);
-		
-		lblMove = new JLabel("Move");
-		lblMove.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMove.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblMove.setBounds(53, 47, 214, 47);
-		movePanel.add(lblMove);
 		
 		//==================== COMBAT PAGE =================================
 		

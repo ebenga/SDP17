@@ -10,9 +10,13 @@ import java.awt.CardLayout;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 
@@ -54,13 +58,7 @@ public class Screen {
 	private JButton btnPotion;
 	private JButton btnTrap;
 	private JButton button;
-	private JLabel lblRight;
-	private JLabel lblUp;
-	private JLabel lblLeft;
-	private JLabel lblDown;
-	private JLabel lblCharactersLeft;
-	private JLabel lblCharactersRight;
-	private JLabel lblMove;
+	private JLabel lblNewLabel_1;
 	
 
 	/**
@@ -433,48 +431,17 @@ public class Screen {
 		button.setBounds(10, 11, 110, 25);
 		movePanel.add(button);
 		
-		lblRight = new JLabel("");
-		lblRight.setVerticalAlignment(SwingConstants.BOTTOM);
-		lblRight.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblRight.setIcon(new ImageIcon(Screen.class.getResource("/resources/rightArrow.png")));
-		lblRight.setBounds(198, 208, 50, 50);
-		movePanel.add(lblRight);
-		
-		lblUp = new JLabel("In");
-		lblUp.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblUp.setIcon(new ImageIcon(Screen.class.getResource("/resources/upArrow.png")));
-		lblUp.setBounds(133, 147, 90, 50);
-		movePanel.add(lblUp);
-		
-		lblLeft = new JLabel("");
-		lblLeft.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblLeft.setIcon(new ImageIcon(Screen.class.getResource("/resources/leftArrow.png")));
-		lblLeft.setBounds(70, 208, 50, 50);
-		movePanel.add(lblLeft);
-		
-		lblDown = new JLabel("Out");
-		lblDown.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblDown.setIcon(new ImageIcon(Screen.class.getResource("/resources/downArrow.png")));
-		lblDown.setBounds(133, 269, 90, 50);
-		movePanel.add(lblDown);
-		
-		lblCharactersLeft = new JLabel("Clockwise");
-		lblCharactersLeft.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCharactersLeft.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblCharactersLeft.setBounds(10, 185, 123, 34);
-		movePanel.add(lblCharactersLeft);
-		
-		lblCharactersRight = new JLabel("Counter-Clockwise");
-		lblCharactersRight.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCharactersRight.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblCharactersRight.setBounds(183, 185, 138, 34);
-		movePanel.add(lblCharactersRight);
-		
-		lblMove = new JLabel("Move");
-		lblMove.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMove.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblMove.setBounds(53, 47, 214, 47);
-		movePanel.add(lblMove);
+		BufferedImage wPic = null;
+		try {
+			wPic = ImageIO.read(this.getClass().getResource("arrow.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setIcon(new ImageIcon(wPic));
+		lblNewLabel_1.setBounds(31, 62, 204, 150);
+		movePanel.add(lblNewLabel_1);
 		
 		//==================== COMBAT PAGE =================================
 		

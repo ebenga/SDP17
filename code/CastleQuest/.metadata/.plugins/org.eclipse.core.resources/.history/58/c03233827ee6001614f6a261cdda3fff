@@ -61,6 +61,17 @@ public class Screen {
 	private JLabel lblCharactersLeft;
 	private JLabel lblCharactersRight;
 	private JLabel lblMove;
+	private JLabel lblNewLabel_1;
+	private JLabel label;
+	private JLabel label_1;
+	private JLabel label_2;
+	private JLabel label_3;
+	private JLabel label_4;
+	private JLabel label_5;
+	private JLabel label_6;
+	private JLabel label_7;
+	private JLabel label_8;
+	private JLabel label_9;
 	
 
 	/**
@@ -475,6 +486,61 @@ public class Screen {
 		lblMove.setFont(new Font("Cambria", Font.BOLD, 22));
 		lblMove.setBounds(53, 47, 214, 47);
 		movePanel.add(lblMove);
+		
+		lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(Screen.class.getResource("/resources/bazaar.png")));
+		lblNewLabel_1.setBounds(30, 67, 50, 50);
+		movePanel.add(lblNewLabel_1);
+		
+		label = new JLabel("");
+		label.setIcon(new ImageIcon(Screen.class.getResource("/resources/cave.png")));
+		label.setBounds(30, 128, 50, 50);
+		movePanel.add(label);
+		
+		label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon(Screen.class.getResource("/resources/courtyard.png")));
+		label_1.setBounds(258, 36, 50, 59);
+		movePanel.add(label_1);
+		
+		label_2 = new JLabel("");
+		label_2.setIcon(new ImageIcon(Screen.class.getResource("/resources/desert.png")));
+		label_2.setBounds(127, 86, 50, 50);
+		movePanel.add(label_2);
+		
+		label_3 = new JLabel("");
+		label_3.setIcon(new ImageIcon(Screen.class.getResource("/resources/forest.png")));
+		label_3.setBounds(10, 208, 50, 50);
+		movePanel.add(label_3);
+		
+		label_4 = new JLabel("");
+		label_4.setIcon(new ImageIcon(Screen.class.getResource("/resources/gates.png")));
+		label_4.setBounds(258, 208, 50, 50);
+		movePanel.add(label_4);
+		
+		label_5 = new JLabel("");
+		label_5.setIcon(new ImageIcon(Screen.class.getResource("/resources/kingdom.png")));
+		label_5.setBounds(138, 208, 50, 50);
+		movePanel.add(label_5);
+		
+		label_6 = new JLabel("");
+		label_6.setIcon(new ImageIcon(Screen.class.getResource("/resources/ruins.png")));
+		label_6.setBounds(133, 330, 50, 50);
+		movePanel.add(label_6);
+		
+		label_7 = new JLabel("");
+		label_7.setIcon(new ImageIcon(Screen.class.getResource("/resources/staircase.png")));
+		label_7.setBounds(10, 288, 50, 50);
+		movePanel.add(label_7);
+		
+		label_8 = new JLabel("");
+		label_8.setIcon(new ImageIcon(Screen.class.getResource("/resources/swamp.png")));
+		label_8.setBounds(30, 346, 50, 50);
+		movePanel.add(label_8);
+		
+		label_9 = new JLabel("");
+		label_9.setIcon(new ImageIcon(Screen.class.getResource("/resources/throne.png")));
+		label_9.setBounds(229, 330, 50, 50);
+		movePanel.add(label_9);
 		
 		//==================== COMBAT PAGE =================================
 		
