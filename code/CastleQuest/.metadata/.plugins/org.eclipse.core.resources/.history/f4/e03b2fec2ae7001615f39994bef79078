@@ -15,13 +15,7 @@ public class Space {
 	private String type;
 	private String icon;
 	
-	public Space(int Id, String typ, String ico){
-		id = Id;
-		type = typ;
-		icon = ico;
-	}
 	
-	//s.outer(this)? replicate for two-way relationship?
 	public void setInner(Space s){
 		innerNeighbor = s;
 	}
