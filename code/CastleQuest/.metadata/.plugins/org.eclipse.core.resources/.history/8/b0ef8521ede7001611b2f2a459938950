@@ -507,61 +507,21 @@ public class Screen {
 		movePanel.add(btnStay);
 		
 		btnDown = new JButton("");
-		btnDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
 		btnDown.setIcon(null);
 		btnDown.setBounds(133, 343, 50, 50);
 		movePanel.add(btnDown);
 		
 		btnLeft = new JButton("");
-		btnLeft.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
 		btnLeft.setIcon(null);
 		btnLeft.setBounds(10, 208, 50, 50);
 		movePanel.add(btnLeft);
 		
 		btnRight = new JButton("");
-		btnRight.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
 		btnRight.setIcon(null);
 		btnRight.setBounds(258, 208, 50, 50);
 		movePanel.add(btnRight);
 		
 		btnUp = new JButton("");
-		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
 		btnUp.setIcon(null);
 		btnUp.setBounds(133, 99, 50, 50);
 		movePanel.add(btnUp);
@@ -848,16 +808,12 @@ public class Screen {
 			btnLeft.setVisible(false);
 			lblLeft.setEnabled(false);
 			lblLeft.setVisible(false);
-			lblCharactersLeft.setEnabled(false);
-			lblCharactersLeft.setVisible(false);
 		} else {
 			btnLeft.setIcon(new ImageIcon(Screen.class.getResource(left.getIcon())));
 			btnLeft.setEnabled(true);
 			btnLeft.setVisible(true);
 			lblLeft.setEnabled(true);
 			lblLeft.setVisible(true);
-			lblCharactersLeft.setEnabled(true);
-			lblCharactersLeft.setVisible(true);
 		}
 		
 		//COUNTER-CLOCKWISE OPTION
@@ -867,16 +823,12 @@ public class Screen {
 			btnRight.setVisible(false);
 			lblRight.setEnabled(false);
 			lblRight.setVisible(false);
-			lblCharactersRight.setEnabled(false);
-			lblCharactersRight.setVisible(false);
 		} else {
 			btnRight.setIcon(new ImageIcon(Screen.class.getResource(right.getIcon())));
 			btnRight.setEnabled(true);
 			btnRight.setVisible(true);
 			lblRight.setEnabled(true);
 			lblRight.setVisible(true);
-			lblCharactersRight.setEnabled(true);
-			lblCharactersRight.setVisible(true);
 		}
 		
 		

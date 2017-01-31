@@ -68,10 +68,6 @@ public class Screen {
 	private JLabel lblRotateArrow;
 	private JButton btnReady;
 	private JLabel lblTurnOver;
-	private JButton btnDown;
-	private JButton btnLeft;
-	private JButton btnRight;
-	private JButton btnUp;
 	
 
 	/**
@@ -444,7 +440,7 @@ public class Screen {
 		lblStay = new JLabel("Stay");
 		lblStay.setHorizontalAlignment(SwingConstants.CENTER);
 		lblStay.setFont(new Font("Cambria", Font.BOLD, 12));
-		lblStay.setBounds(110, 249, 60, 34);
+		lblStay.setBounds(93, 240, 60, 34);
 		movePanel.add(lblStay);
 		button.setFont(new Font("Cambria", Font.BOLD, 16));
 		button.setBackground(Color.GRAY);
@@ -473,7 +469,7 @@ public class Screen {
 		lblDown = new JLabel("Out");
 		lblDown.setFont(new Font("Cambria", Font.BOLD, 12));
 		lblDown.setIcon(new ImageIcon(Screen.class.getResource("/resources/downArrow.png")));
-		lblDown.setBounds(133, 282, 90, 50);
+		lblDown.setBounds(133, 269, 90, 50);
 		movePanel.add(lblDown);
 		
 		lblCharactersLeft = new JLabel("Clockwise");
@@ -506,62 +502,22 @@ public class Screen {
 		btnStay.setBounds(133, 208, 50, 50);
 		movePanel.add(btnStay);
 		
-		btnDown = new JButton("");
-		btnDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
+		JButton btnDown = new JButton("");
 		btnDown.setIcon(null);
-		btnDown.setBounds(133, 343, 50, 50);
+		btnDown.setBounds(133, 330, 50, 50);
 		movePanel.add(btnDown);
 		
-		btnLeft = new JButton("");
-		btnLeft.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
+		JButton btnLeft = new JButton("");
 		btnLeft.setIcon(null);
 		btnLeft.setBounds(10, 208, 50, 50);
 		movePanel.add(btnLeft);
 		
-		btnRight = new JButton("");
-		btnRight.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
+		JButton btnRight = new JButton("");
 		btnRight.setIcon(null);
 		btnRight.setBounds(258, 208, 50, 50);
 		movePanel.add(btnRight);
 		
-		btnUp = new JButton("");
-		btnUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				movePanel.setVisible(false);
-				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
-				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				playerStartPanel.setVisible(true);
-			}
-		});
+		JButton btnUp = new JButton("");
 		btnUp.setIcon(null);
 		btnUp.setBounds(133, 99, 50, 50);
 		movePanel.add(btnUp);
@@ -811,73 +767,8 @@ public class Screen {
 		Space right = currentPlayer.getSpace().getCount();
 		Space left = currentPlayer.getSpace().getClock();
 		
-		//OUTTER OPTION
-		if(down == null){
-			btnDown.setIcon(null);
-			btnDown.setEnabled(false);
-			btnDown.setVisible(false);
-			lblDown.setEnabled(false);
-			lblDown.setVisible(false);
-		} else {
-			btnDown.setIcon(new ImageIcon(Screen.class.getResource(down.getIcon())));
-			btnDown.setEnabled(true);
-			btnDown.setVisible(true);
-			lblDown.setEnabled(true);
-			lblDown.setVisible(true);
-		}
 		
-		//INNER OPTION
-		if(up == null){
-			btnUp.setIcon(null);
-			btnUp.setEnabled(false);
-			btnUp.setVisible(false);
-			lblUp.setEnabled(false);
-			lblUp.setVisible(false);
-		} else {
-			btnUp.setIcon(new ImageIcon(Screen.class.getResource(up.getIcon())));
-			btnUp.setEnabled(true);
-			btnUp.setVisible(true);
-			lblUp.setEnabled(true);
-			lblUp.setVisible(true);
-		}
 		
-		//CLOCKWISE OPTION
-		if(left == null){
-			btnLeft.setIcon(null);
-			btnLeft.setEnabled(false);
-			btnLeft.setVisible(false);
-			lblLeft.setEnabled(false);
-			lblLeft.setVisible(false);
-			lblCharactersLeft.setEnabled(false);
-			lblCharactersLeft.setVisible(false);
-		} else {
-			btnLeft.setIcon(new ImageIcon(Screen.class.getResource(left.getIcon())));
-			btnLeft.setEnabled(true);
-			btnLeft.setVisible(true);
-			lblLeft.setEnabled(true);
-			lblLeft.setVisible(true);
-			lblCharactersLeft.setEnabled(true);
-			lblCharactersLeft.setVisible(true);
-		}
-		
-		//COUNTER-CLOCKWISE OPTION
-		if(right == null){
-			btnRight.setIcon(null);
-			btnRight.setEnabled(false);
-			btnRight.setVisible(false);
-			lblRight.setEnabled(false);
-			lblRight.setVisible(false);
-			lblCharactersRight.setEnabled(false);
-			lblCharactersRight.setVisible(false);
-		} else {
-			btnRight.setIcon(new ImageIcon(Screen.class.getResource(right.getIcon())));
-			btnRight.setEnabled(true);
-			btnRight.setVisible(true);
-			lblRight.setEnabled(true);
-			lblRight.setVisible(true);
-			lblCharactersRight.setEnabled(true);
-			lblCharactersRight.setVisible(true);
-		}
 		
 		
 		
