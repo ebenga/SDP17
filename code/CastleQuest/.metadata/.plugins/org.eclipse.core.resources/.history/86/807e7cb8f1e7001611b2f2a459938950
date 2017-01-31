@@ -874,8 +874,6 @@ public class Screen {
 			lblCharactersRight.setEnabled(true);
 			lblCharactersRight.setVisible(true);
 		}
-		//STAY
-		btnStay.setIcon(new ImageIcon(Screen.class.getResource(currentPlayer.getSpace().getIcon())));
 		
 		
 		

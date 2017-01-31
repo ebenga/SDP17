@@ -513,7 +513,8 @@ public class Screen {
 				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
 				//TODO do this in board.java? to set with eric?
 				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				repopulate();
+				playerStartPanel.setVisible(true);
 			}
 		});
 		btnDown.setIcon(null);
@@ -527,7 +528,8 @@ public class Screen {
 				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
 				//TODO do this in board.java? to set with eric?
 				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				repopulate();
+				playerStartPanel.setVisible(true);
 			}
 		});
 		btnLeft.setIcon(null);
@@ -541,7 +543,8 @@ public class Screen {
 				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
 				//TODO do this in board.java? to set with eric?
 				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				repopulate();
+				playerStartPanel.setVisible(true);
 			}
 		});
 		btnRight.setIcon(null);
@@ -555,7 +558,8 @@ public class Screen {
 				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
 				//TODO do this in board.java? to set with eric?
 				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				repopulate();
+				playerStartPanel.setVisible(true);
 			}
 		});
 		btnUp.setIcon(null);
@@ -874,8 +878,6 @@ public class Screen {
 			lblCharactersRight.setEnabled(true);
 			lblCharactersRight.setVisible(true);
 		}
-		//STAY
-		btnStay.setIcon(new ImageIcon(Screen.class.getResource(currentPlayer.getSpace().getIcon())));
 		
 		
 		

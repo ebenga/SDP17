@@ -34,8 +34,8 @@ public class Board {
 		spaces[35] = new Space(35,"Forest","/resources/forest.png"); 
 		spaces[38] = new Space(38,"Forest","/resources/forest.png"); 
 		spaces[42] = new Space(42,"Forest","/resources/forest.png"); 
-		spaces[46] = new Space(46,"Forest","/resources/forest.png"); 
-		spaces[50] = new Space(50,"Forest","/resources/forest.png"); 
+		spaces[45] = new Space(45,"Forest","/resources/forest.png"); 
+		spaces[49] = new Space(49,"Forest","/resources/forest.png"); 
 		spaces[53] = new Space(53,"Forest","/resources/forest.png"); 
 		spaces[55] = new Space(55,"Forest","/resources/forest.png"); 
 		spaces[57] = new Space(57,"Forest","/resources/forest.png"); 
@@ -64,8 +64,8 @@ public class Board {
 		spaces[19] = new Space(19,"Swamp","/resources/swamp.png");
 		spaces[37] = new Space(37,"Swamp","/resources/swamp.png");
 		spaces[41] = new Space(41,"Swamp","/resources/swamp.png");
-		spaces[45] = new Space(45,"Swamp","/resources/swamp.png");
-		spaces[49] = new Space(49,"Swamp","/resources/swamp.png");
+		spaces[46] = new Space(46,"Swamp","/resources/swamp.png");
+		spaces[50] = new Space(50,"Swamp","/resources/swamp.png");
 		//BAZAAR
 		spaces[20] = new Space(20,"Bazaar","/resources/bazaar.png");
 		spaces[24] = new Space(24,"Bazaar","/resources/bazaar.png");
