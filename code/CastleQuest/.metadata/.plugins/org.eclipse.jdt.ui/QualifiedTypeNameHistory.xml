@@ -3,4 +3,5 @@
 <fullyQualifiedTypeName name="java.awt.image.BufferedImage"/>
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="sun.audio.AudioPlayer"/>
 </qualifiedTypeNameHistroy>

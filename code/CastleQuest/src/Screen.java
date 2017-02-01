@@ -1,5 +1,12 @@
 import java.awt.EventQueue;
 
+
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.io.*;
+import sun.audio.*;
+import sun.audio.AudioPlayer;
+
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -612,6 +619,7 @@ public class Screen {
 		btnReady = new JButton("Ready");
 		btnReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				play("/resources/victory.wav");
 				rotatePanel.setVisible(false);
 				repopulate();
 				playerStartPanel.setVisible(true);
@@ -879,6 +887,18 @@ public class Screen {
 		
 		
 		
+	}
+	
+	//plays .wav files
+	public void play(String f){
+		try {
+			InputStream in;
+			in = Screen.class.getResourceAsStream(f);
+			AudioStream aud = new AudioStream(in);
+			AudioPlayer.player.start(aud);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 }
 
