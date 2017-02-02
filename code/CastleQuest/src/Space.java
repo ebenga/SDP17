@@ -14,11 +14,19 @@ public class Space {
 	private Trap trap;
 	private String type;
 	private String icon;
+	private boolean trappable;
 	
 	public Space(int Id, String typ, String ico){
 		id = Id;
 		type = typ;
 		icon = ico;
+		
+		if(type=="Forest"||type=="Swamp"||type=="Desert"){
+			trappable = true;
+		}
+		else {
+			trappable = false;
+		}
 	}
 	
 	//s.outer(this)? replicate for two-way relationship?
@@ -73,6 +81,14 @@ public class Space {
 	}
 	public Trap getTrap(){
 		return trap;
+	}
+	
+	public boolean isKingdom(){
+		return (type=="Lassallax"||type=="Derelin"||type=="WybengaLand"||type=="Mangia");
+	}
+	
+	public boolean isTrappable(){
+		return trappable;
 	}
 	
 }

@@ -32,7 +32,7 @@ public class Screen {
 	private JPanel inventoryPanel;
 	private JPanel movePanel;
 	private JPanel combatPanel;
-	private JPanel bazzarPanel;
+	private JPanel bazaarPanel;
 	private JPanel ruinPanel;
 	private JPanel cavePanel;
 	private JPanel rotatePanel;
@@ -82,6 +82,24 @@ public class Screen {
 	private JLabel lblTraptype;
 	private JTextPane lblTrapEffect;
 	private JLabel lblYouHaveFound;
+	private JLabel lblYouHaveFound_1;
+	private JButton btnNW;
+	private JButton btnBI;
+	private JLabel label_1;
+	private JLabel label_2;
+	private JPanel keyPanel;
+	private JButton btnOK;
+	private JLabel lblKeyname;
+	private JTextPane txtpnDesc;
+	private JButton btnBuy3;
+	private JButton btnBuy2;
+	private JButton btnBuy1;
+	private JButton btnBuyFood;
+	private JLabel lblBGold;
+	private JLabel lblItem1;
+	private JLabel lblItem2;
+	private JLabel lblItem3;
+	private JLabel lblBuyFood;
 	
 
 	/**
@@ -431,7 +449,7 @@ public class Screen {
 		btnTrap = new JButton("null");
 		btnTrap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(currentPlayer.hasTrap()){
+				if(currentPlayer.hasTrap() && currentPlayer.getSpace().isTrappable()){
 					currentPlayer.useTrap();
 					repopulate();
 					btnTrap.setText("Used! Move!");
@@ -518,6 +536,20 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
+				//Swamp
+				if(currentPlayer.getSpace().getType()=="Swamp" && rando(1,3)==2){
+					currentPlayer.setDiseased(true);
+				}
+				//Desert
+				if(currentPlayer.getSpace().getType()=="Desert" && rando(1,3)==2){
+					currentPlayer.setSlowed(true);
+				}
+				//Bazaar
+				if(currentPlayer.getSpace().getType() == "Bazaar"){
+					play("/resources/bazaarOpens.wav");
+					bazaarPanel.setVisible(true);
+					return;
+				}
 				if(currentPlayer.getSpace().isTrapped()){
 					play("/resources/trapSprung.wav");
 					repopulate();
@@ -533,22 +565,15 @@ public class Screen {
 		btnStay.setBounds(133, 208, 50, 50);
 		movePanel.add(btnStay);
 		
+		
+		//desert, swamp, forest, cave, ruins, bazaar
 		btnDown = new JButton("");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
-				//TODO do this in board.java? to set with eric?
-				if(currentPlayer.getSpace().isTrapped()){
-					play("/resources/trapSprung.wav");
-					repopulate();
-					trapPanel.setVisible(true);
-				}
-				else{
-					play("/resources/turnOver.wav");
-					rotatePanel.setVisible(true);
-				}
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnDown.setIcon(null);
@@ -561,17 +586,7 @@ public class Screen {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
-				//TODO do this in board.java? to set with eric?
-				if(currentPlayer.getSpace().isTrapped()){
-					play("/resources/trapSprung.wav");
-					repopulate();
-					trapPanel.setVisible(true);
-				}
-				else{
-					play("/resources/turnOver.wav");
-					rotatePanel.setVisible(true);
-				}
-				//TODO combat
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnLeft.setIcon(null);
@@ -584,16 +599,7 @@ public class Screen {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
-				//TODO do this in board.java? to set with eric?
-				if(currentPlayer.getSpace().isTrapped()){
-					play("/resources/trapSprung.wav");
-					repopulate();
-					trapPanel.setVisible(true);
-				}
-				else{
-					play("/resources/turnOver.wav");
-					rotatePanel.setVisible(true);
-				}
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnRight.setIcon(null);
@@ -606,16 +612,7 @@ public class Screen {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
-				//TODO do this in board.java? to set with eric?
-				if(currentPlayer.getSpace().isTrapped()){
-					play("/resources/trapSprung.wav");
-					repopulate();
-					trapPanel.setVisible(true);
-				}
-				else{
-					play("/resources/turnOver.wav");
-					rotatePanel.setVisible(true);
-				}
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnUp.setIcon(null);
@@ -631,17 +628,136 @@ public class Screen {
 		
 		//==================== BAZZAR PAGE =================================
 		
-		bazzarPanel = new JPanel();
-		bazzarPanel.setBackground(Color.LIGHT_GRAY);
-		frame.getContentPane().add(bazzarPanel, "name_264106582521953");
-		bazzarPanel.setLayout(null);
+		bazaarPanel = new JPanel();
+		bazaarPanel.setBackground(Color.PINK);
+		frame.getContentPane().add(bazaarPanel, "name_264106582521953");
+		bazaarPanel.setLayout(null);
+		
+		JButton btbDone = new JButton("Done");
+		btbDone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				bazaarPanel.setVisible(false);
+				play("/resources/turnOver.wav");
+				rotatePanel.setVisible(true);
+			}
+		});
+		btbDone.setFont(new Font("Cambria", Font.BOLD, 16));
+		btbDone.setBackground(Color.WHITE);
+		btbDone.setBounds(10, 11, 110, 25);
+		bazaarPanel.add(btbDone);
+		
+		//TODO add inventory to shops
+		
+		JLabel lblWelcomeToMy = new JLabel("Welcome to my Bazaar");
+		lblWelcomeToMy.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWelcomeToMy.setFont(new Font("Cambria", Font.BOLD, 22));
+		lblWelcomeToMy.setBounds(15, 47, 294, 47);
+		bazaarPanel.add(lblWelcomeToMy);
+		
+		JButton btnBarter = new JButton("Barter");
+		btnBarter.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBarter.setBackground(Color.WHITE);
+		btnBarter.setBounds(184, 99, 130, 41);
+		bazaarPanel.add(btnBarter);
+		
+		btnBuy3 = new JButton("Buy");
+		btnBuy3.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBuy3.setBackground(Color.WHITE);
+		btnBuy3.setBounds(213, 302, 96, 41);
+		bazaarPanel.add(btnBuy3);
+		
+		btnBuy2 = new JButton("Buy");
+		btnBuy2.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBuy2.setBackground(Color.WHITE);
+		btnBuy2.setBounds(213, 238, 96, 41);
+		bazaarPanel.add(btnBuy2);
+		
+		btnBuy1 = new JButton("Buy");
+		btnBuy1.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBuy1.setBackground(Color.WHITE);
+		btnBuy1.setBounds(213, 174, 96, 41);
+		bazaarPanel.add(btnBuy1);
+		
+		btnBuyFood = new JButton("20G");
+		btnBuyFood.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBuyFood.setBackground(Color.WHITE);
+		btnBuyFood.setBounds(213, 363, 96, 41);
+		bazaarPanel.add(btnBuyFood);
+		
+		lblBGold = new JLabel("Your Gold: ");
+		lblBGold.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblBGold.setBounds(10, 105, 150, 34);
+		bazaarPanel.add(lblBGold);
+		
+		lblItem1 = new JLabel("Item1");
+		lblItem1.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblItem1.setBounds(10, 174, 186, 41);
+		bazaarPanel.add(lblItem1);
+		
+		lblItem2 = new JLabel("Item2");
+		lblItem2.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblItem2.setBounds(10, 238, 186, 41);
+		bazaarPanel.add(lblItem2);
+		
+		lblItem3 = new JLabel("Item4");
+		lblItem3.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblItem3.setBounds(10, 302, 186, 41);
+		bazaarPanel.add(lblItem3);
+		
+		lblBuyFood = new JLabel("Food:    +5 Food");
+		lblBuyFood.setFont(new Font("Cambria", Font.BOLD, 16));
+		lblBuyFood.setBounds(10, 363, 186, 41);
+		bazaarPanel.add(lblBuyFood);
 		
 		//==================== RUINS PAGE ==================================
 		
 		ruinPanel = new JPanel();
-		ruinPanel.setBackground(Color.LIGHT_GRAY);
+		ruinPanel.setBackground(Color.DARK_GRAY);
 		frame.getContentPane().add(ruinPanel, "name_264108286407165");
 		ruinPanel.setLayout(null);
+		
+		lblYouHaveFound_1 = new JLabel("You have found some ruins!");
+		lblYouHaveFound_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYouHaveFound_1.setForeground(Color.WHITE);
+		lblYouHaveFound_1.setFont(new Font("Cambria", Font.BOLD, 22));
+		lblYouHaveFound_1.setBounds(5, 69, 314, 59);
+		ruinPanel.add(lblYouHaveFound_1);
+		
+		btnNW = new JButton("No Way!");
+		btnNW.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ruinPanel.setVisible(false);
+				play("/resources/turnOver.wav");
+				rotatePanel.setVisible(true);
+			}
+		});
+		btnNW.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnNW.setBackground(Color.LIGHT_GRAY);
+		btnNW.setBounds(37, 305, 108, 45);
+		ruinPanel.add(btnNW);
+		
+		btnBI = new JButton("Bring It!");
+		btnBI.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO cause action (loot or combat)
+			}
+		});
+		btnBI.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBI.setBackground(Color.LIGHT_GRAY);
+		btnBI.setBounds(174, 305, 108, 45);
+		ruinPanel.add(btnBI);
+		
+		label_1 = new JLabel("Would you like to go inside?");
+		label_1.setHorizontalAlignment(SwingConstants.CENTER);
+		label_1.setForeground(Color.WHITE);
+		label_1.setFont(new Font("Cambria", Font.BOLD, 22));
+		label_1.setBounds(10, 172, 304, 122);
+		ruinPanel.add(label_1);
+		
+		label_2 = new JLabel("");
+		label_2.setIcon(new ImageIcon(Screen.class.getResource("/resources/ruins.png")));
+		label_2.setBounds(137, 139, 50, 50);
+		ruinPanel.add(label_2);
 		
 		//==================== CAVES PAGE ==================================
 		
@@ -718,6 +834,7 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				rotatePanel.setVisible(false);
 				play("/resources/blip.wav");
+				currentPlayer.endRound();
 				currentPlayer = currentPlayer.nextPlayer();
 				repopulate();
 				playerStartPanel.setVisible(true);
@@ -787,12 +904,49 @@ public class Screen {
 		lblTrapEffect.setBounds(33, 124, 257, 202);
 		trapPanel.add(lblTrapEffect);
 		
+		//============================= KEY PAGE =============================
+		
+		keyPanel = new JPanel();
+		keyPanel.setLayout(null);
+		keyPanel.setBackground(Color.LIGHT_GRAY);
+		frame.getContentPane().add(keyPanel, "name_710502356464675");
+		
+		btnOK = new JButton("OK");
+		btnOK.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				keyPanel.setVisible(false);
+				play("/resources/turnOver.wav");
+				rotatePanel.setVisible(true);
+			}
+		});
+		btnOK.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnOK.setBackground(Color.WHITE);
+		btnOK.setBounds(111, 335, 101, 45);
+		keyPanel.add(btnOK);
+		
+		lblKeyname = new JLabel("KeyName");
+		lblKeyname.setHorizontalAlignment(SwingConstants.CENTER);
+		lblKeyname.setForeground(Color.BLUE);
+		lblKeyname.setFont(new Font("Cambria", Font.BOLD, 25));
+		lblKeyname.setBounds(33, 36, 257, 77);
+		keyPanel.add(lblKeyname);
+		
+		txtpnDesc = new JTextPane();
+		txtpnDesc.setText("Desc");
+		txtpnDesc.setFont(new Font("Cambria", Font.BOLD, 18));
+		txtpnDesc.setEditable(false);
+		txtpnDesc.setBackground(Color.LIGHT_GRAY);
+		txtpnDesc.setBounds(33, 124, 257, 202);
+		keyPanel.add(txtpnDesc);
+		
+		//===============================  LOOT PAGE    ===============================
+		
 		JPanel lootPanel = new JPanel();
 		lootPanel.setLayout(null);
 		lootPanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(lootPanel, "name_704231918780171");
 		
-		//===============================      ===============================
+		
 	}
 	
 	public void boarder(){
@@ -804,6 +958,7 @@ public class Screen {
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
 				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour);
+				playerOne.setTrap(new Trap("Roadblock")); //TODO
 				break;
 			case 2:
 				playerOne = new Player();
@@ -847,8 +1002,6 @@ public class Screen {
 		}
 		currentPlayer = playerOne;
 		repopulate();
-
-		//TODO: SET PHYSICAL BOARD
 	}
 	
 	//sets all the labels and text fields to the right value for the current player
@@ -1039,6 +1192,80 @@ public class Screen {
 		
 	}
 	
+	public void spaceHandler(Space s){
+		//performs actions based on which space a player just entered
+		
+		//Enter new kingdom and get a key
+		if(s.isKingdom() && !currentPlayer.hasVisited(s.getType())){
+			currentPlayer.setVisited(s.getType());
+			boolean[] k = currentPlayer.getKeys();
+			txtpnDesc.setText("Congradulations!\nThe people of " + s.getType() + " have granted you a key!");
+			//courage wisdom strength
+			if(!k[0]){
+				currentPlayer.setKeyofCourage(true);
+				lblKeyname.setText("Key of Courage");
+				play("/resources/keyGained.wav");
+				keyPanel.setVisible(true);
+				return;
+			} else if(!k[1]){
+				currentPlayer.setKeyofWisdom(true);
+				lblKeyname.setText("Key of Wisdom");
+				play("/resources/keyGained.wav");
+				keyPanel.setVisible(true);
+				return;
+			} else if(!k[2]){
+				currentPlayer.setKeyofStrength(true);
+				lblKeyname.setText("Key of Strength");
+				play("/resources/keyGained.wav");
+				keyPanel.setVisible(true);
+				return;
+			}
+		}
+		
+		//trapped space
+		if(s.isTrapped()){
+			play("/resources/trapSprung.wav");
+			repopulate();
+			trapPanel.setVisible(true);
+			return;
+		}
+		
+		//ruins
+		if(s.getType() == "Ruins"){
+			ruinPanel.setVisible(true);
+			return;
+		}
+		
+		//caves
+		if(s.getType() == "Caves"){
+			cavePanel.setVisible(true);
+			return;
+		}
+		
+		//Bazaar
+		if(s.getType() == "Bazaar"){
+			play("/resources/bazaarOpens.wav");
+			bazaarPanel.setVisible(true);
+			return;
+		}
+		
+		//Swamp
+		if(s.getType()=="Swamp" && rando(1,3)==2){
+			currentPlayer.setDiseased(true);
+		}
+		
+		//Desert
+		if(s.getType()=="Desert" && rando(1,3)==2){
+			currentPlayer.setSlowed(true);
+		}
+		
+		//TODO combat
+		//None of the above
+		play("/resources/turnOver.wav");
+		rotatePanel.setVisible(true);
+		
+	}
+	
 	//plays .wav files
 	public void play(String f){
 		try {
@@ -1049,6 +1276,13 @@ public class Screen {
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+	}
+	
+	public int rando(int min, int max){
+		//generate random number between min and max (inclusive)
+		Random ran = new Random();
+		int r = ran.nextInt(max-min+1) + min;
+		return r;
 	}
 }
 

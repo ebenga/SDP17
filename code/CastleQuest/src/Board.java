@@ -443,6 +443,7 @@ public class Board {
 				play4.setSpace(spaces[58]);
 				break;
 		}
+		//TODO dragon
 		
 		//TODO communicate with benga's board? might have to do that in the setSpace() method for players
 	}

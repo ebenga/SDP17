@@ -33,12 +33,43 @@ public class Player {
 	private int Srounds = 0;
 	private int Lrounds = 0;
 	private int rate = 1;
+	private boolean[] visited = {false,false,false,false};
 	
+	public boolean hasVisited(String kingdom){
+		switch(kingdom){
+			case "Lassallax": 
+				return visited[0];
+			case "Derelin":
+				return visited[1];
+			case "WybengaLand":
+				return visited[2];
+			case "Mangia":
+				return visited[3];
+		}
+		return false;
+	}
+	public void setVisited(String kingdom){
+		switch(kingdom){
+			case "Lassallax": 
+				visited[0] = true;
+				break;
+			case "Derelin":
+				visited[1] = true;
+				break;
+			case "WybengaLand":
+				visited[2] = true;
+				break;
+			case "Mangia":
+				visited[3] = true;
+				break;
+		}
+	}
 	public String getHomeKingdom(){
 		return homeKingdom;
 	}
 	public void setHomeKingdom(String s){
 		homeKingdom = s;
+		setVisited(homeKingdom);
 	}
 	
 	public void makeFinalPlayer(){
@@ -51,12 +82,18 @@ public class Player {
 	public void setNextPlayer(Player p){
 		next = p;
 	}
-	public Player nextPlayer() {
-		//returns the next player
+	
+	public void endRound(){
+		if(Starving){
+			HP -= 5;
+		}
 		Drounds++;
 		Rrounds++;
 		Srounds++;
 		Lrounds++;
+	}
+	public Player nextPlayer() {
+		//returns the next player
 		return next;
 	}
 	
@@ -93,6 +130,9 @@ public class Player {
 	}
 	public void Eat(){
 		Food -= rate;
+		if(Food <=0){
+			Food = 0;
+		}
 	}
 
 	public boolean[] getKeys() {
@@ -112,7 +152,7 @@ public class Player {
 	public boolean isStarving() {
 		if(Food<=0){
 			setStarving(true);
-			HP -= 5;
+			
 		}
 		return Starving;
 	}
@@ -121,7 +161,7 @@ public class Player {
 	}
 
 	public boolean isDiseased() {
-		if(Drounds > 3){
+		if(Drounds > 2){
 			setDiseased(false);
 		}
 		return Diseased;
@@ -158,7 +198,7 @@ public class Player {
 	}
 
 	public boolean isLost() {
-		if(Lrounds > 3){
+		if(Lrounds > 1){
 			setLost(false);
 		}
 		return Lost;
@@ -178,7 +218,7 @@ public class Player {
 	}
 
 	public boolean isRobbed() {
-		if(Rrounds>2){
+		if(Rrounds>1){
 			setRobbed(false);
 		}
 		return Robbed;
