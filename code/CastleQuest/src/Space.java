@@ -43,21 +43,13 @@ public class Space {
 		return clockNeighbor;
 	}
 	
-	
 	public void setCount(Space s){
 		countNeighbor = s;
 	}
 	public Space getCount(){
 		return countNeighbor;
 	}
-	
-	public void setTrap(Trap t){
-		trap = t;
-	}
-	public Trap getTrap(){
-		return trap;
-	}
-	
+
 	public void setType(String t){
 		type = t;
 	}
@@ -72,4 +64,15 @@ public class Space {
 		return icon;
 	}
 
+	public boolean isTrapped(){
+		return trap != null;
+	}
+	
+	public void setTrap(Trap t){
+		trap = t;
+	}
+	public Trap getTrap(){
+		return trap;
+	}
+	
 }

@@ -13,6 +13,7 @@ public class Player {
 	private String homeKingdom;
 	private int gold = 100;
 	private int HP = 100;
+	private int effectiveHP = HP;
 	private int CP = 20;
 	private int Food = 5;
 	private boolean Lost = false;
@@ -27,6 +28,11 @@ public class Player {
 	private Weapon weapon;
 	private MagicItem magicItem;
 	private Space currentSpace;
+	private int Drounds = 0;
+	private int Rrounds = 0;
+	private int Srounds = 0;
+	private int Lrounds = 0;
+	private int rate = 1;
 	
 	public String getHomeKingdom(){
 		return homeKingdom;
@@ -47,6 +53,10 @@ public class Player {
 	}
 	public Player nextPlayer() {
 		//returns the next player
+		Drounds++;
+		Rrounds++;
+		Srounds++;
+		Lrounds++;
 		return next;
 	}
 	
@@ -81,6 +91,9 @@ public class Player {
 	public void setFood(int f) {
 		Food = f;
 	}
+	public void Eat(){
+		Food -= rate;
+	}
 
 	public boolean[] getKeys() {
 		//{courage, wisdom, strength}
@@ -97,37 +110,64 @@ public class Player {
 	}
 
 	public boolean isStarving() {
-		// TODO chang hp?
+		if(Food<=0){
+			setStarving(true);
+			HP -= 5;
+		}
 		return Starving;
 	}
 	public void setStarving(boolean state) {
-		// TODO change hp?
 			Starving = state;
 	}
 
 	public boolean isDiseased() {
-		// TODO change hp?
+		if(Drounds > 3){
+			setDiseased(false);
+		}
 		return Diseased;
 	}
 	public void setDiseased(boolean state) {
-		// TODO change hp?
+		if((!state)&&Diseased){
+			//were diseased, now not
+			HP = HP*2;
+		} else if(state&&(!Diseased)){
+			//weren't diseased, now are
+			HP = HP/2;
+			Drounds = 0;
+		}
 		Diseased = state;
 	}
 
 	public boolean isSlowed() {
-		// TODO cause food to decrease?
+		if(Srounds > 2){
+			setSlowed(false);
+		} 
+		if(magicItem != null && magicItem.getType() == "Climbing Gear"){
+			setSlowed(false);
+		}
 		return Slowed;
 	}
 	public void setSlowed(boolean state) {
-		// TODO cause food to decrease?
+		if(state){
+			rate = 2;
+			Srounds = 0;
+		} else {
+			rate = 1;
+		}
 		Slowed = state;
 	}
 
 	public boolean isLost() {
+		if(Lrounds > 3){
+			setLost(false);
+		}
 		return Lost;
 	}
 	public void setLost(boolean state) {
-			Lost = state;
+		if(state){
+			Lrounds = 0;
+		}
+		Lost = state;
 	}
 
 	public Space getSpace() {
@@ -138,11 +178,17 @@ public class Player {
 	}
 
 	public boolean isRobbed() {
-		// TODO remove gold?
+		if(Rrounds>2){
+			setRobbed(false);
+		}
 		return Robbed;
 	}
 	public void setRobbed(boolean state) {
-		// TODO remove gold and stuff?
+		if(state){
+			//we are being robbed
+			gold = gold - gold/10;
+			Rrounds = 0;
+		}
 		Robbed = state;
 	}
 
@@ -156,8 +202,34 @@ public class Player {
 		trap = t;
 	}
 	public void useTrap(){
-		// TODO: use trap on current space
+		currentSpace.setTrap(trap);
 		trap = null; //removes trap from inventory
+	}
+	
+	public void trapped(String t){
+		//plagued rats, theif, caltrops, roadblock
+		switch(t){
+			case "Plagued Rats":
+				//diseased == 1/2 health 
+				setDiseased(true);
+				break;
+			case "Thief":
+				//steal 1/2 of gold is gone
+				if(magicItem != null && magicItem.getType() == "Mantle of Perception"){
+					setRobbed(false);
+				} else {
+					setRobbed(true);
+				}
+				break;
+			case "Caltrops":
+				//consume twice the food
+				setSlowed(true);
+				break;
+			case "Roadblock":
+				// become lost
+				setLost(true);
+				break;
+		}
 	}
 
 	public boolean hasArmor(){

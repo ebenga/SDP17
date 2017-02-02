@@ -1,11 +1,10 @@
 import java.awt.EventQueue;
 
-
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import java.io.*;
 import sun.audio.*;
 import sun.audio.AudioPlayer;
+
+import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -79,6 +78,10 @@ public class Screen {
 	private JButton btnLeft;
 	private JButton btnRight;
 	private JButton btnUp;
+	private JPanel trapPanel;
+	private JLabel lblTraptype;
+	private JTextPane lblTrapEffect;
+	private JLabel lblYouHaveFound;
 	
 
 	/**
@@ -150,6 +153,7 @@ public class Screen {
 		JButton btnOnePlayer = new JButton("ONE");
 		btnOnePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				play("/resources/blip.wav");
 				numPlayers = 1;
 				startPanel.setVisible(false);
 				boarder();
@@ -164,6 +168,7 @@ public class Screen {
 		JButton btnTwoPlayer = new JButton("TWO");
 		btnTwoPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				play("/resources/blip.wav");
 				numPlayers = 2;
 				startPanel.setVisible(false);
 				boarder();
@@ -178,6 +183,7 @@ public class Screen {
 		JButton btnThreePlayer = new JButton("THREE");
 		btnThreePlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				play("/resources/blip.wav");
 				numPlayers = 3;
 				startPanel.setVisible(false);
 				boarder();
@@ -192,6 +198,7 @@ public class Screen {
 		JButton btnFourPlayer = new JButton("FOUR");
 		btnFourPlayer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				play("/resources/blip.wav");
 				numPlayers = 4;
 				startPanel.setVisible(false);
 				boarder();
@@ -236,11 +243,11 @@ public class Screen {
 				playerStartPanel.setVisible(false);
 				repopulate();
 				if(currentPlayer.isLost()){
-					currentPlayer.setLost(false);
-					currentPlayer = currentPlayer.nextPlayer();
+					play("/resources/bazaarCloses.wav");
 					rotatePanel.setVisible(true);
 				}
 				else{
+					play("/resources/blip.wav");
 					inventoryPanel.setVisible(true);
 				}
 			}
@@ -256,11 +263,11 @@ public class Screen {
 				playerStartPanel.setVisible(false);
 				repopulate();
 				if(currentPlayer.isLost()){
-					currentPlayer.setLost(false);
-					currentPlayer = currentPlayer.nextPlayer();
+					play("/resources/bazaarCloses.wav");
 					rotatePanel.setVisible(true);
 				}
 				else{
+					play("/resources/blip.wav");
 					movePanel.setVisible(true);
 				}
 			}
@@ -323,6 +330,7 @@ public class Screen {
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				inventoryPanel.setVisible(false);
+				play("/resources/blip.wav");
 				repopulate();
 				playerStartPanel.setVisible(true);
 			}
@@ -409,6 +417,7 @@ public class Screen {
 		btnPotion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentPlayer.hasPotion()){
+					play("/resources/takePotion.wav");
 					currentPlayer.usePotion();
 					repopulate();
 				}
@@ -425,6 +434,8 @@ public class Screen {
 				if(currentPlayer.hasTrap()){
 					currentPlayer.useTrap();
 					repopulate();
+					btnTrap.setText("Used! Move!");
+					btnTrap.setBackground(Color.GRAY);
 				}
 			}
 		});
@@ -443,6 +454,7 @@ public class Screen {
 		button = new JButton("Back");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				play("/resources/blip.wav");
 				movePanel.setVisible(false);
 				playerStartPanel.setVisible(true);
 			}
@@ -505,8 +517,16 @@ public class Screen {
 		btnStay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
-				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				currentPlayer.Eat();
+				if(currentPlayer.getSpace().isTrapped()){
+					play("/resources/trapSprung.wav");
+					repopulate();
+					trapPanel.setVisible(true);
+				}
+				else{
+					play("/resources/turnOver.wav");
+					rotatePanel.setVisible(true);
+				}
 			}
 		});
 		btnStay.setIcon(new ImageIcon(Screen.class.getResource("/resources/stay.png")));
@@ -517,10 +537,18 @@ public class Screen {
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
+				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
 				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				if(currentPlayer.getSpace().isTrapped()){
+					play("/resources/trapSprung.wav");
+					repopulate();
+					trapPanel.setVisible(true);
+				}
+				else{
+					play("/resources/turnOver.wav");
+					rotatePanel.setVisible(true);
+				}
 			}
 		});
 		btnDown.setIcon(null);
@@ -531,10 +559,19 @@ public class Screen {
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
+				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
 				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				if(currentPlayer.getSpace().isTrapped()){
+					play("/resources/trapSprung.wav");
+					repopulate();
+					trapPanel.setVisible(true);
+				}
+				else{
+					play("/resources/turnOver.wav");
+					rotatePanel.setVisible(true);
+				}
+				//TODO combat
 			}
 		});
 		btnLeft.setIcon(null);
@@ -545,10 +582,18 @@ public class Screen {
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
+				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
 				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				if(currentPlayer.getSpace().isTrapped()){
+					play("/resources/trapSprung.wav");
+					repopulate();
+					trapPanel.setVisible(true);
+				}
+				else{
+					play("/resources/turnOver.wav");
+					rotatePanel.setVisible(true);
+				}
 			}
 		});
 		btnRight.setIcon(null);
@@ -559,10 +604,18 @@ public class Screen {
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
+				currentPlayer.Eat();
 				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
 				//TODO do this in board.java? to set with eric?
-				currentPlayer = currentPlayer.nextPlayer();
-				rotatePanel.setVisible(true);
+				if(currentPlayer.getSpace().isTrapped()){
+					play("/resources/trapSprung.wav");
+					repopulate();
+					trapPanel.setVisible(true);
+				}
+				else{
+					play("/resources/turnOver.wav");
+					rotatePanel.setVisible(true);
+				}
 			}
 		});
 		btnUp.setIcon(null);
@@ -593,9 +646,52 @@ public class Screen {
 		//==================== CAVES PAGE ==================================
 		
 		cavePanel = new JPanel();
-		cavePanel.setBackground(Color.LIGHT_GRAY);
+		cavePanel.setBackground(Color.DARK_GRAY);
 		frame.getContentPane().add(cavePanel, "name_264109808785584");
 		cavePanel.setLayout(null);
+		
+		lblYouHaveFound = new JLabel("You have found a cave!");
+		lblYouHaveFound.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYouHaveFound.setForeground(Color.WHITE);
+		lblYouHaveFound.setFont(new Font("Cambria", Font.BOLD, 24));
+		lblYouHaveFound.setBounds(5, 54, 314, 59);
+		cavePanel.add(lblYouHaveFound);
+		
+		JButton btnNoWay = new JButton("No Way!");
+		btnNoWay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cavePanel.setVisible(false);
+				play("/resources/turnOver.wav");
+				rotatePanel.setVisible(true);
+			}
+		});
+		btnNoWay.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnNoWay.setBackground(Color.LIGHT_GRAY);
+		btnNoWay.setBounds(39, 305, 108, 45);
+		cavePanel.add(btnNoWay);
+		
+		JButton btnBringIt = new JButton("Bring It!");
+		btnBringIt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO cause action (loot or combat)
+			}
+		});
+		btnBringIt.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnBringIt.setBackground(Color.LIGHT_GRAY);
+		btnBringIt.setBounds(172, 305, 108, 45);
+		cavePanel.add(btnBringIt);
+		
+		JLabel lblWouldYouLike = new JLabel("Would you like to go inside?");
+		lblWouldYouLike.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWouldYouLike.setForeground(Color.WHITE);
+		lblWouldYouLike.setFont(new Font("Cambria", Font.BOLD, 22));
+		lblWouldYouLike.setBounds(10, 169, 304, 122);
+		cavePanel.add(lblWouldYouLike);
+		
+		JLabel lblCaveIcon = new JLabel("");
+		lblCaveIcon.setIcon(new ImageIcon(Screen.class.getResource("/resources/cave.png")));
+		lblCaveIcon.setBounds(137, 140, 50, 50);
+		cavePanel.add(lblCaveIcon);
 		
 		//==================== ROTATE PAGE ==================================
 		
@@ -616,11 +712,13 @@ public class Screen {
 		lblRotateArrow.setBounds(33, 151, 255, 287);
 		rotatePanel.add(lblRotateArrow);
 		
+		//TODO turn over sound effect after combat
 		btnReady = new JButton("Ready");
 		btnReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				play("/resources/victory.wav");
 				rotatePanel.setVisible(false);
+				play("/resources/blip.wav");
+				currentPlayer = currentPlayer.nextPlayer();
 				repopulate();
 				playerStartPanel.setVisible(true);
 			}
@@ -650,6 +748,51 @@ public class Screen {
 		settingsPanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(settingsPanel, "name_257950747583981");
 		settingsPanel.setLayout(null);
+		
+		//====================== TRAP PAGE ==================================
+		
+		trapPanel = new JPanel();
+		trapPanel.setLayout(null);
+		trapPanel.setBackground(Color.LIGHT_GRAY);
+		frame.getContentPane().add(trapPanel, "name_634909162301115");
+		
+		JButton btnOkay = new JButton("OK");
+		btnOkay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				trapPanel.setVisible(false);
+				//Activate trap on player
+				currentPlayer.trapped(currentPlayer.getSpace().getTrap().getType());
+				currentPlayer.getSpace().setTrap(null);
+				play("/resources/turnOver.wav");
+				rotatePanel.setVisible(true);
+			}
+		});
+		btnOkay.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnOkay.setBackground(Color.WHITE);
+		btnOkay.setBounds(111, 335, 101, 45);
+		trapPanel.add(btnOkay);
+		
+		lblTraptype = new JLabel("TrapType");
+		lblTraptype.setForeground(Color.RED);
+		lblTraptype.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTraptype.setFont(new Font("Cambria", Font.BOLD, 25));
+		lblTraptype.setBounds(33, 36, 257, 77);
+		trapPanel.add(lblTraptype);
+		
+		lblTrapEffect = new JTextPane();
+		lblTrapEffect.setEditable(false);
+		lblTrapEffect.setText("effect");
+		lblTrapEffect.setFont(new Font("Cambria", Font.BOLD, 18));
+		lblTrapEffect.setBackground(Color.LIGHT_GRAY);
+		lblTrapEffect.setBounds(33, 124, 257, 202);
+		trapPanel.add(lblTrapEffect);
+		
+		JPanel lootPanel = new JPanel();
+		lootPanel.setLayout(null);
+		lootPanel.setBackground(Color.LIGHT_GRAY);
+		frame.getContentPane().add(lootPanel, "name_704231918780171");
+		
+		//===============================      ===============================
 	}
 	
 	public void boarder(){
@@ -711,11 +854,7 @@ public class Screen {
 	//sets all the labels and text fields to the right value for the current player
 	public void repopulate(){
 		//==================== PLAYER START SCREEN ============================
-		lblcurrentPlayer.setText("Knight of " + currentPlayer.getHomeKingdom());
-		lblGold.setText("Gold: "+currentPlayer.getGold());
-		lblHP.setText("HP: " + currentPlayer.getHealthPoints());
-		lblCP.setText("CP: " + currentPlayer.getCombatPower());
-		lblFood.setText("Food: " + currentPlayer.getFood());
+		
 		String stats = "";
 		if(currentPlayer.isDiseased()){
 			stats += "Diseased: 1/2 HP\n";
@@ -736,6 +875,11 @@ public class Screen {
 			stats = "No Negative Effects\n";
 		}
 		statusPane.setText(stats);
+		lblcurrentPlayer.setText("Knight of " + currentPlayer.getHomeKingdom());
+		lblGold.setText("Gold: "+currentPlayer.getGold());
+		lblHP.setText("HP: " + currentPlayer.getHealthPoints());
+		lblCP.setText("CP: " + currentPlayer.getCombatPower());
+		lblFood.setText("Food: " + currentPlayer.getFood());
 		
 		//========================= INVENTORY SCREEN ======================================
 		
@@ -787,7 +931,7 @@ public class Screen {
 		}
 		//MAGICAL ITEM
 		if(currentPlayer.hasMagicItem()){
-			magicPane.setText(currentPlayer.getMagicItem().getType()+"\n" + currentPlayer.getMagicItem().getEffect());
+			magicPane.setText(currentPlayer.getMagicItem().getType()+"\n -" + currentPlayer.getMagicItem().getEffect());
 		} else {
 			magicPane.setText("No Magical Items!");
 		}
@@ -885,6 +1029,12 @@ public class Screen {
 		//STAY
 		btnStay.setIcon(new ImageIcon(Screen.class.getResource(currentPlayer.getSpace().getIcon())));
 		
+		//======================== TRAP SCREEN ====================================================
+		
+		if(currentPlayer.getSpace().isTrapped()){
+			lblTrapEffect.setText(currentPlayer.getSpace().getTrap().getDesc());
+			lblTraptype.setText(currentPlayer.getSpace().getTrap().getType());
+		}
 		
 		
 	}
