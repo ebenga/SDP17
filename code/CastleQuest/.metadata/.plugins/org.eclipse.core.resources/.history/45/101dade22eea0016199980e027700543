@@ -101,15 +101,6 @@ public class Screen {
 	private JLabel lblItem3;
 	private JLabel lblBuyFood;
 	private JButton btnBarter;
-	private String[] itemArray = {
-			"Health Potion","Battle Elixir","Cure Disease",
-			"Plagued Rats","Thief","Caltrops","Roadblock"
-			};
-	private int[] itemCosts = {
-			50,50,75,
-			70,60,50,70
-			};
-	private boolean canBarter = false;
 	
 
 	/**
@@ -663,18 +654,6 @@ public class Screen {
 		bazaarPanel.add(lblWelcomeToMy);
 		
 		btnBarter = new JButton("Barter");
-		btnBarter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int r = rando(1,2);
-				if(r==2){//success
-					
-				} else {//fail
-					bazaarPanel.setVisible(false);
-					play("/resources/bazaarCloses.wav");
-					rotatePanel.setVisible(true);
-				}
-			}
-		});
 		btnBarter.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBarter.setBackground(Color.WHITE);
 		btnBarter.setBounds(184, 99, 130, 41);
@@ -706,9 +685,8 @@ public class Screen {
 					currentPlayer.setGold(currentPlayer.getGold()-20);
 					play("/resources/blip.wav");
 					repopulate();
-				} else {
-					play("/resources/turnOver.wav");
 				}
+				play("/resources/turnOver.wav");
 			}
 		});
 		btnBuyFood.setFont(new Font("Cambria", Font.BOLD, 16));
@@ -1312,16 +1290,18 @@ public class Screen {
 			"Health Potion","Battle Elixir","Cure Disease",
 			"Plagued Rats","Thief","Caltrops","Roadblock"
 		};
-		//itemCosts[]
-		int bart = rando(1,2);
-		canBarter = false;
-		if(bart==2){
-			canBarter = true;
-		}
+		int[] itemCosts = {
+			50,50,75,
+			70,60,50,70
+		};
 		
 		//repopulate to update player's gold (lblBGold)
 		//btnBuy1...btnBuy3
 		//lblItem1...lblItem3
+		
+		
+		
+		
 	}
 	
 	//plays .wav files

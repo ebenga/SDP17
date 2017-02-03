@@ -100,16 +100,6 @@ public class Screen {
 	private JLabel lblItem2;
 	private JLabel lblItem3;
 	private JLabel lblBuyFood;
-	private JButton btnBarter;
-	private String[] itemArray = {
-			"Health Potion","Battle Elixir","Cure Disease",
-			"Plagued Rats","Thief","Caltrops","Roadblock"
-			};
-	private int[] itemCosts = {
-			50,50,75,
-			70,60,50,70
-			};
-	private boolean canBarter = false;
 	
 
 	/**
@@ -656,25 +646,18 @@ public class Screen {
 		btbDone.setBounds(10, 11, 110, 25);
 		bazaarPanel.add(btbDone);
 		
+		//TODO add inventory to shops
+		String[] itemArray = {
+			"Health Potion","Battle Elixir","Cure Disease",
+			"Plagued Rats","Thief","Caltrops","Roadblock"
+		};
 		JLabel lblWelcomeToMy = new JLabel("Welcome to my Bazaar");
 		lblWelcomeToMy.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcomeToMy.setFont(new Font("Cambria", Font.BOLD, 22));
 		lblWelcomeToMy.setBounds(15, 47, 294, 47);
 		bazaarPanel.add(lblWelcomeToMy);
 		
-		btnBarter = new JButton("Barter");
-		btnBarter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int r = rando(1,2);
-				if(r==2){//success
-					
-				} else {//fail
-					bazaarPanel.setVisible(false);
-					play("/resources/bazaarCloses.wav");
-					rotatePanel.setVisible(true);
-				}
-			}
-		});
+		JButton btnBarter = new JButton("Barter");
 		btnBarter.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBarter.setBackground(Color.WHITE);
 		btnBarter.setBounds(184, 99, 130, 41);
@@ -699,18 +682,6 @@ public class Screen {
 		bazaarPanel.add(btnBuy1);
 		
 		btnBuyFood = new JButton("20G");
-		btnBuyFood.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(currentPlayer.getGold()>=5){
-					currentPlayer.setFood(currentPlayer.getFood()+5);
-					currentPlayer.setGold(currentPlayer.getGold()-20);
-					play("/resources/blip.wav");
-					repopulate();
-				} else {
-					play("/resources/turnOver.wav");
-				}
-			}
-		});
 		btnBuyFood.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBuyFood.setBackground(Color.WHITE);
 		btnBuyFood.setBounds(213, 363, 96, 41);
@@ -1001,7 +972,6 @@ public class Screen {
 				playerTwo.setNextPlayer(playerOne);
 				playerTwo.makeFinalPlayer();
 				gameBoard.initialize(2, playerOne, playerTwo, playerThree, playerFour);
-				playerOne.setTrap(new Trap("Roadblock")); //TODO
 				break;
 			case 3:
 				playerOne = new Player();
@@ -1303,25 +1273,7 @@ public class Screen {
 	
 	//fulfills the sale of an item to a player from a bazaar
 	public void provider(String thing, int cost){
-		//TODO implement buying
-	}
-	
-	public void stockShelves(){
-		//TODO add inventory to shops
-		String[] itemArray = {
-			"Health Potion","Battle Elixir","Cure Disease",
-			"Plagued Rats","Thief","Caltrops","Roadblock"
-		};
-		//itemCosts[]
-		int bart = rando(1,2);
-		canBarter = false;
-		if(bart==2){
-			canBarter = true;
-		}
 		
-		//repopulate to update player's gold (lblBGold)
-		//btnBuy1...btnBuy3
-		//lblItem1...lblItem3
 	}
 	
 	//plays .wav files

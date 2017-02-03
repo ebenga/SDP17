@@ -1322,6 +1322,10 @@ public class Screen {
 		//repopulate to update player's gold (lblBGold)
 		//btnBuy1...btnBuy3
 		//lblItem1...lblItem3
+		
+		
+		
+		
 	}
 	
 	//plays .wav files
