@@ -31,10 +31,8 @@ public class Player {
 	private int Rrounds = 0;
 	private int Srounds = 0;
 	private int Lrounds = 0;
-	private int HProunds = 0;
-	private boolean HPpotion = false;
-	private int CProunds = 0;
-	private boolean CPpotion = false;
+	private int HProunds;
+	private int CProunds;
 	private int rate = 1;
 	private boolean[] visited = {false,false,false,false};
 	private Space homeSpace;
@@ -101,13 +99,11 @@ public class Player {
 		Lrounds++;
 		HProunds++;
 		CProunds++;
-		if(HProunds >= 1 && HPpotion){
+		if(HProunds >= 1){
 			HP -= 20;
-			HPpotion = false;
 		}
-		if(CProunds >= 1 && CPpotion){
+		if(CProunds >= 1){
 			CP -= 20;
-			CPpotion = false;
 		}
 		//TODO death
 	}
@@ -301,9 +297,7 @@ public class Player {
 		return armor != null;
 	}
 	public void setArmor(Armor a) {
-		if(armor != a){
-			HP += a.getEffect();
-		}
+		// TODO add to cp?
 		armor = a;
 	}
 	public Armor getArmor() {
@@ -314,9 +308,7 @@ public class Player {
 		return weapon != null;
 	}
 	public void setWeapon(Weapon w) {
-		if(weapon != w){
-			CP += w.getEffect();
-		}
+		// TODO update weapon effects
 		weapon = w;
 	}
 	public Weapon getWeapon() {
@@ -336,12 +328,10 @@ public class Player {
 		switch(potion.getType()){
 			case "Health Potion":
 				HProunds = 0;
-				HPpotion = true;
 				HP += 20;
 				break;
 			case "Battle Elixir":
 				CProunds = 0;
-				CPpotion = true;
 				CP += 20;
 				break;
 			case "Cure Disease":

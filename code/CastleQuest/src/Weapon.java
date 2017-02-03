@@ -1,19 +1,29 @@
 
 public class Weapon {
 
+	private String type;
+	private int effect;
+	
+	public Weapon(String typ){
+		type = typ;
+		switch(typ){
+			case "Iron Sword":
+				effect = 20;
+				break;
+			case "Steel Sword":
+				effect = 40;
+				break;
+			case "Obsidian Sword":
+				effect = 60;
+				break;
+		}
+	}
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
 	}
 
-	public void setType(String t) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public String getEffect() {
-		// TODO Auto-generated method stub
-		return null;
+	public int getEffect() {
+		return effect;
 	}
 
 }

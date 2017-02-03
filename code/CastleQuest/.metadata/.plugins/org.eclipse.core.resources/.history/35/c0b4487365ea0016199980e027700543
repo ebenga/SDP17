@@ -301,6 +301,7 @@ public class Player {
 		return armor != null;
 	}
 	public void setArmor(Armor a) {
+		// TODO add to cp?
 		if(armor != a){
 			HP += a.getEffect();
 		}

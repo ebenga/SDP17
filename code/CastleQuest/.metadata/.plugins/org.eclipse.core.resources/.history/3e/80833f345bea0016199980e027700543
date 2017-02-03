@@ -453,10 +453,8 @@ public class Screen {
 		btnPotion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentPlayer.hasPotion()){
-					play("/resources/blip.wav");
+					play("/resources/takePotion.wav");
 					currentPlayer.usePotion();
-					btnTrap.setText("Used");
-					btnTrap.setBackground(Color.GRAY);
 					repopulate();
 				}
 			}
@@ -1359,7 +1357,9 @@ public class Screen {
 		
 	}
 	
+	
 	public void openBazaar(){
+		//TODO add items to inventory
 		stockShelves();
 		int bart = rando(1,4);
 		canBarter = false;
@@ -1370,60 +1370,10 @@ public class Screen {
 		bazaarPanel.setVisible(true);
 	}
 	
+	
 	//fulfills the sale of an item to a player from a bazaar
 	public void provider(String thing, int cost){
-		/*
-		 * "Health Potion","Battle Elixir","Cure Disease",
-			"Plagued Rats","Thief","Caltrops","Roadblock"
-		 */
-		if(currentPlayer.getGold()>=cost){
-			switch(thing){
-				case "Leather Armor":
-					currentPlayer.setArmor(new Armor(thing));
-					break;
-				case "Chainmail Armor":
-					currentPlayer.setArmor(new Armor(thing));
-					break;
-				case "Plate Armor":
-					currentPlayer.setArmor(new Armor(thing));
-					break;
-				case "Iron Sword":
-					currentPlayer.setWeapon(new Weapon(thing));
-					break;
-				case "Steel Sword":
-					currentPlayer.setWeapon(new Weapon(thing));
-					break;
-				case "Obsidian Sword":
-					currentPlayer.setWeapon(new Weapon(thing));
-					break;
-				case "Health Potion":
-					currentPlayer.setPotion(new Potion(thing));
-					break;
-				case "Battle Elixir":
-					currentPlayer.setPotion(new Potion(thing));
-					break;
-				case "Cure Disease":
-					currentPlayer.setPotion(new Potion(thing));
-					break;
-				case "Plagued Rats":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-				case "Thief":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-				case "Caltrops":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-				case "Roadblock":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-			}
-			currentPlayer.setGold(currentPlayer.getGold()-cost);
-			play("/resources/blip.wav");
-			repopulate();
-		} else {
-			play("/resources/turnOver.wav");
-		}
+		//TODO implement buying (remove money from player and add Item or Potion)
 		
 		
 	}

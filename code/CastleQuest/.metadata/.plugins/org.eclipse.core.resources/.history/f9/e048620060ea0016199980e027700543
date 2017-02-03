@@ -11,8 +11,9 @@ public class Player {
 	private Player next;
 	private boolean finalPlayer = false;
 	private String homeKingdom;
-	private int gold = 1000; //TODO
+	private int gold = 1000;
 	private int HP = 100;
+	private int effectiveHP = HP;
 	private int CP = 20;
 	private int Food = 5;
 	private boolean Lost = false;
@@ -31,18 +32,9 @@ public class Player {
 	private int Rrounds = 0;
 	private int Srounds = 0;
 	private int Lrounds = 0;
-	private int HProunds = 0;
-	private boolean HPpotion = false;
-	private int CProunds = 0;
-	private boolean CPpotion = false;
 	private int rate = 1;
 	private boolean[] visited = {false,false,false,false};
-	private Space homeSpace;
 	
-	
-	public void setHomeSpace(Space h){
-		homeSpace = h;
-	}
 	public boolean hasVisited(String kingdom){
 		switch(kingdom){
 			case "Lassallax": 
@@ -99,17 +91,6 @@ public class Player {
 		Rrounds++;
 		Srounds++;
 		Lrounds++;
-		HProunds++;
-		CProunds++;
-		if(HProunds >= 1 && HPpotion){
-			HP -= 20;
-			HPpotion = false;
-		}
-		if(CProunds >= 1 && CPpotion){
-			CP -= 20;
-			CPpotion = false;
-		}
-		//TODO death
 	}
 	public Player nextPlayer() {
 		//returns the next player
@@ -301,9 +282,7 @@ public class Player {
 		return armor != null;
 	}
 	public void setArmor(Armor a) {
-		if(armor != a){
-			HP += a.getEffect();
-		}
+		// TODO add to cp?
 		armor = a;
 	}
 	public Armor getArmor() {
@@ -314,9 +293,7 @@ public class Player {
 		return weapon != null;
 	}
 	public void setWeapon(Weapon w) {
-		if(weapon != w){
-			CP += w.getEffect();
-		}
+		// TODO update weapon effects
 		weapon = w;
 	}
 	public Weapon getWeapon() {
@@ -333,22 +310,7 @@ public class Player {
 		return potion;
 	}	
 	public void usePotion(){
-		switch(potion.getType()){
-			case "Health Potion":
-				HProunds = 0;
-				HPpotion = true;
-				HP += 20;
-				break;
-			case "Battle Elixir":
-				CProunds = 0;
-				CPpotion = true;
-				CP += 20;
-				break;
-			case "Cure Disease":
-				Diseased = false;
-				setDiseased(false);
-				break;
-		}
+		//TODO: use potion to effect HP, CP, or diseased status
 		potion = null; //remove potion from inventory after use
 	}
 	
@@ -356,7 +318,7 @@ public class Player {
 		return magicItem != null;
 	}
 	public void setMagicItem(MagicItem i) {
-		//TODO: add effects of mangel-slayer
+		//TODO: add effects?
 		magicItem = i;
 	}
 	public MagicItem getMagicItem() {
@@ -364,21 +326,7 @@ public class Player {
 	}
 	
 	public void death(){
-		gold = 100;
-		HP = 100;
-		CP = 20;
-		Food = 5;
-		Lost = false;
-		Slowed = false;
-		Diseased = false;
-		Robbed = false;
-		Starving = false;
-		potion = null;
-		trap = null;
-		armor = null;
-		weapon = null;
-		magicItem = null;
-		currentSpace = homeSpace;
+		
 	}
 
 }

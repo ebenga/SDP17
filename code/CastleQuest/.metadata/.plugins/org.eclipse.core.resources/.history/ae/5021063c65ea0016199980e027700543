@@ -301,9 +301,7 @@ public class Player {
 		return armor != null;
 	}
 	public void setArmor(Armor a) {
-		if(armor != a){
-			HP += a.getEffect();
-		}
+		// TODO add to cp?
 		armor = a;
 	}
 	public Armor getArmor() {
@@ -314,9 +312,7 @@ public class Player {
 		return weapon != null;
 	}
 	public void setWeapon(Weapon w) {
-		if(weapon != w){
-			CP += w.getEffect();
-		}
+		// TODO update weapon effects
 		weapon = w;
 	}
 	public Weapon getWeapon() {

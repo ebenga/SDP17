@@ -455,8 +455,6 @@ public class Screen {
 				if(currentPlayer.hasPotion()){
 					play("/resources/blip.wav");
 					currentPlayer.usePotion();
-					btnTrap.setText("Used");
-					btnTrap.setBackground(Color.GRAY);
 					repopulate();
 				}
 			}
@@ -1358,6 +1356,7 @@ public class Screen {
 		rotatePanel.setVisible(true);
 		
 	}
+	
 	
 	public void openBazaar(){
 		stockShelves();

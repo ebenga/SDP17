@@ -13,7 +13,7 @@ public class Armor {
 			case "Chainmail Armor":
 				effect = 40;
 				break;
-			case "Plate Armor":
+			case "Obsidian Armor":
 				effect = 60;
 				break;
 		}

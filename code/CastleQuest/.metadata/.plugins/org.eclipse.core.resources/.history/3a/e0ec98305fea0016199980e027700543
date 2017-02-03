@@ -426,50 +426,26 @@ public class Board {
 		switch(numPlayers){
 			case 1: 
 				play1.setSpace(spaces[54]);
-				play1.setHomeSpace(spaces[54]);
 				break;
 			case 2:
 				play1.setSpace(spaces[54]);
-				play1.setHomeSpace(spaces[54]);
 				play2.setSpace(spaces[66]);
-				play2.setHomeSpace(spaces[66]);
 				break;
 			case 3:
 				play1.setSpace(spaces[54]);
-				play1.setHomeSpace(spaces[54]);
 				play2.setSpace(spaces[66]);
-				play2.setHomeSpace(spaces[66]);
 				play3.setSpace(spaces[62]);
-				play3.setHomeSpace(spaces[62]);
 				break;
 			case 4:
 				play1.setSpace(spaces[54]);
-				play1.setHomeSpace(spaces[54]);
 				play2.setSpace(spaces[66]);
-				play2.setHomeSpace(spaces[66]);
 				play3.setSpace(spaces[62]);
-				play3.setHomeSpace(spaces[62]);
 				play4.setSpace(spaces[58]);
-				play4.setHomeSpace(spaces[58]);
 				break;
 		}
 		//TODO dragon
 		
 		//TODO communicate with benga's board? might have to do that in the setSpace() method for players
-	}
-	
-	public Space getKingdom(String king){
-		switch(king){
-			case "Lassallax":
-				return spaces[54];
-			case "Derelin":
-				return spaces[66];
-			case "WybengaLand":
-				return spaces[62];
-			case "Mangia":
-				return spaces[58];
-		}
-		return spaces[4];
 	}
 	
 

@@ -453,10 +453,8 @@ public class Screen {
 		btnPotion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(currentPlayer.hasPotion()){
-					play("/resources/blip.wav");
+					play("/resources/takePotion.wav");
 					currentPlayer.usePotion();
-					btnTrap.setText("Used");
-					btnTrap.setBackground(Color.GRAY);
 					repopulate();
 				}
 			}
@@ -675,22 +673,7 @@ public class Screen {
 		btnBarter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(canBarter){//success
-					int p1 = Integer.parseInt(btnBuy1.getText());
-					int p2 = Integer.parseInt(btnBuy2.getText());
-					int p3 = Integer.parseInt(btnBuy3.getText());
-					int p4 = Integer.parseInt(btnBuyFood.getText());
-					p1 = p1 - p1/4;
-					p2 = p2 - p2/4;
-					p3 = p3 - p3/4;
-					p4 = p4 - p4/4;
-					btnBuy1.setText(String.valueOf(p1));
-					btnBuy2.setText(String.valueOf(p2));
-					btnBuy3.setText(String.valueOf(p3));
-					btnBuyFood.setText(String.valueOf(p4));
-					int b = rando(1,4);
-					if(b!=2){
-						canBarter = false;
-					}
+					//TODO barter
 				} else {//fail
 					bazaarPanel.setVisible(false);
 					play("/resources/bazaarCloses.wav");
@@ -704,33 +687,18 @@ public class Screen {
 		bazaarPanel.add(btnBarter);
 		
 		btnBuy3 = new JButton("Buy");
-		btnBuy3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				provider(lblItem3.getText(),Integer.parseInt(btnBuy3.getText()));
-			}
-		});
 		btnBuy3.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBuy3.setBackground(Color.WHITE);
 		btnBuy3.setBounds(225, 302, 84, 41);
 		bazaarPanel.add(btnBuy3);
 		
 		btnBuy2 = new JButton("Buy");
-		btnBuy2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				provider(lblItem2.getText(),Integer.parseInt(btnBuy2.getText()));
-			}
-		});
 		btnBuy2.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBuy2.setBackground(Color.WHITE);
 		btnBuy2.setBounds(225, 238, 84, 41);
 		bazaarPanel.add(btnBuy2);
 		
 		btnBuy1 = new JButton("Buy");
-		btnBuy1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				provider(lblItem1.getText(),Integer.parseInt(btnBuy1.getText()));
-			}
-		});
 		btnBuy1.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBuy1.setBackground(Color.WHITE);
 		btnBuy1.setBounds(225, 174, 84, 41);
@@ -1359,9 +1327,11 @@ public class Screen {
 		
 	}
 	
+	
 	public void openBazaar(){
+		//TODO everything
 		stockShelves();
-		int bart = rando(1,4);
+		int bart = rando(1,2);
 		canBarter = false;
 		if(bart==2){
 			canBarter = true;
@@ -1370,69 +1340,20 @@ public class Screen {
 		bazaarPanel.setVisible(true);
 	}
 	
+	
 	//fulfills the sale of an item to a player from a bazaar
 	public void provider(String thing, int cost){
-		/*
-		 * "Health Potion","Battle Elixir","Cure Disease",
-			"Plagued Rats","Thief","Caltrops","Roadblock"
-		 */
-		if(currentPlayer.getGold()>=cost){
-			switch(thing){
-				case "Leather Armor":
-					currentPlayer.setArmor(new Armor(thing));
-					break;
-				case "Chainmail Armor":
-					currentPlayer.setArmor(new Armor(thing));
-					break;
-				case "Plate Armor":
-					currentPlayer.setArmor(new Armor(thing));
-					break;
-				case "Iron Sword":
-					currentPlayer.setWeapon(new Weapon(thing));
-					break;
-				case "Steel Sword":
-					currentPlayer.setWeapon(new Weapon(thing));
-					break;
-				case "Obsidian Sword":
-					currentPlayer.setWeapon(new Weapon(thing));
-					break;
-				case "Health Potion":
-					currentPlayer.setPotion(new Potion(thing));
-					break;
-				case "Battle Elixir":
-					currentPlayer.setPotion(new Potion(thing));
-					break;
-				case "Cure Disease":
-					currentPlayer.setPotion(new Potion(thing));
-					break;
-				case "Plagued Rats":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-				case "Thief":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-				case "Caltrops":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-				case "Roadblock":
-					currentPlayer.setTrap(new Trap(thing));
-					break;
-			}
-			currentPlayer.setGold(currentPlayer.getGold()-cost);
-			play("/resources/blip.wav");
-			repopulate();
-		} else {
-			play("/resources/turnOver.wav");
-		}
-		
-		
+		//TODO implement buying (remove money from player and add Item or Potion
 	}
 	
 	public void stockShelves(){
+		//TODO add inventory to shops
 		//itemCosts[]
+		//repopulate to update player's gold or (lblBGold)
 		//btnBuy1...btnBuy3
 		//lblItem1...lblItem3
-		//		
+		//
+		
 		//ITEM ONE
 		if(!currentPlayer.hasArmor()){
 			lblItem1.setText("Leather Armor");
@@ -1447,10 +1368,9 @@ public class Screen {
 			lblItem1Effect.setText("+60HP");
 			btnBuy1.setText("100");
 		} else {
-			int r1 = rando(0,6);
-			lblItem1.setText(itemArray[r1]);
-			lblItem1Effect.setText(itemEffects[r1]);
-			btnBuy1.setText(itemCosts[r1]);
+			lblItem1.setText("Plate Armor");
+			lblItem1Effect.setText("+60HP");
+			btnBuy1.setText("100");
 		}
 		//ITEM TWO
 		if(!currentPlayer.hasWeapon()){
@@ -1466,10 +1386,9 @@ public class Screen {
 			lblItem2Effect.setText("+60CP");
 			btnBuy2.setText("100");
 		} else {
-			int r2 = rando(0,6);
-			lblItem2.setText(itemArray[r2]);
-			lblItem2Effect.setText(itemEffects[r2]);
-			btnBuy2.setText(itemCosts[r2]);
+			lblItem2.setText("Obsidian Sword");
+			lblItem2Effect.setText("+60CP");
+			btnBuy2.setText("100");
 		}
 		//ITEM THREE
 		int r3 = rando(0,6);
