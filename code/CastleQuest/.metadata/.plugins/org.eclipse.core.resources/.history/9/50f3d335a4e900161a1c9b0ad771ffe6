@@ -647,10 +647,7 @@ public class Screen {
 		bazaarPanel.add(btbDone);
 		
 		//TODO add inventory to shops
-		String[] itemArray = {
-			"Health Potion","Battle Elixir","Cure Disease",
-			"Plagued Rats","Thief","Caltrops","Roadblock"
-		};
+		
 		JLabel lblWelcomeToMy = new JLabel("Welcome to my Bazaar");
 		lblWelcomeToMy.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcomeToMy.setFont(new Font("Cambria", Font.BOLD, 22));
@@ -1192,8 +1189,6 @@ public class Screen {
 			lblTraptype.setText(currentPlayer.getSpace().getTrap().getType());
 		}
 		
-		//======================== Bazaar ==========================
-		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
 		
 	}
 	
@@ -1268,11 +1263,6 @@ public class Screen {
 		//None of the above
 		play("/resources/turnOver.wav");
 		rotatePanel.setVisible(true);
-		
-	}
-	
-	//fulfills the sale of an item to a player from a bazaar
-	public void provider(String thing, int cost){
 		
 	}
 	
