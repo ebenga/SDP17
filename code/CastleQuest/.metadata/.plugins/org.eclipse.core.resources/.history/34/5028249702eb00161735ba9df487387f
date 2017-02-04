@@ -1288,7 +1288,6 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("25");
 		
 	}
 	

@@ -1288,7 +1288,6 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("25");
 		
 	}
 	
@@ -1353,6 +1352,7 @@ public class Screen {
 		//Swamp
 		if(s.getType()=="Swamp" && rando(1,3)==2){
 			currentPlayer.setDiseased(true);
+			//TODO add noise?
 		}
 		
 		//Desert

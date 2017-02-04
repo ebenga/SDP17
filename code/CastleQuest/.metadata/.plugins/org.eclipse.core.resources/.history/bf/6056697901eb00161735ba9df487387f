@@ -591,9 +591,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnDown.setIcon(null);
@@ -605,9 +604,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnLeft.setIcon(null);
@@ -619,9 +617,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnRight.setIcon(null);
@@ -633,9 +630,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnUp.setIcon(null);
@@ -1288,11 +1284,10 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("25");
 		
 	}
 	
-	public void spaceHandler(Space b,Space s){
+	public void spaceHandler(Space s){
 		//performs actions based on which space a player just entered
 		
 		boolean[] k = currentPlayer.getKeys();
@@ -1332,14 +1327,12 @@ public class Screen {
 		
 		//ruins
 		if(s.getType() == "Ruins"){
-			play("/resources/dragonAppears.wav");
 			ruinPanel.setVisible(true);
 			return;
 		}
 		
 		//caves
 		if(s.getType() == "Caves"){
-			play("/resources/dragonAppears.wav");
 			cavePanel.setVisible(true);
 			return;
 		}
@@ -1369,7 +1362,6 @@ public class Screen {
 				return;
 			} else {
 				play("/resources/gateShut.wav");
-				currentPlayer.setSpace(b);
 				lblTurnOver.setText("NOT ENOUGH KEYS");
 				rotatePanel.setVisible(true);
 				return;

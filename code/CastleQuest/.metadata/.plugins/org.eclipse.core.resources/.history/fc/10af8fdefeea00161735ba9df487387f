@@ -591,9 +591,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getOuter());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnDown.setIcon(null);
@@ -605,9 +604,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getClock());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnLeft.setIcon(null);
@@ -619,9 +617,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getCount());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnRight.setIcon(null);
@@ -633,9 +630,8 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				movePanel.setVisible(false);
 				currentPlayer.Eat();
-				Space s = currentPlayer.getSpace();
 				currentPlayer.setSpace(currentPlayer.getSpace().getInner());
-				spaceHandler(s,currentPlayer.getSpace());
+				spaceHandler(currentPlayer.getSpace());
 			}
 		});
 		btnUp.setIcon(null);
@@ -1200,7 +1196,6 @@ public class Screen {
 			lblRotate.setText("WAITING FOR " + currentPlayer.nextPlayer().getHomeKingdom());
 			lblRotateArrow.setIcon(new ImageIcon(Screen.class.getResource("/resources/black.png")));
 		}
-		lblTurnOver.setText("TURN OVER");
 		
 		//================================ MOVE SCREEN ===========================================================
 		
@@ -1288,17 +1283,16 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("25");
 		
 	}
 	
-	public void spaceHandler(Space b,Space s){
+	public void spaceHandler(Space s){
 		//performs actions based on which space a player just entered
 		
-		boolean[] k = currentPlayer.getKeys();
 		//Enter new kingdom and get a key
 		if(s.isKingdom() && !currentPlayer.hasVisited(s.getType())){
 			currentPlayer.setVisited(s.getType());
+			boolean[] k = currentPlayer.getKeys();
 			txtpnDesc.setText("Congradulations!\nThe people of " + s.getType() + " have granted you a key!");
 			//courage wisdom strength
 			if(!k[0]){
@@ -1332,14 +1326,12 @@ public class Screen {
 		
 		//ruins
 		if(s.getType() == "Ruins"){
-			play("/resources/dragonAppears.wav");
 			ruinPanel.setVisible(true);
 			return;
 		}
 		
 		//caves
 		if(s.getType() == "Caves"){
-			play("/resources/dragonAppears.wav");
 			cavePanel.setVisible(true);
 			return;
 		}
@@ -1359,23 +1351,6 @@ public class Screen {
 		if(s.getType()=="Desert" && rando(1,3)==2){
 			currentPlayer.setSlowed(true);
 		}
-		//Castle Gates
-		if(s.getType()=="Castle Gates"){
-			if(k[0]&&k[1]&&k[2]){
-				//player has all the keys
-				play("/resources/gateOpen.wav");
-				lblTurnOver.setText("THE GATES HAVE OPENED");
-				rotatePanel.setVisible(true);
-				return;
-			} else {
-				play("/resources/gateShut.wav");
-				currentPlayer.setSpace(b);
-				lblTurnOver.setText("NOT ENOUGH KEYS");
-				rotatePanel.setVisible(true);
-				return;
-			}
-		}
-		
 		
 		//TODO combat
 		//None of the above

@@ -1288,7 +1288,6 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("25");
 		
 	}
 	
@@ -1332,14 +1331,12 @@ public class Screen {
 		
 		//ruins
 		if(s.getType() == "Ruins"){
-			play("/resources/dragonAppears.wav");
 			ruinPanel.setVisible(true);
 			return;
 		}
 		
 		//caves
 		if(s.getType() == "Caves"){
-			play("/resources/dragonAppears.wav");
 			cavePanel.setVisible(true);
 			return;
 		}
