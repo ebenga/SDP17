@@ -43,7 +43,7 @@ public class Screen {
 	public Player playerThree;
 	public Player playerFour;
 	public Player currentPlayer;
-	public Dragon dragon = new Dragon();
+	public Dragon dragon;
 	private JButton btnSave;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
@@ -940,9 +940,7 @@ public class Screen {
 				repopulate();
 				if(currentPlayer.isFinalPlayer()){
 					//TODO dragon
-					play("/resources/dragonTurn.wav");
-					dragonPanel.setVisible(true);
-					return;
+					
 				}
 				play("/resources/blip.wav");
 				playerStartPanel.setVisible(true);
@@ -967,31 +965,10 @@ public class Screen {
 		frame.getContentPane().add(dragonPanel, "name_264250839698398");
 		dragonPanel.setLayout(null);
 		
-		JLabel lblDragonIcon = new JLabel("");
-		lblDragonIcon.setIcon(new ImageIcon(Screen.class.getResource("/resources/dragon.png")));
-		lblDragonIcon.setBounds(98, 177, 128, 128);
-		dragonPanel.add(lblDragonIcon);
-		
-		JButton btnDReady = new JButton("Ready");
-		btnDReady.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO wait for dragon to move
-				dragonPanel.setVisible(false);
-				play("/resources/blip.wav");
-				playerStartPanel.setVisible(true);
-			}
-		});
-		btnDReady.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnDReady.setBackground(Color.LIGHT_GRAY);
-		btnDReady.setBounds(111, 28, 101, 45);
-		dragonPanel.add(btnDReady);
-		
-		JLabel lblDragonsTurn = new JLabel("DRAGON'S TURN");
-		lblDragonsTurn.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDragonsTurn.setForeground(Color.WHITE);
-		lblDragonsTurn.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblDragonsTurn.setBounds(10, 94, 304, 51);
-		dragonPanel.add(lblDragonsTurn);
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(Screen.class.getResource("/resources/dragon.png")));
+		label.setBounds(98, 166, 128, 128);
+		dragonPanel.add(label);
 		
 		//===================== SETTINGS PAGE =============================
 		

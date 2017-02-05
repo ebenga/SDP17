@@ -43,7 +43,7 @@ public class Screen {
 	public Player playerThree;
 	public Player playerFour;
 	public Player currentPlayer;
-	public Dragon dragon = new Dragon();
+	public Dragon dragon;
 	private JButton btnSave;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
@@ -935,16 +935,10 @@ public class Screen {
 		btnReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rotatePanel.setVisible(false);
+				play("/resources/blip.wav");
 				currentPlayer.endRound();
 				currentPlayer = currentPlayer.nextPlayer();
 				repopulate();
-				if(currentPlayer.isFinalPlayer()){
-					//TODO dragon
-					play("/resources/dragonTurn.wav");
-					dragonPanel.setVisible(true);
-					return;
-				}
-				play("/resources/blip.wav");
 				playerStartPanel.setVisible(true);
 			}
 		});
@@ -963,35 +957,9 @@ public class Screen {
 		//==================== DRAGON PAGE ==================================
 		
 		dragonPanel = new JPanel();
-		dragonPanel.setBackground(Color.RED);
+		dragonPanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(dragonPanel, "name_264250839698398");
 		dragonPanel.setLayout(null);
-		
-		JLabel lblDragonIcon = new JLabel("");
-		lblDragonIcon.setIcon(new ImageIcon(Screen.class.getResource("/resources/dragon.png")));
-		lblDragonIcon.setBounds(98, 177, 128, 128);
-		dragonPanel.add(lblDragonIcon);
-		
-		JButton btnDReady = new JButton("Ready");
-		btnDReady.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO wait for dragon to move
-				dragonPanel.setVisible(false);
-				play("/resources/blip.wav");
-				playerStartPanel.setVisible(true);
-			}
-		});
-		btnDReady.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnDReady.setBackground(Color.LIGHT_GRAY);
-		btnDReady.setBounds(111, 28, 101, 45);
-		dragonPanel.add(btnDReady);
-		
-		JLabel lblDragonsTurn = new JLabel("DRAGON'S TURN");
-		lblDragonsTurn.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDragonsTurn.setForeground(Color.WHITE);
-		lblDragonsTurn.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblDragonsTurn.setBounds(10, 94, 304, 51);
-		dragonPanel.add(lblDragonsTurn);
 		
 		//===================== SETTINGS PAGE =============================
 		
@@ -1091,7 +1059,7 @@ public class Screen {
 				playerOne.setHomeKingdom("Lassallax");
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
-				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour, dragon);
+				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour);
 				playerOne.setTrap(new Trap("Roadblock")); //TODO
 				break;
 			case 2:
@@ -1102,7 +1070,7 @@ public class Screen {
 				playerOne.setNextPlayer(playerTwo);
 				playerTwo.setNextPlayer(playerOne);
 				playerTwo.makeFinalPlayer();
-				gameBoard.initialize(2, playerOne, playerTwo, playerThree, playerFour, dragon);
+				gameBoard.initialize(2, playerOne, playerTwo, playerThree, playerFour);
 				playerOne.setTrap(new Trap("Roadblock")); //TODO
 				break;
 			case 3:
@@ -1116,7 +1084,7 @@ public class Screen {
 				playerTwo.setNextPlayer(playerThree);
 				playerThree.setNextPlayer(playerOne);
 				playerThree.makeFinalPlayer();
-				gameBoard.initialize(3, playerOne, playerTwo, playerThree, playerFour, dragon);
+				gameBoard.initialize(3, playerOne, playerTwo, playerThree, playerFour);
 				break;
 			case 4:
 				playerOne = new Player();
@@ -1132,7 +1100,7 @@ public class Screen {
 				playerThree.setNextPlayer(playerFour);
 				playerFour.setNextPlayer(playerOne);
 				playerFour.makeFinalPlayer();
-				gameBoard.initialize(4, playerOne, playerTwo, playerThree, playerFour, dragon);
+				gameBoard.initialize(4, playerOne, playerTwo, playerThree, playerFour);
 				break;
 		}
 		currentPlayer = playerOne;
@@ -1414,6 +1382,7 @@ public class Screen {
 				return;
 			}
 		}
+		
 		
 		//TODO combat
 		//None of the above

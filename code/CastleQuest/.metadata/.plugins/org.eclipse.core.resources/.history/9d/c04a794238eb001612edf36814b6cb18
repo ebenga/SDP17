@@ -43,7 +43,7 @@ public class Screen {
 	public Player playerThree;
 	public Player playerFour;
 	public Player currentPlayer;
-	public Dragon dragon = new Dragon();
+	public Dragon dragon;
 	private JButton btnSave;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
@@ -940,7 +940,6 @@ public class Screen {
 				repopulate();
 				if(currentPlayer.isFinalPlayer()){
 					//TODO dragon
-					play("/resources/dragonTurn.wav");
 					dragonPanel.setVisible(true);
 					return;
 				}
@@ -975,7 +974,6 @@ public class Screen {
 		JButton btnDReady = new JButton("Ready");
 		btnDReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO wait for dragon to move
 				dragonPanel.setVisible(false);
 				play("/resources/blip.wav");
 				playerStartPanel.setVisible(true);

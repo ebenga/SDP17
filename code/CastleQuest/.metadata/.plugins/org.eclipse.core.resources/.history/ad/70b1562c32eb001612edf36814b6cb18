@@ -1,4 +1,3 @@
-import java.util.Random;
 
 public class Board {
 
@@ -422,7 +421,7 @@ public class Board {
 		
 	}
 	
-	public void initialize(int numPlayers, Player play1, Player play2, Player play3, Player play4, Dragon dragon){
+	public void initialize(int numPlayers, Player play1, Player play2, Player play3, Player play4){
 		
 		switch(numPlayers){
 			case 1: 
@@ -454,16 +453,9 @@ public class Board {
 				play4.setHomeSpace(spaces[58]);
 				break;
 		}
-		dragon.setSpace(spaces[rando(4,51)]);
+		//TODO dragon
 		
 		//TODO communicate with benga's board? might have to do that in the setSpace() method for players
-	}
-	
-	public int rando(int min, int max){
-		//generate random number between min and max (inclusive)
-		Random ran = new Random();
-		int r = ran.nextInt(max-min+1) + min;
-		return r;
 	}
 	
 	public Space getKingdom(String king){

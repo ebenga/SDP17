@@ -975,7 +975,6 @@ public class Screen {
 		JButton btnDReady = new JButton("Ready");
 		btnDReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO wait for dragon to move
 				dragonPanel.setVisible(false);
 				play("/resources/blip.wav");
 				playerStartPanel.setVisible(true);
