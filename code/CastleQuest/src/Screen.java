@@ -8,7 +8,6 @@ import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JPanel;
@@ -17,10 +16,10 @@ import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
+import javax.swing.Timer;
 
 public class Screen {
 
@@ -44,6 +43,7 @@ public class Screen {
 	public Player playerFour;
 	public Player currentPlayer;
 	public Dragon dragon = new Dragon();
+	private boolean dragonLives = true;
 	private JButton btnSave;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
@@ -119,6 +119,9 @@ public class Screen {
 	private JLabel lblItem1Effect;
 	private JLabel lblItem2Effect;
 	private JLabel lblItem3Effect;
+	private JButton btnDReady;
+	private JLabel lblDragonPosition;
+	
 	
 
 	/**
@@ -427,7 +430,7 @@ public class Screen {
 		magicPane.setFont(new Font("Cambria", Font.BOLD, 14));
 		magicPane.setEditable(false);
 		magicPane.setBackground(Color.LIGHT_GRAY);
-		magicPane.setBounds(183, 308, 119, 128);
+		magicPane.setBounds(172, 302, 142, 134);
 		inventoryPanel.add(magicPane);
 		
 		lblcurrentWeapon = new JLabel("null");
@@ -936,14 +939,14 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				rotatePanel.setVisible(false);
 				currentPlayer.endRound();
-				currentPlayer = currentPlayer.nextPlayer();
-				repopulate();
-				if(currentPlayer.isFinalPlayer()){
-					//TODO dragon
-					play("/resources/dragonTurn.wav");
+				if(currentPlayer.isFinalPlayer() && dragonLives){
+					currentPlayer = currentPlayer.nextPlayer();
 					dragonPanel.setVisible(true);
+					dragonRunner();
 					return;
 				}
+				currentPlayer = currentPlayer.nextPlayer();
+				repopulate();
 				play("/resources/blip.wav");
 				playerStartPanel.setVisible(true);
 			}
@@ -972,26 +975,33 @@ public class Screen {
 		lblDragonIcon.setBounds(98, 177, 128, 128);
 		dragonPanel.add(lblDragonIcon);
 		
-		JButton btnDReady = new JButton("Ready");
+		btnDReady = new JButton("Lassallax Ready?");
 		btnDReady.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO wait for dragon to move
 				dragonPanel.setVisible(false);
+				repopulate();
 				play("/resources/blip.wav");
 				playerStartPanel.setVisible(true);
 			}
 		});
 		btnDReady.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnDReady.setBackground(Color.LIGHT_GRAY);
-		btnDReady.setBounds(111, 28, 101, 45);
+		btnDReady.setBounds(69, 28, 186, 45);
 		dragonPanel.add(btnDReady);
 		
-		JLabel lblDragonsTurn = new JLabel("DRAGON'S TURN");
+		JLabel lblDragonsTurn = new JLabel("MANGELOR'S TURN");
 		lblDragonsTurn.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDragonsTurn.setForeground(Color.WHITE);
 		lblDragonsTurn.setFont(new Font("Cambria", Font.BOLD, 22));
 		lblDragonsTurn.setBounds(10, 94, 304, 51);
 		dragonPanel.add(lblDragonsTurn);
+		
+		lblDragonPosition = new JLabel("pos");
+		lblDragonPosition.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDragonPosition.setForeground(Color.WHITE);
+		lblDragonPosition.setFont(new Font("Cambria", Font.BOLD, 18));
+		lblDragonPosition.setBounds(10, 328, 304, 51);
+		dragonPanel.add(lblDragonPosition);
 		
 		//===================== SETTINGS PAGE =============================
 		
@@ -1159,6 +1169,9 @@ public class Screen {
 		if(currentPlayer.isStarving()){
 			stats += "Starving: Loosing HP\n";
 		}
+		if(currentPlayer.isDead()){
+			stats += "You Died!\n";
+		}
 		if(stats.length()<3){
 			stats = "No Negative Effects\n";
 		}
@@ -1195,6 +1208,7 @@ public class Screen {
 		}
 		else {
 			btnPotion.setText("No Potions");
+			btnTrap.setBackground(Color.GRAY);
 		}
 		//TRAPS
 		if(currentPlayer.hasTrap()){
@@ -1203,6 +1217,7 @@ public class Screen {
 		}
 		else {
 			btnTrap.setText("No Traps");
+			btnTrap.setBackground(Color.GRAY);
 		}
 		
 		//ARMOR
@@ -1329,6 +1344,8 @@ public class Screen {
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
 		btnBuyFood.setText("25");
 		
+		////======================== Dragon SCREEN ====================================================
+		lblDragonPosition.setText("Moving...");
 	}
 	
 	public void spaceHandler(Space b,Space s){
@@ -1371,14 +1388,14 @@ public class Screen {
 		
 		//ruins
 		if(s.getType() == "Ruins"){
-			play("/resources/dragonAppears.wav");
+			play("/resources/dragonTurn.wav");
 			ruinPanel.setVisible(true);
 			return;
 		}
 		
 		//caves
 		if(s.getType() == "Caves"){
-			play("/resources/dragonAppears.wav");
+			play("/resources/dragonTurn.wav");
 			cavePanel.setVisible(true);
 			return;
 		}
@@ -1547,6 +1564,144 @@ public class Screen {
 		lblItem3Effect.setText(itemEffects[r3]);
 		btnBuy3.setText(itemCosts[r3]);
 
+	}
+	
+	public void dragonRunner(){
+		btnDReady.setEnabled(false);
+		btnDReady.setVisible(false);
+		play("/resources/dragonTurn.wav");
+
+		Timer t = new Timer(2000,null);
+		t.addActionListener(new ActionListener(){
+		     int i=0;
+		     public void actionPerformed(ActionEvent e){
+		         boolean Dwin = false;
+		         boolean Pwin = false;
+		 		 
+		         if(playerOne.getSpace().getId() == dragon.getSpace().getId()){
+		        	 //player wins
+		        	 if(playerOne.hasMagicItem()&&playerOne.getMagicItem().getType()=="Mangel-Slayer"){
+		        		 dragonLives =  false;
+		        		 Pwin = true;
+		        		 playerOne.setGold(playerOne.getGold()+dragon.getGold());
+		        		 playerOne.setMagicItem(dragon.getMagicItem());
+		        		 lblDragonPosition.setText("Dragon has been slain!");
+		        	 } else { //dragon wins
+		        		 Dwin = true;
+			        	 dragon.addGold(playerOne.getGold());
+			        	 if(playerOne.hasMagicItem()){
+			        		 dragon.AddMagic(playerOne.getMagicItem());
+			        	 }
+			        	 playerOne.death();
+			        	 lblDragonPosition.setText("Knight of Lassallax Incinerated!");
+		        	 }
+		         }
+		         if(numPlayers > 1 && dragonLives && playerTwo.getSpace().getId() == dragon.getSpace().getId()){
+		        	 //player wins
+		        	 if(playerTwo.hasMagicItem()&&playerTwo.getMagicItem().getType()=="Mangel-Slayer"){
+		        		 dragonLives =  false;
+		        		 Pwin = true;
+		        		 playerTwo.setGold(playerTwo.getGold()+dragon.getGold());
+		        		 playerTwo.setMagicItem(dragon.getMagicItem());
+		        		 lblDragonPosition.setText("Dragon has been slain!");
+		        	 } else { //dragon wins
+		        		 Dwin = true;
+			        	 dragon.addGold(playerTwo.getGold());
+			        	 if(playerTwo.hasMagicItem()){
+			        		 dragon.AddMagic(playerTwo.getMagicItem());
+			        	 }
+			        	 playerTwo.death();
+			        	 lblDragonPosition.setText("Knight of Derelin Incinerated!");
+		        	 }
+		         }
+		         if(numPlayers > 2 &&dragonLives && playerThree.getSpace().getId() == dragon.getSpace().getId()){
+		        	 //player wins
+		        	 if(playerThree.hasMagicItem()&&playerThree.getMagicItem().getType()=="Mangel-Slayer"){
+		        		 dragonLives =  false;
+		        		 Pwin = true;
+		        		 playerThree.setGold(playerThree.getGold()+dragon.getGold());
+		        		 playerThree.setMagicItem(dragon.getMagicItem());
+		        		 lblDragonPosition.setText("Dragon has been slain!");
+		        	 } else { //dragon wins
+		        		 Dwin = true;
+			        	 dragon.addGold(playerThree.getGold());
+			        	 if(playerThree.hasMagicItem()){
+			        		 dragon.AddMagic(playerThree.getMagicItem());
+			        	 }
+			        	 playerThree.death();
+			        	 lblDragonPosition.setText("Knight of WybengaLand Incinerated!");
+		        	 }
+		         }
+		         if(numPlayers > 3 &&dragonLives && playerFour.getSpace().getId() == dragon.getSpace().getId()){
+		        	 //player wins
+		        	 if(playerFour.hasMagicItem()&&playerFour.getMagicItem().getType()=="Mangel-Slayer"){
+		        		 dragonLives =  false;
+		        		 Pwin = true;
+		        		 playerFour.setGold(playerFour.getGold()+dragon.getGold());
+		        		 playerFour.setMagicItem(dragon.getMagicItem());
+		        		 lblDragonPosition.setText("Dragon has been slain!");
+		        	 } else { //dragon wins
+		        		 Dwin = true;
+			        	 dragon.addGold(playerFour.getGold());
+			        	 if(playerFour.hasMagicItem()){
+			        		 dragon.AddMagic(playerFour.getMagicItem());
+			        	 }
+			        	 playerFour.death();
+			        	 lblDragonPosition.setText("Knight of Mangia Incinerated!");
+		        	 }
+		         }
+		         
+		 		 if(i>1 || Dwin || Pwin){
+		 			 if(Dwin){
+		 				 play("/resources/dragonAppears.wav");
+		 			 } else if(Pwin){
+		 				 play("/resources/happy.wav");
+		 			 } else {
+		 				lblDragonPosition.setText("Landed");
+		 			 }
+		        	 btnDReady.setEnabled(true);
+		        	 btnDReady.setVisible(true);
+		        	 t.stop();
+		         }
+		 		 dragonMove();
+		         i++;
+		     }
+		});
+		t.setRepeats(true);
+		t.start();
+		
+	}
+	
+	public void dragonMove(){
+		Space s = dragon.getSpace();
+		int opts = 1;
+		Space[] spaces = {s,null,null,null,null};
+		Space r = s.getCount();
+		Space l = s.getClock();
+		Space up = s.getInner();
+		Space d = s.getOuter();
+		if(r != null && !r.isKingdom() && r.getId() != 3){
+			spaces[opts] = r;
+			opts++;
+		}
+		if(l != null && !l.isKingdom() && l.getId() != 3){
+			spaces[opts] = l;
+			opts++;
+		}
+		if(up != null && !up.isKingdom() && up.getId() != 3){
+			spaces[opts] = up;
+			opts++;
+		}
+		if(d != null && !d.isKingdom() && d.getId() != 3){
+			spaces[opts] = d;
+			opts++;
+		}
+		int ran = rando(0,opts-1);
+//		for(int i=0; i < opts; i++){
+//			System.out.println(spaces[i].getId());
+//		}
+		dragon.setSpace(spaces[ran]);
+//		System.out.println("Moved to:" + dragon.getSpace().getId());
 	}
 	
 	//plays .wav files

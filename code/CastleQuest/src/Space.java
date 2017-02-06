@@ -33,6 +33,11 @@ public class Space {
 	public void setInner(Space s){
 		innerNeighbor = s;
 	}
+	
+	public int getId(){
+		return id;
+	}
+	
 	public Space getInner(){
 		return innerNeighbor;
 	}

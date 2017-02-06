@@ -11,7 +11,7 @@ public class Player {
 	private Player next;
 	private boolean finalPlayer = false;
 	private String homeKingdom;
-	private int gold = 1000; //TODO
+	private int gold = 100;
 	private int HP = 100;
 	private int CP = 20;
 	private int Food = 5;
@@ -20,6 +20,7 @@ public class Player {
 	private boolean Diseased = false;
 	private boolean Robbed = false;
 	private boolean Starving = false;
+	private boolean dead = false;
 	private boolean[] Keys = {false,false,false};
 	private Potion potion;
 	private Trap trap;
@@ -32,6 +33,7 @@ public class Player {
 	private int Srounds = 0;
 	private int Lrounds = 0;
 	private int HProunds = 0;
+	private int Deathrounds = 0;
 	private boolean HPpotion = false;
 	private int CProunds = 0;
 	private boolean CPpotion = false;
@@ -101,6 +103,7 @@ public class Player {
 		Lrounds++;
 		HProunds++;
 		CProunds++;
+		Deathrounds++;
 		if(HProunds >= 1 && HPpotion){
 			HP -= 20;
 			HPpotion = false;
@@ -111,6 +114,14 @@ public class Player {
 		}
 		//TODO death
 	}
+	
+	public boolean isDead(){
+		if(Deathrounds > 1){
+			dead = false;
+		} 
+		return dead;
+	}
+	
 	public Player nextPlayer() {
 		//returns the next player
 		return next;
@@ -356,7 +367,6 @@ public class Player {
 		return magicItem != null;
 	}
 	public void setMagicItem(MagicItem i) {
-		//TODO: add effects of mangel-slayer
 		magicItem = i;
 	}
 	public MagicItem getMagicItem() {
@@ -364,6 +374,7 @@ public class Player {
 	}
 	
 	public void death(){
+		Deathrounds = 0;
 		gold = 100;
 		HP = 100;
 		CP = 20;

@@ -3,7 +3,7 @@ public class Dragon{
 
 	private Space space;
 	private int gold = 300;
-	private MagicItem magic;
+	private MagicItem magic = new MagicItem("Mantle of Perception");
 	
 	public void setSpace(Space s){
 		space = s;
@@ -20,6 +20,14 @@ public class Dragon{
 	public void addGold(int g) {
 		// TODO Auto-generated method stub
 		gold += g;
+	}
+	
+	public void AddMagic(MagicItem m){
+		magic = m;
+	}
+	
+	public MagicItem getMagicItem(){
+		return magic;
 	}
 
 }
