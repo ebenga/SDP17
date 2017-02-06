@@ -4,4 +4,5 @@
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="java.io.File"/>
 <fullyQualifiedTypeName name="sun.audio.AudioPlayer"/>
+<fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
 </qualifiedTypeNameHistroy>

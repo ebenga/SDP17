@@ -20,6 +20,7 @@ public class Player {
 	private boolean Diseased = false;
 	private boolean Robbed = false;
 	private boolean Starving = false;
+	private boolean dead = false;
 	private boolean[] Keys = {false,false,false};
 	private Potion potion;
 	private Trap trap;
@@ -27,12 +28,58 @@ public class Player {
 	private Weapon weapon;
 	private MagicItem magicItem;
 	private Space currentSpace;
+	private int Drounds = 0;
+	private int Rrounds = 0;
+	private int Srounds = 0;
+	private int Lrounds = 0;
+	private int HProunds = 0;
+	private int Deathrounds = 0;
+	private boolean HPpotion = false;
+	private int CProunds = 0;
+	private boolean CPpotion = false;
+	private int rate = 1;
+	private boolean[] visited = {false,false,false,false};
+	private Space homeSpace;
 	
+	
+	public void setHomeSpace(Space h){
+		homeSpace = h;
+	}
+	public boolean hasVisited(String kingdom){
+		switch(kingdom){
+			case "Lassallax": 
+				return visited[0];
+			case "Derelin":
+				return visited[1];
+			case "WybengaLand":
+				return visited[2];
+			case "Mangia":
+				return visited[3];
+		}
+		return false;
+	}
+	public void setVisited(String kingdom){
+		switch(kingdom){
+			case "Lassallax": 
+				visited[0] = true;
+				break;
+			case "Derelin":
+				visited[1] = true;
+				break;
+			case "WybengaLand":
+				visited[2] = true;
+				break;
+			case "Mangia":
+				visited[3] = true;
+				break;
+		}
+	}
 	public String getHomeKingdom(){
 		return homeKingdom;
 	}
 	public void setHomeKingdom(String s){
 		homeKingdom = s;
+		setVisited(homeKingdom);
 	}
 	
 	public void makeFinalPlayer(){
@@ -45,6 +92,36 @@ public class Player {
 	public void setNextPlayer(Player p){
 		next = p;
 	}
+	
+	public void endRound(){
+		if(Starving){
+			HP -= 5;
+		}
+		Drounds++;
+		Rrounds++;
+		Srounds++;
+		Lrounds++;
+		HProunds++;
+		CProunds++;
+		Deathrounds++;
+		if(HProunds >= 1 && HPpotion){
+			HP -= 20;
+			HPpotion = false;
+		}
+		if(CProunds >= 1 && CPpotion){
+			CP -= 20;
+			CPpotion = false;
+		}
+		//TODO death
+	}
+	
+	public boolean isDead(){
+		if(Deathrounds > 1){
+			dead = false;
+		} 
+		return dead;
+	}
+	
 	public Player nextPlayer() {
 		//returns the next player
 		return next;
@@ -69,6 +146,9 @@ public class Player {
 	}
 	
 	public int getGold() {
+		if(gold < 0){
+			gold = 0;
+		}
 		return gold;
 	}
 	public void setGold(int g) {
@@ -80,6 +160,12 @@ public class Player {
 	}
 	public void setFood(int f) {
 		Food = f;
+	}
+	public void Eat(){
+		Food -= rate;
+		if(Food <=0){
+			Food = 0;
+		}
 	}
 
 	public boolean[] getKeys() {
@@ -97,37 +183,64 @@ public class Player {
 	}
 
 	public boolean isStarving() {
-		// TODO chang hp?
+		if(Food<=0){
+			setStarving(true);
+			
+		}
 		return Starving;
 	}
 	public void setStarving(boolean state) {
-		// TODO change hp?
 			Starving = state;
 	}
 
 	public boolean isDiseased() {
-		// TODO change hp?
+		if(Drounds > 2){
+			setDiseased(false);
+		}
 		return Diseased;
 	}
 	public void setDiseased(boolean state) {
-		// TODO change hp?
+		if((!state)&&Diseased){
+			//were diseased, now not
+			HP = HP*2;
+		} else if(state&&(!Diseased)){
+			//weren't diseased, now are
+			HP = HP/2;
+			Drounds = 0;
+		}
 		Diseased = state;
 	}
 
 	public boolean isSlowed() {
-		// TODO cause food to decrease?
+		if(Srounds > 2){
+			setSlowed(false);
+		} 
+		if(magicItem != null && magicItem.getType() == "Climbing Gear"){
+			setSlowed(false);
+		}
 		return Slowed;
 	}
 	public void setSlowed(boolean state) {
-		// TODO cause food to decrease?
+		if(state){
+			rate = 2;
+			Srounds = 0;
+		} else {
+			rate = 1;
+		}
 		Slowed = state;
 	}
 
 	public boolean isLost() {
+		if(Lrounds > 1){
+			setLost(false);
+		}
 		return Lost;
 	}
 	public void setLost(boolean state) {
-			Lost = state;
+		if(state){
+			Lrounds = 0;
+		}
+		Lost = state;
 	}
 
 	public Space getSpace() {
@@ -138,11 +251,20 @@ public class Player {
 	}
 
 	public boolean isRobbed() {
-		// TODO remove gold?
+		if(Rrounds>1){
+			setRobbed(false);
+		}
 		return Robbed;
 	}
 	public void setRobbed(boolean state) {
-		// TODO remove gold and stuff?
+		if(state){
+			//we are being robbed
+			gold = gold - gold/10;
+			if(gold < 0){
+				gold = 0;
+			}
+			Rrounds = 0;
+		}
 		Robbed = state;
 	}
 
@@ -156,15 +278,43 @@ public class Player {
 		trap = t;
 	}
 	public void useTrap(){
-		// TODO: use trap on current space
+		currentSpace.setTrap(trap);
 		trap = null; //removes trap from inventory
+	}
+	
+	public void trapped(String t){
+		//plagued rats, theif, caltrops, roadblock
+		switch(t){
+			case "Plagued Rats":
+				//diseased == 1/2 health 
+				setDiseased(true);
+				break;
+			case "Thief":
+				//steal 1/2 of gold is gone
+				if(magicItem != null && magicItem.getType() == "Mantle of Perception"){
+					setRobbed(false);
+				} else {
+					setRobbed(true);
+				}
+				break;
+			case "Caltrops":
+				//consume twice the food
+				setSlowed(true);
+				break;
+			case "Roadblock":
+				// become lost
+				setLost(true);
+				break;
+		}
 	}
 
 	public boolean hasArmor(){
 		return armor != null;
 	}
 	public void setArmor(Armor a) {
-		// TODO add to cp?
+		if(armor != a){
+			HP += a.getEffect();
+		}
 		armor = a;
 	}
 	public Armor getArmor() {
@@ -175,7 +325,9 @@ public class Player {
 		return weapon != null;
 	}
 	public void setWeapon(Weapon w) {
-		// TODO update weapon effects
+		if(weapon != w){
+			CP += w.getEffect();
+		}
 		weapon = w;
 	}
 	public Weapon getWeapon() {
@@ -192,7 +344,22 @@ public class Player {
 		return potion;
 	}	
 	public void usePotion(){
-		//TODO: use potion to effect HP, CP, or diseased status
+		switch(potion.getType()){
+			case "Health Potion":
+				HProunds = 0;
+				HPpotion = true;
+				HP += 20;
+				break;
+			case "Battle Elixir":
+				CProunds = 0;
+				CPpotion = true;
+				CP += 20;
+				break;
+			case "Cure Disease":
+				Diseased = false;
+				setDiseased(false);
+				break;
+		}
 		potion = null; //remove potion from inventory after use
 	}
 	
@@ -200,11 +367,29 @@ public class Player {
 		return magicItem != null;
 	}
 	public void setMagicItem(MagicItem i) {
-		//TODO: add effects?
 		magicItem = i;
 	}
 	public MagicItem getMagicItem() {
 		return magicItem;
+	}
+	
+	public void death(){
+		Deathrounds = 0;
+		gold = 100;
+		HP = 100;
+		CP = 20;
+		Food = 5;
+		Lost = false;
+		Slowed = false;
+		Diseased = false;
+		Robbed = false;
+		Starving = false;
+		potion = null;
+		trap = null;
+		armor = null;
+		weapon = null;
+		magicItem = null;
+		currentSpace = homeSpace;
 	}
 
 }

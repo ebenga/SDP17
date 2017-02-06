@@ -86,7 +86,6 @@ public class Screen {
 	private JLabel lblYouHaveFound_1;
 	private JButton btnNW;
 	private JButton btnBI;
-	private JLabel label_1;
 	private JLabel label_2;
 	private JPanel keyPanel;
 	private JButton btnOK;
@@ -120,8 +119,7 @@ public class Screen {
 	private JLabel lblItem2Effect;
 	private JLabel lblItem3Effect;
 	private JButton btnDReady;
-	private JLabel lblDragonPosition;
-	
+	private JTextPane lblDragonPosition;
 	
 
 	/**
@@ -274,7 +272,7 @@ public class Screen {
 		lblcurrentPlayer = new JLabel("Knight of " + currentPlayer.getHomeKingdom());
 		lblcurrentPlayer.setHorizontalAlignment(SwingConstants.CENTER);
 		lblcurrentPlayer.setFont(new Font("Cambria", Font.BOLD, 19));
-		lblcurrentPlayer.setBounds(49, 47, 214, 47);
+		lblcurrentPlayer.setBounds(10, 47, 304, 47);
 		playerStartPanel.add(lblcurrentPlayer);
 		
 		btnInventory = new JButton("Inventory");
@@ -318,7 +316,7 @@ public class Screen {
 		playerStartPanel.add(btnMove);
 		
 		lblGold = new JLabel("Gold:");
-		lblGold.setForeground(Color.ORANGE);
+		lblGold.setForeground(Color.BLACK);
 		lblGold.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGold.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblGold.setBounds(10, 273, 104, 25);
@@ -426,7 +424,7 @@ public class Screen {
 		inventoryPanel.add(lblMagicalItems);
 		
 		magicPane = new JTextPane();
-		magicPane.setForeground(Color.MAGENTA);
+		magicPane.setForeground(Color.BLACK);
 		magicPane.setFont(new Font("Cambria", Font.BOLD, 14));
 		magicPane.setEditable(false);
 		magicPane.setBackground(Color.LIGHT_GRAY);
@@ -838,7 +836,7 @@ public class Screen {
 		});
 		btnNW.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnNW.setBackground(Color.LIGHT_GRAY);
-		btnNW.setBounds(37, 305, 108, 45);
+		btnNW.setBounds(20, 305, 132, 45);
 		ruinPanel.add(btnNW);
 		
 		btnBI = new JButton("Bring It!");
@@ -849,20 +847,22 @@ public class Screen {
 		});
 		btnBI.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBI.setBackground(Color.LIGHT_GRAY);
-		btnBI.setBounds(174, 305, 108, 45);
+		btnBI.setBounds(171, 305, 132, 45);
 		ruinPanel.add(btnBI);
-		
-		label_1 = new JLabel("Would you like to go inside?");
-		label_1.setHorizontalAlignment(SwingConstants.CENTER);
-		label_1.setForeground(Color.WHITE);
-		label_1.setFont(new Font("Cambria", Font.BOLD, 22));
-		label_1.setBounds(10, 172, 304, 122);
-		ruinPanel.add(label_1);
 		
 		label_2 = new JLabel("");
 		label_2.setIcon(new ImageIcon(Screen.class.getResource("/resources/ruins.png")));
 		label_2.setBounds(137, 139, 50, 50);
 		ruinPanel.add(label_2);
+		
+		JTextPane txtpnWouldYouLike = new JTextPane();
+		txtpnWouldYouLike.setFont(new Font("Cambria", Font.BOLD, 22));
+		txtpnWouldYouLike.setForeground(Color.WHITE);
+		txtpnWouldYouLike.setBackground(Color.DARK_GRAY);
+		txtpnWouldYouLike.setText("Would you like to go inside?");
+		txtpnWouldYouLike.setEditable(false);
+		txtpnWouldYouLike.setBounds(12, 200, 299, 94);
+		ruinPanel.add(txtpnWouldYouLike);
 		
 		//==================== CAVES PAGE ==================================
 		
@@ -888,7 +888,7 @@ public class Screen {
 		});
 		btnNoWay.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnNoWay.setBackground(Color.LIGHT_GRAY);
-		btnNoWay.setBounds(39, 305, 108, 45);
+		btnNoWay.setBounds(20, 305, 134, 45);
 		cavePanel.add(btnNoWay);
 		
 		JButton btnBringIt = new JButton("Bring It!");
@@ -899,20 +899,22 @@ public class Screen {
 		});
 		btnBringIt.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnBringIt.setBackground(Color.LIGHT_GRAY);
-		btnBringIt.setBounds(172, 305, 108, 45);
+		btnBringIt.setBounds(172, 305, 134, 45);
 		cavePanel.add(btnBringIt);
-		
-		JLabel lblWouldYouLike = new JLabel("Would you like to go inside?");
-		lblWouldYouLike.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWouldYouLike.setForeground(Color.WHITE);
-		lblWouldYouLike.setFont(new Font("Cambria", Font.BOLD, 22));
-		lblWouldYouLike.setBounds(10, 169, 304, 122);
-		cavePanel.add(lblWouldYouLike);
 		
 		JLabel lblCaveIcon = new JLabel("");
 		lblCaveIcon.setIcon(new ImageIcon(Screen.class.getResource("/resources/cave.png")));
 		lblCaveIcon.setBounds(137, 140, 50, 50);
 		cavePanel.add(lblCaveIcon);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setText("Would you like to go inside?");
+		textPane.setForeground(Color.WHITE);
+		textPane.setFont(new Font("Cambria", Font.BOLD, 22));
+		textPane.setEditable(false);
+		textPane.setBackground(Color.DARK_GRAY);
+		textPane.setBounds(12, 201, 299, 94);
+		cavePanel.add(textPane);
 		
 		//==================== ROTATE PAGE ==================================
 		
@@ -996,11 +998,12 @@ public class Screen {
 		lblDragonsTurn.setBounds(10, 94, 304, 51);
 		dragonPanel.add(lblDragonsTurn);
 		
-		lblDragonPosition = new JLabel("pos");
-		lblDragonPosition.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDragonPosition = new JTextPane();
+		lblDragonPosition.setFont(new Font("Cambria", Font.BOLD, 20));
 		lblDragonPosition.setForeground(Color.WHITE);
-		lblDragonPosition.setFont(new Font("Cambria", Font.BOLD, 18));
-		lblDragonPosition.setBounds(10, 328, 304, 51);
+		lblDragonPosition.setBackground(Color.RED);
+		lblDragonPosition.setEditable(false);
+		lblDragonPosition.setBounds(10, 333, 304, 85);
 		dragonPanel.add(lblDragonPosition);
 		
 		//===================== SETTINGS PAGE =============================
