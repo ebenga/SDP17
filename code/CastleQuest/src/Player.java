@@ -12,7 +12,8 @@ public class Player {
 	private boolean finalPlayer = false;
 	private String homeKingdom;
 	private int gold = 100;
-	private int HP = 100;
+	private int HP = 200;
+	private int effectiveHP = 200;
 	private int CP = 20;
 	private int Food = 5;
 	private boolean Lost = false;
@@ -95,7 +96,7 @@ public class Player {
 	
 	public void endRound(){
 		if(Starving){
-			HP -= 5;
+			HP -= 10;
 		}
 		Drounds++;
 		Rrounds++;
@@ -119,6 +120,9 @@ public class Player {
 		if(Deathrounds > 1){
 			dead = false;
 		} 
+		if(HP <= 0 || effectiveHP <=0){
+			dead = true;
+		}
 		return dead;
 	}
 	
@@ -374,10 +378,22 @@ public class Player {
 		return magicItem;
 	}
 	
+	public void initEffectiveHP(){
+		effectiveHP = (int)HP;
+	}
+	public int getEffectiveHP(){
+		return effectiveHP;
+	}
+	public void setEffectiveHP(int d){
+		effectiveHP = d;
+	}
+	
+	
 	public void death(){
 		Deathrounds = 0;
 		gold = 100;
-		HP = 100;
+		HP = 200;
+		effectiveHP = 200;
 		CP = 20;
 		Food = 5;
 		Lost = false;

@@ -120,7 +120,49 @@ public class Screen {
 	private JLabel lblItem3Effect;
 	private JButton btnDReady;
 	private JTextPane lblDragonPosition;
+	private String[] fightSounds = {
+			"/resources/battle1.wav","/resources/battle2.wav",
+			"/resources/battle3.wav","/resources/battle4.wav"
+	};
 	
+	private String[] standardEnemies = {
+			"Bandits","Raiders","Brigands"
+	};
+	private String[] standardEnemiesIcon = {
+			"/resources/bandits.png","/resources/raiders.png",
+			"/resources/brigands.png"
+	};
+	
+	private String[] epicEnemies = {
+			"Bear","Basilisk","Giant Snake"
+	};
+	private String[] epicEnemiesIcon = {
+			"/resources/bear.png","/resources/basilisk.png",
+			"/resources/giantsnake.png"
+	};
+	
+	private String[] royalEnemies = {
+			"Skeleton Guards","King's Elites","The Evil King"
+	}; 
+	private String[] royalEnemiesIcon = {
+			"/resources/skeletonguards.png","/resources/kingselites.png",
+			"/resources/theevilking.png"
+	};//courtyard, staircase, throneroom
+	
+	private JLabel lblFighting;
+	private JLabel lblPlayerIcon;
+	private JLabel lblVs;
+	private JLabel lblEnemyIcon;
+	private JLabel lblYou;
+	private JLabel lblThem;
+	private JLabel lblSwing;
+	private JLabel lblDamage;
+	private JLabel lblPlayerCP;
+	private JLabel lblEnemyCP;
+	private JLabel lblPlayerHP;
+	private JLabel lblEnemyHP;
+	private Enemy currentEnemy;
+	private JButton btnContinue;
 
 	/**
 	 * Launch the application.
@@ -146,6 +188,8 @@ public class Screen {
 		gameBoard = new Board();
 		initialize();
 	}
+	
+	//TODO loot
 
 	/**
 	 * Initialize the contents of the frame.
@@ -651,6 +695,84 @@ public class Screen {
 		frame.getContentPane().add(combatPanel, "name_264104150585210");
 		combatPanel.setLayout(null);
 		
+		lblPlayerIcon = new JLabel("");
+		lblPlayerIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPlayerIcon.setIcon(new ImageIcon(Screen.class.getResource("/resources/player.png")));
+		lblPlayerIcon.setBounds(56, 171, 50, 50);
+		combatPanel.add(lblPlayerIcon);
+		
+		lblFighting = new JLabel("Combat with The Evil King");
+		lblFighting.setHorizontalAlignment(SwingConstants.CENTER);
+		lblFighting.setFont(new Font("Cambria", Font.BOLD, 19));
+		lblFighting.setBounds(10, 56, 304, 50);
+		combatPanel.add(lblFighting);
+		
+		lblVs = new JLabel("VS.");
+		lblVs.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVs.setFont(new Font("Cambria", Font.BOLD, 20));
+		lblVs.setBounds(121, 171, 78, 50);
+		combatPanel.add(lblVs);
+		
+		lblEnemyIcon = new JLabel("");
+		lblEnemyIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEnemyIcon.setBounds(209, 171, 50, 50);
+		combatPanel.add(lblEnemyIcon);
+		
+		lblYou = new JLabel("YOU");
+		lblYou.setHorizontalAlignment(SwingConstants.CENTER);
+		lblYou.setFont(new Font("Cambria", Font.BOLD, 20));
+		lblYou.setBounds(31, 131, 99, 40);
+		combatPanel.add(lblYou);
+		
+		lblThem = new JLabel("THEM");
+		lblThem.setHorizontalAlignment(SwingConstants.CENTER);
+		lblThem.setFont(new Font("Cambria", Font.BOLD, 20));
+		lblThem.setBounds(188, 131, 99, 40);
+		combatPanel.add(lblThem);
+		
+		lblPlayerCP = new JLabel("CP: ");
+		lblPlayerCP.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPlayerCP.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblPlayerCP.setBounds(20, 232, 110, 27);
+		combatPanel.add(lblPlayerCP);
+		
+		lblEnemyCP = new JLabel("CP: ");
+		lblEnemyCP.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEnemyCP.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblEnemyCP.setBounds(188, 232, 110, 27);
+		combatPanel.add(lblEnemyCP);
+		
+		lblPlayerHP = new JLabel("HP: ");
+		lblPlayerHP.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPlayerHP.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblPlayerHP.setBounds(20, 270, 110, 27);
+		combatPanel.add(lblPlayerHP);
+		
+		lblEnemyHP = new JLabel("HP: ");
+		lblEnemyHP.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEnemyHP.setFont(new Font("Cambria", Font.BOLD, 17));
+		lblEnemyHP.setBounds(188, 270, 110, 27);
+		combatPanel.add(lblEnemyHP);
+		
+		lblSwing = new JLabel("");
+		lblSwing.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSwing.setBounds(132, 270, 60, 60);
+		combatPanel.add(lblSwing);
+		
+		lblDamage = new JLabel("damage");
+		lblDamage.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDamage.setFont(new Font("Cambria", Font.BOLD, 18));
+		lblDamage.setBounds(10, 331, 304, 50);
+		combatPanel.add(lblDamage);
+		
+		btnContinue = new JButton("Continue");
+		btnContinue.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnContinue.setBackground(Color.WHITE);
+		btnContinue.setBounds(99, 11, 126, 45);
+		combatPanel.add(btnContinue);
+		
+		
+		
 		//==================== BAZZAR PAGE =================================
 		
 		bazaarPanel = new JPanel();
@@ -1104,8 +1226,8 @@ public class Screen {
 				playerOne.setHomeKingdom("Lassallax");
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
+				playerOne.setPotion(new Potion("Health Potion"));
 				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour, dragon);
-				playerOne.setTrap(new Trap("Roadblock")); //TODO
 				break;
 			case 2:
 				playerOne = new Player();
@@ -1116,7 +1238,6 @@ public class Screen {
 				playerTwo.setNextPlayer(playerOne);
 				playerTwo.makeFinalPlayer();
 				gameBoard.initialize(2, playerOne, playerTwo, playerThree, playerFour, dragon);
-				playerOne.setTrap(new Trap("Roadblock")); //TODO
 				break;
 			case 3:
 				playerOne = new Player();
@@ -1349,6 +1470,9 @@ public class Screen {
 		
 		////======================== Dragon SCREEN ====================================================
 		lblDragonPosition.setText("Moving...");
+		
+		//============================= COMBAT SCREEN==================================
+		lblPlayerCP.setText("CP: " + currentPlayer.getCombatPower());
 	}
 	
 	public void spaceHandler(Space b,Space s){
@@ -1435,11 +1559,120 @@ public class Screen {
 			}
 		}
 		
-		//TODO combat
+		//Combat
+		int cran = rando(1,5);
+		if(cran == 4){
+			combat("standard");
+			return;
+		}
+		
 		//None of the above
 		play("/resources/turnOver.wav");
 		rotatePanel.setVisible(true);
+	}
+	
+	public void combat(String typ){
+		btnContinue.setVisible(false);
+		currentPlayer.initEffectiveHP();
+		currentEnemy = getEnemy(typ);
+		play("/resources/combatStart.wav");
+		populateCombat();
+		combatPanel.setVisible(true);
 		
+		Timer t = new Timer(2000,null);
+		t.addActionListener(new ActionListener(){
+		     boolean playTurn = true;
+		     public void actionPerformed(ActionEvent e){
+		    	 play(fightSounds[rando(0,3)]);
+		    	 if(playTurn){
+		    		 lblSwing.setIcon(new ImageIcon(Screen.class.getResource("/resources/playerSwing.png")));
+		    		 //TODO calculate and display damage/health
+		    		 int damage = currentPlayer.getCombatPower()/2 + currentPlayer.getCombatPower()/rando(2,4);
+		    		 lblDamage.setText("THEY TAKE " + damage + " DAMAGE");
+		    		 currentEnemy.subtractHP(damage);
+		    		 populateCombat();
+		    	 } else {
+		    		 lblSwing.setIcon(new ImageIcon(Screen.class.getResource("/resources/enemySwing.png")));
+		    		 int damage = currentEnemy.getCP()/2 + currentEnemy.getCP()/rando(2,6);
+		    		 lblDamage.setText("YOU TAKE " + damage + " DAMAGE");
+		    		 currentPlayer.setEffectiveHP(currentPlayer.getEffectiveHP()-damage);
+		    		 populateCombat();
+		    	 }
+		 		 if(currentPlayer.isDead() || currentEnemy.isDead()){
+		 			 if(currentPlayer.isDead()){
+		 				 if(rando(1,15) == 11){
+			 				 play("/resources/death2.wav");
+		 				 } else {
+		 					 play("/resources/death.wav");
+		 				 }
+		 				 currentPlayer.death();
+		 				lblDamage.setText("YOU HAVE DIED");
+		 			 } else {
+		 				play("/resources/battleWon.wav");
+		 				lblDamage.setText("THEY HAVE DIED");
+		 			 }
+		 			btnContinue.setVisible(true);
+		        	t.stop();
+		         }
+		         playTurn = !playTurn;
+		     }
+		});
+		t.setRepeats(true);
+		t.start();
+
+		//TODO loot panel?
+	}
+	public Enemy getEnemy(String typ){
+		String enemies[];
+		String icons[];
+		int eCP;
+		int eHP;
+		if(typ == "royal"){
+			enemies = royalEnemies;
+			icons = royalEnemiesIcon;
+			//~85% player stats
+			int rs = rando(2,5);
+			eCP = currentPlayer.getCombatPower();
+			eCP = eCP/2 + eCP/rs;
+			rs = rando(2,5);
+			eHP = currentPlayer.getHealthPoints();
+			eHP = eHP/2 + eHP/rs;
+		} else if(typ == "epic"){
+			enemies = epicEnemies;
+			icons = epicEnemiesIcon;
+			//~75% player stats
+			int rs = rando(3,6);
+			eCP = currentPlayer.getCombatPower();
+			eCP = eCP/2 + eCP/rs;
+			rs = rando(3,6);
+			eHP = currentPlayer.getHealthPoints();
+			eHP = eHP/2 + eHP/rs;
+		} else {
+			enemies = standardEnemies;
+			icons = standardEnemiesIcon;
+			//~50% player stats
+			int rs = rando(3,8);
+			eCP = currentPlayer.getCombatPower();
+			eCP = eCP/4 + eCP/rs;
+			rs = rando(3,8);
+			eHP = currentPlayer.getHealthPoints();
+			eHP = eHP/4 + eHP/rs;
+		}
+		//choose enemy
+		int re = rando(0,2);
+		Enemy e = new Enemy(enemies[re],eHP,eCP,icons[re]);
+		return e;
+		
+	}
+	
+	public void populateCombat(){
+		//redisplay stats
+		lblFighting.setText("Combat with " + currentEnemy.getType());
+		lblEnemyIcon.setIcon(new ImageIcon(Screen.class.getResource(currentEnemy.getIcon())));
+		lblPlayerCP.setText("CP: " + currentPlayer.getCombatPower());
+		lblPlayerHP.setText("HP: " + currentPlayer.getEffectiveHP());
+		lblEnemyCP.setText("CP: "+ currentEnemy.getCP());
+		lblEnemyHP.setText("HP: " + currentEnemy.getHP());		
 	}
 	
 	public void openBazaar(){

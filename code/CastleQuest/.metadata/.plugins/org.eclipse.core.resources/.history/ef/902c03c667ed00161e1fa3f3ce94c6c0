@@ -1,0 +1,29 @@
+/* Used to instantiate an enemy
+* should use current space and player hp/cp to generate appropriate enemy
+*/
+public class Enemy{
+	
+	private int CP;
+	private int HP;
+	private String Icon;
+	
+	public Enemy(int h, int c, String icon){
+		HP = h;
+		CP = c;
+		Icon = icon;
+	}
+	
+	public String getIcon(){
+		return Icon;
+	}
+	
+	public boolean isDead(){
+		return HP <= 0;
+	}
+	
+	
+	public void subtractHP(int h){
+		HP -= h;
+	}
+	
+}
