@@ -21,6 +21,7 @@ public class MagicItem {
 			effect = "Can't be Slowed";
 			break;
 		}
+		
 	}
 	
 	public String getType() {

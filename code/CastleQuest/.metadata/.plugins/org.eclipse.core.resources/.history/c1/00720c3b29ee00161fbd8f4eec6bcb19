@@ -1719,17 +1719,17 @@ public class Screen {
 			int rs = rando(2,3);
 			eCP = currentPlayer.getCombatPower();
 			eCP = eCP/2 + eCP/rs;
-			rs = rando(2,3);
+			rs = rando(2,4);
 			eHP = currentPlayer.getHealthPoints();
 			eHP = eHP/2 + eHP/rs;
 		} else if(typ == "epic"){
 			enemies = epicEnemies;
 			icons = epicEnemiesIcon;
 			//~75% player stats
-			int rs = rando(2,5);
+			int rs = rando(3,6);
 			eCP = currentPlayer.getCombatPower();
 			eCP = eCP/2 + eCP/rs;
-			rs = rando(3,5);
+			rs = rando(3,6);
 			eHP = currentPlayer.getHealthPoints();
 			eHP = eHP/2 + eHP/rs;
 		} else {

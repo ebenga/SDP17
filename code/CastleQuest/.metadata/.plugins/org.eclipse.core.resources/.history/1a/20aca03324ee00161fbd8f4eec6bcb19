@@ -786,7 +786,7 @@ public class Screen {
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				combatPanel.setVisible(false);
-				if(rando(1,6) != 1){
+				if(rando(1,6) == 1){
 					lootter(tier);
 				} else {
 					play("/resources/turnOver.wav");
@@ -991,8 +991,8 @@ public class Screen {
 		btnBI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ruinPanel.setVisible(false);
-				int cran = rando(1,5);
-				if(cran != 2){
+				int cran = rando(1,3);
+				if(cran <= 2){
 					combat("epic");
 					return;
 				} else {
@@ -1050,8 +1050,8 @@ public class Screen {
 		btnBringIt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cavePanel.setVisible(false);
-				int cran = rando(1,5);
-				if(cran != 2){
+				int cran = rando(1,3);
+				if(cran <= 2){
 					combat("epic");
 					return;
 				} else {
@@ -1264,7 +1264,7 @@ public class Screen {
 		btnAccept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				lootPanel.setVisible(false);
-				accept();
+				accept(lblLootName.getText());
 				play("/resources/turnOver.wav");
 				rotatePanel.setVisible(true);
 			}
@@ -1558,7 +1558,6 @@ public class Screen {
 		
 		//============================= COMBAT SCREEN==================================
 		lblPlayerCP.setText("CP: " + currentPlayer.getCombatPower());
-		lblDamage.setText("");
 	}
 	
 	public void spaceHandler(Space b,Space s){
@@ -1665,7 +1664,7 @@ public class Screen {
 		populateCombat();
 		combatPanel.setVisible(true);
 		
-		Timer t = new Timer(1000,null);
+		Timer t = new Timer(1500,null);
 		t.addActionListener(new ActionListener(){
 		     boolean playTurn = true;
 		     public void actionPerformed(ActionEvent e){
@@ -1678,7 +1677,7 @@ public class Screen {
 		    		 populateCombat();
 		    	 } else {
 		    		 lblSwing.setIcon(new ImageIcon(Screen.class.getResource("/resources/enemySwing.png")));
-		    		 int damage = currentEnemy.getCP()/2 + currentEnemy.getCP()/rando(2,4);
+		    		 int damage = currentEnemy.getCP()/2 + currentEnemy.getCP()/rando(2,6);
 		    		 lblDamage.setText("YOU TAKE " + damage + " DAMAGE");
 		    		 currentPlayer.setEffectiveHP(currentPlayer.getEffectiveHP()-damage);
 		    		 populateCombat();
@@ -1716,20 +1715,20 @@ public class Screen {
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			//~85% player stats
-			int rs = rando(2,3);
+			int rs = rando(2,5);
 			eCP = currentPlayer.getCombatPower();
 			eCP = eCP/2 + eCP/rs;
-			rs = rando(2,3);
+			rs = rando(2,5);
 			eHP = currentPlayer.getHealthPoints();
 			eHP = eHP/2 + eHP/rs;
 		} else if(typ == "epic"){
 			enemies = epicEnemies;
 			icons = epicEnemiesIcon;
 			//~75% player stats
-			int rs = rando(2,5);
+			int rs = rando(3,6);
 			eCP = currentPlayer.getCombatPower();
 			eCP = eCP/2 + eCP/rs;
-			rs = rando(3,5);
+			rs = rando(3,6);
 			eHP = currentPlayer.getHealthPoints();
 			eHP = eHP/2 + eHP/rs;
 		} else {
@@ -2054,7 +2053,7 @@ public class Screen {
 				} else {
 					//trap
 					String trp = traps[rando(0,3)];
-					lblLootName.setText(trp);
+					lblLootName.setToolTipText(trp);
 					if(trp == "Plagued Rats"){
 						lblLootValue.setText("Causes next player in space to become Diseased");
 					} else if(trp == "Thief"){
@@ -2117,46 +2116,12 @@ public class Screen {
 		}	
 	}
 	
-	public void accept(){
+	public void accept(String name){
 		//add item/gold/magic/trap to player inventory
-		String item = lblLootName.getText();
-		String effect = lblLootValue.getText();
-		switch(item){
-			case "Gold":
-				currentPlayer.setGold(currentPlayer.getGold()+Integer.valueOf(effect));
-				break;
-			case "Health Potion":
-				currentPlayer.setPotion(new Potion(item));
-				break;
-			case "Battle Elixir":
-				currentPlayer.setPotion(new Potion(item));
-				break;
-			case "Cure Disease":
-				currentPlayer.setPotion(new Potion(item));
-				break;
-			case "Plagued Rats":
-				currentPlayer.setTrap(new Trap(item));
-				break;
-			case "Thief":
-				currentPlayer.setTrap(new Trap(item));
-				break;
-			case "Caltrops":
-				currentPlayer.setTrap(new Trap(item));
-				break;
-			case "Roadblock":
-				currentPlayer.setTrap(new Trap(item));
-				break;
-			case "Mangel-Slayer":
-				currentPlayer.setMagicItem(new MagicItem(item));
-				break;
-			case "Mantle of Perception":
-				currentPlayer.setMagicItem(new MagicItem(item));
-				break;
-			case "Climbing Gear":
-				currentPlayer.setMagicItem(new MagicItem(item));
-				break;
-		}
+		//TODO
 	}
+	
+	
 	
 	//plays .wav files
 	public void play(String f){
