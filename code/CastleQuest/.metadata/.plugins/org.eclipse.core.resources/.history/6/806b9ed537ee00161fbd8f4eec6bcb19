@@ -114,9 +114,6 @@ public class Player {
 			CPpotion = false;
 		}
 		//TODO death
-		if(HP <= 0 ){
-			death();
-		}
 	}
 	
 	public boolean isDead(){

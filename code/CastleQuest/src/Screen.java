@@ -786,8 +786,13 @@ public class Screen {
 		btnContinue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				combatPanel.setVisible(false);
-				if(rando(1,6) != 1){
-					lootter(tier);
+				if(!currentPlayer.isDead()){
+					if(rando(1,6) != 1){
+						lootter(tier);
+					} else {
+						play("/resources/turnOver.wav");
+						rotatePanel.setVisible(true);
+					}
 				} else {
 					play("/resources/turnOver.wav");
 					rotatePanel.setVisible(true);
@@ -1376,7 +1381,7 @@ public class Screen {
 			stats += "Slowed: Consuming 2x Food\n";
 		}
 		if(currentPlayer.isStarving()){
-			stats += "Starving: Loosing HP\n";
+			stats += "Starving: Losing HP\n";
 		}
 		if(currentPlayer.isDead()){
 			stats += "You Died!\n";
@@ -1559,6 +1564,9 @@ public class Screen {
 		//============================= COMBAT SCREEN==================================
 		lblPlayerCP.setText("CP: " + currentPlayer.getCombatPower());
 		lblDamage.setText("");
+		
+		//============================= LOOT SCREEN ==========================
+		lblLootValue.setText("");
 	}
 	
 	public void spaceHandler(Space b,Space s){
@@ -1568,7 +1576,7 @@ public class Screen {
 		//Enter new kingdom and get a key
 		if(s.isKingdom() && !currentPlayer.hasVisited(s.getType())){
 			currentPlayer.setVisited(s.getType());
-			txtpnDesc.setText("Congradulations!\nThe people of " + s.getType() + " have granted you a key!");
+			txtpnDesc.setText("Congratulations!\nThe people of " + s.getType() + " have granted you a key!");
 			//courage wisdom strength
 			if(!k[0]){
 				currentPlayer.setKeyofCourage(true);
@@ -1672,13 +1680,13 @@ public class Screen {
 		    	 play(fightSounds[rando(0,3)]);
 		    	 if(playTurn){
 		    		 lblSwing.setIcon(new ImageIcon(Screen.class.getResource("/resources/playerSwing.png")));
-		    		 int damage = currentPlayer.getCombatPower()/2 + currentPlayer.getCombatPower()/rando(2,4);
+		    		 int damage = currentPlayer.getCombatPower()/2 + currentPlayer.getCombatPower()/rando(2,5);
 		    		 lblDamage.setText("THEY TAKE " + damage + " DAMAGE");
 		    		 currentEnemy.subtractHP(damage);
 		    		 populateCombat();
 		    	 } else {
 		    		 lblSwing.setIcon(new ImageIcon(Screen.class.getResource("/resources/enemySwing.png")));
-		    		 int damage = currentEnemy.getCP()/2 + currentEnemy.getCP()/rando(2,4);
+		    		 int damage = currentEnemy.getCP()/2 + currentEnemy.getCP()/rando(2,5);
 		    		 lblDamage.setText("YOU TAKE " + damage + " DAMAGE");
 		    		 currentPlayer.setEffectiveHP(currentPlayer.getEffectiveHP()-damage);
 		    		 populateCombat();
@@ -1705,6 +1713,7 @@ public class Screen {
 		t.setRepeats(true);
 		t.start();
 	}
+	
 	public Enemy getEnemy(String typ){
 		String enemies[];
 		String icons[];
@@ -1715,39 +1724,29 @@ public class Screen {
 		if(typ == "royal"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
-			//~85% player stats
-			int rs = rando(2,3);
-			eCP = currentPlayer.getCombatPower();
-			eCP = eCP/2 + eCP/rs;
-			rs = rando(2,3);
-			eHP = currentPlayer.getHealthPoints();
-			eHP = eHP/2 + eHP/rs;
+			int rs = rando(2,5);
+			eCP = 4*rs;
+			rs = rando(3,5);
+			eHP = 30*rs;
 		} else if(typ == "epic"){
 			enemies = epicEnemies;
 			icons = epicEnemiesIcon;
-			//~75% player stats
-			int rs = rando(2,5);
-			eCP = currentPlayer.getCombatPower();
-			eCP = eCP/2 + eCP/rs;
+			int rs = rando(3,5);
+			eCP = 6*rs;
 			rs = rando(3,5);
-			eHP = currentPlayer.getHealthPoints();
-			eHP = eHP/2 + eHP/rs;
+			eHP = 40*rs;
 		} else {
 			enemies = standardEnemies;
 			icons = standardEnemiesIcon;
-			//~50% player stats
-			int rs = rando(3,8);
-			eCP = currentPlayer.getCombatPower();
-			eCP = eCP/4 + eCP/rs;
-			rs = rando(3,8);
-			eHP = currentPlayer.getHealthPoints();
-			eHP = eHP/4 + eHP/rs;
+			int rs = rando(2,6);
+			eCP = 4*rs;
+			rs = rando(3,6);
+			eHP = 30*rs;
 		}
 		//choose enemy
 		int re = rando(0,2);
 		Enemy e = new Enemy(enemies[re],eHP,eCP,icons[re]);
 		return e;
-		
 	}
 	
 	public void populateCombat(){
@@ -2067,7 +2066,13 @@ public class Screen {
 				}
 			} else if(r>=9){
 				//magic item
-				String m = magicItems[rando(0,2)];
+				String m;
+				if(rando(1,10)<9){
+					m = magicItems[rando(1,2)];
+				} else {
+					m = magicItems[rando(0,2)];
+				}
+				
 				MagicItem temp = new MagicItem(m);
 				lblLootName.setText(m);
 				lblLootValue.setText(temp.getDesc());
@@ -2097,7 +2102,7 @@ public class Screen {
 				} else {
 					//trap
 					String trp = traps[rando(0,3)];
-					lblLootName.setToolTipText(trp);
+					lblLootName.setText(trp);
 					if(trp == "Plagued Rats"){
 						lblLootValue.setText("Causes next player in space to become Diseased");
 					} else if(trp == "Thief"){
