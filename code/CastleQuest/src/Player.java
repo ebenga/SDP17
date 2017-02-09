@@ -14,7 +14,7 @@ public class Player {
 	private int gold = 100;
 	private int HP = 200;
 	private int effectiveHP = 200;
-	private int CP = 20;
+	private int CP = 20; 
 	private int Food = 5;
 	private boolean Lost = false;
 	private boolean Slowed = false;
@@ -22,7 +22,7 @@ public class Player {
 	private boolean Robbed = false;
 	private boolean Starving = false;
 	private boolean dead = false;
-	private boolean[] Keys = {false,false,false};
+	private boolean[] Keys = {false,false,false}; 
 	private Potion potion;
 	private Trap trap;
 	private Armor armor;
@@ -113,7 +113,6 @@ public class Player {
 			CP -= 20;
 			CPpotion = false;
 		}
-		//TODO death
 		if(HP <= 0 ){
 			death();
 		}

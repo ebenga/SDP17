@@ -181,6 +181,11 @@ public class Screen {
 	private JLabel lblLootFound;
 	private JButton btnDecline;
 	private JTextPane lblLootValue;
+	private JPanel victoryPanel;
+	private JLabel lblVictor;
+	private JLabel label_1;
+	private JButton btnGameWon;
+	private JLabel lblGameOver;
 	
 
 	/**
@@ -787,6 +792,11 @@ public class Screen {
 			public void actionPerformed(ActionEvent e) {
 				combatPanel.setVisible(false);
 				if(!currentPlayer.isDead()){
+					if(tier == "Throne Room"){
+						victoryPanel.setVisible(true);
+						play("/resources/finalvictory.wav");
+						return;
+					}
 					if(rando(1,6) != 1){
 						lootter(tier);
 					} else {
@@ -1302,8 +1312,46 @@ public class Screen {
 		lblLootValue.setFont(new Font("Cambria", Font.BOLD, 18));
 		lblLootValue.setEditable(false);
 		lblLootValue.setBackground(Color.LIGHT_GRAY);
-		lblLootValue.setBounds(10, 223, 304, 213);
+		lblLootValue.setBounds(35, 223, 269, 213);
 		lootPanel.add(lblLootValue);
+		
+		victoryPanel = new JPanel();
+		victoryPanel.setLayout(null);
+		victoryPanel.setBackground(Color.WHITE);
+		frame.getContentPane().add(victoryPanel, "name_22782025038433");
+		
+		lblVictor = new JLabel("YOU ARE VICTORIOUS");
+		lblVictor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblVictor.setForeground(Color.BLACK);
+		lblVictor.setFont(new Font("Dialog", Font.BOLD, 22));
+		lblVictor.setBounds(10, 116, 304, 51);
+		victoryPanel.add(lblVictor);
+		
+		label_1 = new JLabel("");
+		label_1.setIcon(new ImageIcon(Screen.class.getResource("/resources/victory.png")));
+		label_1.setBounds(33, 151, 255, 321);
+		victoryPanel.add(label_1);
+		
+		btnGameWon = new JButton("Done");
+		btnGameWon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				victoryPanel.setVisible(false);
+				currentPlayer = new Player();
+				gameBoard = new Board();
+				startPanel.setVisible(true);
+			}
+		});
+		btnGameWon.setFont(new Font("Dialog", Font.BOLD, 16));
+		btnGameWon.setBackground(Color.LIGHT_GRAY);
+		btnGameWon.setBounds(106, 22, 101, 45);
+		victoryPanel.add(btnGameWon);
+		
+		lblGameOver = new JLabel("GAME OVER");
+		lblGameOver.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameOver.setForeground(Color.RED);
+		lblGameOver.setFont(new Font("Dialog", Font.BOLD, 22));
+		lblGameOver.setBounds(10, 53, 304, 82);
+		victoryPanel.add(lblGameOver);
 		
 		
 	}
@@ -1316,7 +1364,6 @@ public class Screen {
 				playerOne.setHomeKingdom("Lassallax");
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
-				playerOne.setPotion(new Potion("Health Potion"));
 				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour, dragon);
 				break;
 			case 2:
@@ -1653,6 +1700,19 @@ public class Screen {
 			}
 		}
 		
+		if(s.getType()=="Courtyard"){
+			combat(s.getType());
+			return;
+		}
+		if(s.getType()=="Royal Staircase"){
+			combat(s.getType());
+			return;
+		}
+		if(s.getType()=="Throne Room"){
+			combat(s.getType());
+			return;
+		}
+		
 		//Combat
 		int cran = rando(1,5);
 		if(cran == 4){
@@ -1720,14 +1780,27 @@ public class Screen {
 		tier = typ;
 		int eCP;
 		int eHP;
-		//TODO set up royal enemies differently
-		if(typ == "royal"){
+		if(typ == "Throne Room"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
-			int rs = rando(2,5);
-			eCP = 4*rs;
-			rs = rando(3,5);
-			eHP = 30*rs;
+			eCP = 40;
+			eHP = 250;
+			Enemy e = new Enemy(enemies[2],eHP,eCP,icons[2]);
+			return e;
+		} else if(typ == "Royal Staircase"){
+			enemies = royalEnemies;
+			icons = royalEnemiesIcon;
+			eCP = 35;
+			eHP = 240;
+			Enemy e = new Enemy(enemies[1],eHP,eCP,icons[1]);
+			return e;
+		} else if(typ == "Courtyard"){
+			enemies = royalEnemies;
+			icons = royalEnemiesIcon;
+			eCP = 30;
+			eHP = 230;
+			Enemy e = new Enemy(enemies[0],eHP,eCP,icons[0]);
+			return e;
 		} else if(typ == "epic"){
 			enemies = epicEnemies;
 			icons = epicEnemiesIcon;
@@ -2023,7 +2096,7 @@ public class Screen {
 	public void lootter(String type){
 		play("/resources/happy.wav");
 		lootPanel.setVisible(true);
-		if(type == "Royal"){
+		if(type == "Royal Staircase" || type == "Courtyard" || type == "Throne Room"){
 			//Royal: usually potion
 			String pot = potions[rando(0,1)];
 			if(pot == "Health Potion"){

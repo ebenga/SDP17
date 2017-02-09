@@ -25,7 +25,6 @@ public class Trap {
 	}
 	
 	public String getType() {
-		// TODO Auto-generated method stub
 		return type;
 	}
 	public String getDesc(){

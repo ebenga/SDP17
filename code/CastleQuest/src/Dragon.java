@@ -18,7 +18,6 @@ public class Dragon{
 	}
 
 	public void addGold(int g) {
-		// TODO Auto-generated method stub
 		gold += g;
 	}
 	

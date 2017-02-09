@@ -29,7 +29,6 @@ public class Space {
 		}
 	}
 	
-	//s.outer(this)? replicate for two-way relationship?
 	public void setInner(Space s){
 		innerNeighbor = s;
 	}
