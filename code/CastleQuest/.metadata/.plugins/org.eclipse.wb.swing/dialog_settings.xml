@@ -13,9 +13,9 @@
 		<item value="365" key="height"/>
 	</section>
 	<section name="org.eclipse.wb.internal.swing.model.property.editor.icon.IconPropertyEditor$ImageDialog">
-		<item value="569" key="x"/>
+		<item value="399" key="x"/>
 		<item value="881" key="width"/>
-		<item value="209" key="y"/>
-		<item value="580" key="height"/>
+		<item value="155" key="y"/>
+		<item value="588" key="height"/>
 	</section>
 </section>
