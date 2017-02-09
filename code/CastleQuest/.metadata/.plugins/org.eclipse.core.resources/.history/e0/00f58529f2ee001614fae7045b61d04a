@@ -239,7 +239,8 @@ public class Screen {
 		JButton btnLoad = new JButton("Load");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					//TODO Loading
+					startPanel.setVisible(false);
+					settingsPanel.setVisible(true);
 			}
 		});
 		btnLoad.setBackground(new Color(128, 128, 128));
@@ -1195,26 +1196,12 @@ public class Screen {
 		settingsPanel.setLayout(null);
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO saving
-			}
-		});
 		btnSave.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnSave.setBackground(Color.WHITE);
 		btnSave.setBounds(89, 128, 162, 66);
 		settingsPanel.add(btnSave);
 		
 		JButton btnQuit = new JButton("Quit");
-		btnQuit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				settingsPanel.setVisible(false);
-				currentPlayer = new Player();
-				play("/resources/turnOver.wav");
-				gameBoard = new Board();
-				startPanel.setVisible(true);
-			}
-		});
 		btnQuit.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnQuit.setBackground(Color.WHITE);
 		btnQuit.setBounds(89, 265, 162, 66);
@@ -1358,8 +1345,6 @@ public class Screen {
 		lblLootValue.setBackground(Color.LIGHT_GRAY);
 		lblLootValue.setBounds(35, 223, 269, 213);
 		lootPanel.add(lblLootValue);
-		
-		//===================== VICTORY PANEL ===============================
 		
 		victoryPanel = new JPanel();
 		victoryPanel.setLayout(null);

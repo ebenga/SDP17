@@ -44,7 +44,7 @@ public class Screen {
 	public Player currentPlayer;
 	public Dragon dragon = new Dragon();
 	private boolean dragonLives = true;
-	private JButton btnSettings;
+	private JButton btnSave;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
 	private JButton btnMove;
@@ -233,13 +233,14 @@ public class Screen {
 		JLabel titleLabel = new JLabel("CASTLE QUEST");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Cambria", Font.BOLD, 30));
-		titleLabel.setBounds(18, 64, 304, 94);
+		titleLabel.setBounds(10, 64, 304, 94);
 		startPanel.add(titleLabel);
 		
 		JButton btnLoad = new JButton("Load");
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					//TODO Loading
+					startPanel.setVisible(false);
+					settingsPanel.setVisible(true);
 			}
 		});
 		btnLoad.setBackground(new Color(128, 128, 128));
@@ -250,7 +251,7 @@ public class Screen {
 		JLabel lblNewLabel = new JLabel("Number of Players:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Cambria", Font.BOLD, 16));
-		lblNewLabel.setBounds(44, 148, 251, 25);
+		lblNewLabel.setBounds(35, 148, 251, 25);
 		startPanel.add(lblNewLabel);
 		
 		JButton btnOnePlayer = new JButton("ONE");
@@ -265,7 +266,7 @@ public class Screen {
 		});
 		btnOnePlayer.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnOnePlayer.setBackground(Color.WHITE);
-		btnOnePlayer.setBounds(110, 184, 119, 40);
+		btnOnePlayer.setBounds(90, 184, 119, 40);
 		startPanel.add(btnOnePlayer);
 		
 		JButton btnTwoPlayer = new JButton("TWO");
@@ -280,7 +281,7 @@ public class Screen {
 		});
 		btnTwoPlayer.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnTwoPlayer.setBackground(Color.WHITE);
-		btnTwoPlayer.setBounds(110, 242, 119, 40);
+		btnTwoPlayer.setBounds(90, 242, 119, 40);
 		startPanel.add(btnTwoPlayer);
 		
 		JButton btnThreePlayer = new JButton("THREE");
@@ -295,7 +296,7 @@ public class Screen {
 		});
 		btnThreePlayer.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnThreePlayer.setBackground(Color.WHITE);
-		btnThreePlayer.setBounds(109, 304, 121, 40);
+		btnThreePlayer.setBounds(90, 304, 121, 40);
 		startPanel.add(btnThreePlayer);
 		
 		JButton btnFourPlayer = new JButton("FOUR");
@@ -310,7 +311,7 @@ public class Screen {
 		});
 		btnFourPlayer.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnFourPlayer.setBackground(Color.WHITE);
-		btnFourPlayer.setBounds(109, 361, 121, 40);
+		btnFourPlayer.setBounds(88, 361, 121, 40);
 		startPanel.add(btnFourPlayer);
 		
 		//====================== PLAYER START PAGE =========================
@@ -327,18 +328,12 @@ public class Screen {
 		separator.setBounds(120, 273, 1, 150);
 		playerStartPanel.add(separator);
 		
-		btnSettings = new JButton("Settings");
-		btnSettings.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				playerStartPanel.setVisible(false);
-				play("/resources/blip.wav");
-				settingsPanel.setVisible(true);
-			}
-		});
-		btnSettings.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnSettings.setBackground(Color.GRAY);
-		btnSettings.setBounds(200, 10, 134, 29);
-		playerStartPanel.add(btnSettings);
+		btnSave = new JButton("Save");
+		btnSave.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnSave.setBackground(Color.GRAY);
+		btnSave.setBounds(204, 11, 110, 25);
+		playerStartPanel.add(btnSave);
+
 
 		lblcurrentPlayer = new JLabel("Knight of " + currentPlayer.getHomeKingdom());
 		lblcurrentPlayer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1190,48 +1185,9 @@ public class Screen {
 		//===================== SETTINGS PAGE =============================
 		
 		settingsPanel = new JPanel();
-		settingsPanel.setBackground(Color.BLACK);
+		settingsPanel.setBackground(Color.LIGHT_GRAY);
 		frame.getContentPane().add(settingsPanel, "name_257950747583981");
 		settingsPanel.setLayout(null);
-		
-		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO saving
-			}
-		});
-		btnSave.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnSave.setBackground(Color.WHITE);
-		btnSave.setBounds(89, 128, 162, 66);
-		settingsPanel.add(btnSave);
-		
-		JButton btnQuit = new JButton("Quit");
-		btnQuit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				settingsPanel.setVisible(false);
-				currentPlayer = new Player();
-				play("/resources/turnOver.wav");
-				gameBoard = new Board();
-				startPanel.setVisible(true);
-			}
-		});
-		btnQuit.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnQuit.setBackground(Color.WHITE);
-		btnQuit.setBounds(89, 265, 162, 66);
-		settingsPanel.add(btnQuit);
-		
-		JButton btnBack_1 = new JButton("Back");
-		btnBack_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				settingsPanel.setVisible(false);
-				play("/resources/blip.wav");
-				playerStartPanel.setVisible(true);
-			}
-		});
-		btnBack_1.setFont(new Font("Dialog", Font.BOLD, 16));
-		btnBack_1.setBackground(Color.WHITE);
-		btnBack_1.setBounds(6, 6, 124, 33);
-		settingsPanel.add(btnBack_1);
 		
 		//====================== TRAP PAGE ==================================
 		
@@ -1358,8 +1314,6 @@ public class Screen {
 		lblLootValue.setBackground(Color.LIGHT_GRAY);
 		lblLootValue.setBounds(35, 223, 269, 213);
 		lootPanel.add(lblLootValue);
-		
-		//===================== VICTORY PANEL ===============================
 		
 		victoryPanel = new JPanel();
 		victoryPanel.setLayout(null);
