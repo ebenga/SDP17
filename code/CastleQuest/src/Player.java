@@ -6,7 +6,7 @@
  * where the player is
  * LED color, player looks, other customizations
  */
-public class Player {
+public class Player implements java.io.Serializable{
 
 	private Player next;
 	private boolean finalPlayer = false;

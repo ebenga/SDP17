@@ -1,12 +1,16 @@
 import java.util.Random;
 
-public class Board {
+public class Board implements java.io.Serializable {
 
-	private Space p1; //space where p1 is
-	private Space p2; //space where p2 is
-	private Space p3; //space where p3 is
-	private Space p4; //space where p4 is
-	private Space d; //space where d is
+	public Player p1; //space where p1 is
+	public Player p2; //space where p2 is
+	public Player p3; //space where p3 is
+	public Player p4; //space where p4 is
+	public Dragon d; //space where d is
+	public Player currentPlayer;
+	public int numPlayer;
+	public boolean dragonLives;
+	
 	
 	//======================== ALL GAME SPACES =========================
 	private Space[] spaces = new Space[68];
@@ -423,7 +427,12 @@ public class Board {
 	}
 	
 	public void initialize(int numPlayers, Player play1, Player play2, Player play3, Player play4, Dragon dragon){
-		
+		p1 = play1;
+		p2 = play2;
+		p3 = play3;
+		p4 = play4;
+		d = dragon;
+		numPlayer = numPlayers;
 		switch(numPlayers){
 			case 1: 
 				play1.setSpace(spaces[54]);

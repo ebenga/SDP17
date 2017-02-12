@@ -1,5 +1,5 @@
 
-public class Weapon {
+public class Weapon implements java.io.Serializable{
 
 	private String type;
 	private int effect;

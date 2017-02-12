@@ -1,7 +1,7 @@
 /* Used to instantiate an enemy
 * should use current space and player hp/cp to generate appropriate enemy
 */
-public class Enemy{
+public class Enemy implements java.io.Serializable{
 	
 	private int CP;
 	private int HP;

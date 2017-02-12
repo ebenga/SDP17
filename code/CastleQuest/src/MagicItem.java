@@ -1,5 +1,5 @@
 
-public class MagicItem {
+public class MagicItem implements java.io.Serializable{
 
 	private String type;
 	private String desc;

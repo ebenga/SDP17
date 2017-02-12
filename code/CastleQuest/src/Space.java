@@ -4,7 +4,7 @@
  * keys are player dependent, so only the player who needs this key could get it
  */
 
-public class Space {
+public class Space implements java.io.Serializable{
 
 	private int id;
 	private Space innerNeighbor;

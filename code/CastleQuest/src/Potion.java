@@ -1,5 +1,5 @@
 
-public class Potion {
+public class Potion implements java.io.Serializable{
 
 	private String type;
 	

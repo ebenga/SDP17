@@ -1,5 +1,5 @@
 
-public class Dragon{
+public class Dragon implements java.io.Serializable{
 
 	private Space space;
 	private int gold = 300;

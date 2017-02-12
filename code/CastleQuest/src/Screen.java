@@ -21,6 +21,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 import javax.swing.Timer;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+
 public class Screen {
 
 	private Board gameBoard;
@@ -43,7 +49,7 @@ public class Screen {
 	public Player playerFour;
 	public Player currentPlayer;
 	public Dragon dragon = new Dragon();
-	private boolean dragonLives = true;
+	public boolean dragonLives = true;
 	private JButton btnSettings;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
@@ -240,6 +246,40 @@ public class Screen {
 		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					//TODO Loading
+				Board gboard = null;
+			      try {
+			    	 File cwdFile = new File (".");
+				     String cwd = cwdFile.getAbsolutePath();
+				     File f = new File(cwd+"gboard.ser");
+			         FileInputStream fileIn = new FileInputStream(f);
+			         ObjectInputStream in = new ObjectInputStream(fileIn);
+			         gboard = (Board) in.readObject();
+			         in.close();
+			         fileIn.close();
+			         gameBoard = gboard;
+			         currentPlayer = gameBoard.currentPlayer;
+			         playerOne = gameBoard.p1;
+			         playerTwo = gameBoard.p2;
+			         playerThree = gameBoard.p3;
+			         playerFour = gameBoard.p4;
+			         dragon = gameBoard.d;
+			         numPlayers = gameBoard.numPlayer;
+			         dragonLives = gameBoard.dragonLives;
+			         repopulate();
+			         startPanel.setVisible(false);
+			         playerStartPanel.setVisible(true);
+			         
+			      }catch(IOException i) {
+			         i.printStackTrace();
+			         btnLoad.setText("Error");
+			         return;
+			      }catch(ClassNotFoundException c) {
+			         System.out.println("Board class not found");
+			         btnLoad.setText("Error");
+			         c.printStackTrace();
+			         return;
+				}
+			      System.out.println("Play1.getFood: " + gboard.p1.getFood());
 			}
 		});
 		btnLoad.setBackground(new Color(128, 128, 128));
@@ -1198,6 +1238,29 @@ public class Screen {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO saving
+			     try {
+			    	 File cwdFile = new File (".");
+			    	 String cwd = cwdFile.getAbsolutePath();
+			    	 File f = new File(cwd+"gboard.ser");
+			    	 if (!f.exists()) {
+							f.createNewFile();
+					}
+			         FileOutputStream fileOut = new FileOutputStream(f);
+			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			         
+			         gameBoard.currentPlayer = currentPlayer;
+			         gameBoard.dragonLives = dragonLives;
+			         
+			         out.writeObject(gameBoard);
+			         out.close();
+			         fileOut.close();
+			         btnSave.setText("Saved");
+			         
+			         System.out.println("Serialized data is saved in /resources/gboard.ser");
+			      }catch(IOException  i) {
+			         i.printStackTrace();
+			         btnSave.setText("Error");
+			      }
 			}
 		});
 		btnSave.setFont(new Font("Dialog", Font.BOLD, 20));

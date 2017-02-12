@@ -1,5 +1,5 @@
 
-public class Trap {
+public class Trap implements java.io.Serializable{
 
 	
 	//plagued rats, theif, caltrops, roadblock
