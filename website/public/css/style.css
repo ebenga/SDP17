@@ -1,0 +1,15 @@
+.no-bg {
+    background: none;
+}
+
+.thing{
+  background-color: #bfbfbf;
+}
+.mail{
+  color: #33adff;
+}
+
+iframe {
+    width: 300px;
+    height: 300px;
+}
