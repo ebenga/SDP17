@@ -193,9 +193,6 @@ public class Screen {
 	private JButton btnGameWon;
 	private JLabel lblGameOver;
 	private JButton btnLoadUsb;
-	private JButton btnSaveUSB;
-	private JButton btnSaveLocal;
-	private JButton btnLoadlocal;
 	
 
 	/**
@@ -246,13 +243,16 @@ public class Screen {
 		titleLabel.setBounds(18, 64, 304, 94);
 		startPanel.add(titleLabel);
 		
-		btnLoadlocal = new JButton("Load Local");
+		JButton btnLoadlocal = new JButton("Load Local");
 		btnLoadlocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					//TODO Loading locally
+					//TODO Loading
+					//TODO load from new save files
 				Board gboard = null;
 			      try {
-			    	 File f = new File ("/home/pi/Game_Saves/gboard.ser");
+			    	 File cwdFile = new File (".");
+				     String cwd = cwdFile.getAbsolutePath();
+				     File f = new File(cwd+"gboard.ser");
 			         FileInputStream fileIn = new FileInputStream(f);
 			         ObjectInputStream in = new ObjectInputStream(fileIn);
 			         gboard = (Board) in.readObject();
@@ -270,6 +270,7 @@ public class Screen {
 			         repopulate();
 			         startPanel.setVisible(false);
 			         playerStartPanel.setVisible(true);
+			         
 			      }catch(IOException i) {
 			         i.printStackTrace();
 			         btnLoadlocal.setText("Error");
@@ -280,53 +281,13 @@ public class Screen {
 			         c.printStackTrace();
 			         return;
 				}
+			      System.out.println("Play1.getFood: " + gboard.p1.getFood());
 			}
 		});
-		btnLoadlocal.setBackground(Color.WHITE);
+		btnLoadlocal.setBackground(new Color(128, 128, 128));
 		btnLoadlocal.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnLoadlocal.setBounds(175, 11, 139, 25);
 		startPanel.add(btnLoadlocal);
-		
-		btnLoadUsb = new JButton("Load USB");
-		btnLoadUsb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Loading Remotely
-				Board gboard = null;
-			    try {
-			    	 File f = new File ("/media/pi/38AD-5C62/gboard.ser");
-			         FileInputStream fileIn = new FileInputStream(f);
-			         ObjectInputStream in = new ObjectInputStream(fileIn);
-			         gboard = (Board) in.readObject();
-			         in.close();
-			         fileIn.close();
-			         gameBoard = gboard;
-			         currentPlayer = gameBoard.currentPlayer;
-			         playerOne = gameBoard.p1;
-			         playerTwo = gameBoard.p2;
-			         playerThree = gameBoard.p3;
-			         playerFour = gameBoard.p4;
-			         dragon = gameBoard.d;
-			         numPlayers = gameBoard.numPlayer;
-			         dragonLives = gameBoard.dragonLives;
-			         repopulate();
-			         startPanel.setVisible(false);
-			         playerStartPanel.setVisible(true);
-			    }catch(IOException i) {
-			         i.printStackTrace();
-			         btnLoadUsb.setText("Failed");
-			         return;
-			    }catch(ClassNotFoundException c) {
-			         System.out.println("Board class not found");
-			         btnLoadUsb.setText("Error");
-			         c.printStackTrace();
-			         return;
-				}
-			}
-		});
-		btnLoadUsb.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnLoadUsb.setBackground(Color.WHITE);
-		btnLoadUsb.setBounds(10, 11, 139, 25);
-		startPanel.add(btnLoadUsb);
 		
 		JLabel lblNewLabel = new JLabel("Number of Players:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -393,6 +354,12 @@ public class Screen {
 		btnFourPlayer.setBackground(Color.WHITE);
 		btnFourPlayer.setBounds(109, 361, 121, 40);
 		startPanel.add(btnFourPlayer);
+		
+		btnLoadUsb = new JButton("Load USB");
+		btnLoadUsb.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnLoadUsb.setBackground(Color.GRAY);
+		btnLoadUsb.setBounds(10, 11, 139, 25);
+		startPanel.add(btnLoadUsb);
 		
 		//====================== PLAYER START PAGE =========================
 		
@@ -1275,7 +1242,7 @@ public class Screen {
 		frame.getContentPane().add(settingsPanel, "name_257950747583981");
 		settingsPanel.setLayout(null);
 		
-		btnSaveLocal = new JButton("Save Locally");
+		JButton btnSaveLocal = new JButton("Save Locally");
 		btnSaveLocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//TODO saving Locally
@@ -1332,7 +1299,7 @@ public class Screen {
 		btnBack_1.setBounds(6, 6, 124, 33);
 		settingsPanel.add(btnBack_1);
 		
-		btnSaveUSB = new JButton("Save Remotely");
+		JButton btnSaveUSB = new JButton("Save Remotely");
 		btnSaveUSB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//TODO save Remotely
@@ -1556,7 +1523,7 @@ public class Screen {
 				playerTwo = new Player();
 				playerTwo.setHomeKingdom("Derelin");
 				playerThree = new Player();
-				playerThree.setHomeKingdom("WybengaLand");
+				playerThree.setHomeKingdom("Wybengaland");
 				playerOne.setNextPlayer(playerTwo);
 				playerTwo.setNextPlayer(playerThree);
 				playerThree.setNextPlayer(playerOne);
@@ -1569,7 +1536,7 @@ public class Screen {
 				playerTwo = new Player();
 				playerTwo.setHomeKingdom("Derelin");
 				playerThree = new Player();
-				playerThree.setHomeKingdom("WybengaLand");
+				playerThree.setHomeKingdom("Wybengaland");
 				playerFour = new Player();
 				playerFour.setHomeKingdom("Mangia");
 				playerOne.setNextPlayer(playerTwo);
@@ -1788,12 +1755,6 @@ public class Screen {
 		
 		//============================= LOOT SCREEN ==========================
 		lblLootValue.setText("");
-		
-		//============================= SAVING AND LOADING ===================
-		btnLoadUsb.setText("Load USB");
-		btnLoadlocal.setText("Load Local");
-		btnSaveLocal.setText("Save Locally");
-		btnSaveUSB.setText("Save USB");
 	}
 	
 	public void spaceHandler(Space b,Space s){
@@ -1895,7 +1856,7 @@ public class Screen {
 		
 		//Combat
 		int cran = rando(1,5);
-		if(cran == 4 && !s.isKingdom()){
+		if(cran == 4){
 			combat("standard");
 			return;
 		}
@@ -1913,7 +1874,7 @@ public class Screen {
 		populateCombat();
 		combatPanel.setVisible(true);
 		
-		Timer t = new Timer(750,null);
+		Timer t = new Timer(1000,null);
 		t.addActionListener(new ActionListener(){
 		     boolean playTurn = true;
 		     public void actionPerformed(ActionEvent e){

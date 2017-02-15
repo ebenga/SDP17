@@ -1556,7 +1556,7 @@ public class Screen {
 				playerTwo = new Player();
 				playerTwo.setHomeKingdom("Derelin");
 				playerThree = new Player();
-				playerThree.setHomeKingdom("WybengaLand");
+				playerThree.setHomeKingdom("Wybengaland");
 				playerOne.setNextPlayer(playerTwo);
 				playerTwo.setNextPlayer(playerThree);
 				playerThree.setNextPlayer(playerOne);
@@ -1569,7 +1569,7 @@ public class Screen {
 				playerTwo = new Player();
 				playerTwo.setHomeKingdom("Derelin");
 				playerThree = new Player();
-				playerThree.setHomeKingdom("WybengaLand");
+				playerThree.setHomeKingdom("Wybengaland");
 				playerFour = new Player();
 				playerFour.setHomeKingdom("Mangia");
 				playerOne.setNextPlayer(playerTwo);
@@ -1913,7 +1913,7 @@ public class Screen {
 		populateCombat();
 		combatPanel.setVisible(true);
 		
-		Timer t = new Timer(750,null);
+		Timer t = new Timer(1000,null);
 		t.addActionListener(new ActionListener(){
 		     boolean playTurn = true;
 		     public void actionPerformed(ActionEvent e){

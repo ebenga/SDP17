@@ -192,10 +192,6 @@ public class Screen {
 	private JLabel label_1;
 	private JButton btnGameWon;
 	private JLabel lblGameOver;
-	private JButton btnLoadUsb;
-	private JButton btnSaveUSB;
-	private JButton btnSaveLocal;
-	private JButton btnLoadlocal;
 	
 
 	/**
@@ -246,13 +242,15 @@ public class Screen {
 		titleLabel.setBounds(18, 64, 304, 94);
 		startPanel.add(titleLabel);
 		
-		btnLoadlocal = new JButton("Load Local");
-		btnLoadlocal.addActionListener(new ActionListener() {
+		JButton btnLoad = new JButton("Load");
+		btnLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					//TODO Loading locally
+					//TODO Loading
 				Board gboard = null;
 			      try {
-			    	 File f = new File ("/home/pi/Game_Saves/gboard.ser");
+			    	 File cwdFile = new File (".");
+				     String cwd = cwdFile.getAbsolutePath();
+				     File f = new File(cwd+"gboard.ser");
 			         FileInputStream fileIn = new FileInputStream(f);
 			         ObjectInputStream in = new ObjectInputStream(fileIn);
 			         gboard = (Board) in.readObject();
@@ -270,63 +268,24 @@ public class Screen {
 			         repopulate();
 			         startPanel.setVisible(false);
 			         playerStartPanel.setVisible(true);
+			         
 			      }catch(IOException i) {
 			         i.printStackTrace();
-			         btnLoadlocal.setText("Error");
+			         btnLoad.setText("Error");
 			         return;
 			      }catch(ClassNotFoundException c) {
 			         System.out.println("Board class not found");
-			         btnLoadlocal.setText("Error");
+			         btnLoad.setText("Error");
 			         c.printStackTrace();
 			         return;
 				}
+			      System.out.println("Play1.getFood: " + gboard.p1.getFood());
 			}
 		});
-		btnLoadlocal.setBackground(Color.WHITE);
-		btnLoadlocal.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnLoadlocal.setBounds(175, 11, 139, 25);
-		startPanel.add(btnLoadlocal);
-		
-		btnLoadUsb = new JButton("Load USB");
-		btnLoadUsb.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//TODO Loading Remotely
-				Board gboard = null;
-			    try {
-			    	 File f = new File ("/media/pi/38AD-5C62/gboard.ser");
-			         FileInputStream fileIn = new FileInputStream(f);
-			         ObjectInputStream in = new ObjectInputStream(fileIn);
-			         gboard = (Board) in.readObject();
-			         in.close();
-			         fileIn.close();
-			         gameBoard = gboard;
-			         currentPlayer = gameBoard.currentPlayer;
-			         playerOne = gameBoard.p1;
-			         playerTwo = gameBoard.p2;
-			         playerThree = gameBoard.p3;
-			         playerFour = gameBoard.p4;
-			         dragon = gameBoard.d;
-			         numPlayers = gameBoard.numPlayer;
-			         dragonLives = gameBoard.dragonLives;
-			         repopulate();
-			         startPanel.setVisible(false);
-			         playerStartPanel.setVisible(true);
-			    }catch(IOException i) {
-			         i.printStackTrace();
-			         btnLoadUsb.setText("Failed");
-			         return;
-			    }catch(ClassNotFoundException c) {
-			         System.out.println("Board class not found");
-			         btnLoadUsb.setText("Error");
-			         c.printStackTrace();
-			         return;
-				}
-			}
-		});
-		btnLoadUsb.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnLoadUsb.setBackground(Color.WHITE);
-		btnLoadUsb.setBounds(10, 11, 139, 25);
-		startPanel.add(btnLoadUsb);
+		btnLoad.setBackground(new Color(128, 128, 128));
+		btnLoad.setFont(new Font("Cambria", Font.BOLD, 16));
+		btnLoad.setBounds(204, 11, 110, 25);
+		startPanel.add(btnLoad);
 		
 		JLabel lblNewLabel = new JLabel("Number of Players:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -418,7 +377,7 @@ public class Screen {
 		});
 		btnSettings.setFont(new Font("Cambria", Font.BOLD, 16));
 		btnSettings.setBackground(Color.GRAY);
-		btnSettings.setBounds(180, 11, 134, 29);
+		btnSettings.setBounds(200, 10, 134, 29);
 		playerStartPanel.add(btnSettings);
 
 		lblcurrentPlayer = new JLabel("Knight of " + currentPlayer.getHomeKingdom());
@@ -1275,14 +1234,14 @@ public class Screen {
 		frame.getContentPane().add(settingsPanel, "name_257950747583981");
 		settingsPanel.setLayout(null);
 		
-		btnSaveLocal = new JButton("Save Locally");
-		btnSaveLocal.addActionListener(new ActionListener() {
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO saving Locally
+				//TODO saving
 		         gameBoard.currentPlayer = currentPlayer;
 		         gameBoard.dragonLives = dragonLives;
-		         try{
-		    	  	File f = new File ("/home/pi/Game_Saves/gboard.ser");
+			     try {
+			    	 File f = new File ("/media/pi/38AD-5C62/gboard.ser");
 
 			         FileOutputStream fileOut = new FileOutputStream(f);
 			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -1290,19 +1249,35 @@ public class Screen {
 			         out.writeObject(gameBoard);
 			         out.close();
 			         fileOut.close();
-			         btnSaveLocal.setText("Saved");
+			         btnSave.setText("Saved");
 			         
-			         System.out.println("Serialized data is saved Locally");
-		    	  } catch (IOException i2){
-		    		  i2.printStackTrace();
-				      btnSaveLocal.setText("Error");
-		    	  }
+			         System.out.println("Serialized data is saved in USB");
+			      }catch(IOException  i) {
+			    	  
+			    	  try{
+			    	  	File f = new File ("/home/pi/Game_Saves/gboard.ser");
+
+				         FileOutputStream fileOut = new FileOutputStream(f);
+				         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+				         out.writeObject(gameBoard);
+				         out.close();
+				         fileOut.close();
+				         btnSave.setText("Saved");
+				         
+				         System.out.println("Serialized data is saved in Game_Saves");
+			    	  } catch (IOException i2){
+			    		  i.printStackTrace();
+					      btnSave.setText("Error");
+			    	  }
+			    	  
+			      }
 			}
 		});
-		btnSaveLocal.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnSaveLocal.setBackground(Color.WHITE);
-		btnSaveLocal.setBounds(60, 116, 204, 66);
-		settingsPanel.add(btnSaveLocal);
+		btnSave.setFont(new Font("Dialog", Font.BOLD, 20));
+		btnSave.setBackground(Color.WHITE);
+		btnSave.setBounds(89, 128, 162, 66);
+		settingsPanel.add(btnSave);
 		
 		JButton btnQuit = new JButton("Quit");
 		btnQuit.addActionListener(new ActionListener() {
@@ -1316,7 +1291,7 @@ public class Screen {
 		});
 		btnQuit.setFont(new Font("Dialog", Font.BOLD, 20));
 		btnQuit.setBackground(Color.WHITE);
-		btnQuit.setBounds(60, 284, 204, 66);
+		btnQuit.setBounds(89, 265, 162, 66);
 		settingsPanel.add(btnQuit);
 		
 		JButton btnBack_1 = new JButton("Back");
@@ -1331,35 +1306,6 @@ public class Screen {
 		btnBack_1.setBackground(Color.WHITE);
 		btnBack_1.setBounds(6, 6, 124, 33);
 		settingsPanel.add(btnBack_1);
-		
-		btnSaveUSB = new JButton("Save Remotely");
-		btnSaveUSB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//TODO save Remotely
-				gameBoard.currentPlayer = currentPlayer;
-		         gameBoard.dragonLives = dragonLives;
-			     try {
-			    	 File f = new File ("/media/pi/38AD-5C62/gboard.ser");
-
-			         FileOutputStream fileOut = new FileOutputStream(f);
-			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
-			         out.writeObject(gameBoard);
-			         out.close();
-			         fileOut.close();
-			         btnSaveUSB.setText("Saved");
-			         
-			         System.out.println("Serialized data is saved in USB");
-			      }catch(IOException  i) {
-			    	  i.printStackTrace();
-			    	  btnSaveUSB.setText("Failed");
-			      }
-			}
-		});
-		btnSaveUSB.setFont(new Font("Dialog", Font.BOLD, 20));
-		btnSaveUSB.setBackground(Color.WHITE);
-		btnSaveUSB.setBounds(60, 200, 204, 66);
-		settingsPanel.add(btnSaveUSB);
 		
 		//====================== TRAP PAGE ==================================
 		
@@ -1556,7 +1502,7 @@ public class Screen {
 				playerTwo = new Player();
 				playerTwo.setHomeKingdom("Derelin");
 				playerThree = new Player();
-				playerThree.setHomeKingdom("WybengaLand");
+				playerThree.setHomeKingdom("Wybengaland");
 				playerOne.setNextPlayer(playerTwo);
 				playerTwo.setNextPlayer(playerThree);
 				playerThree.setNextPlayer(playerOne);
@@ -1569,7 +1515,7 @@ public class Screen {
 				playerTwo = new Player();
 				playerTwo.setHomeKingdom("Derelin");
 				playerThree = new Player();
-				playerThree.setHomeKingdom("WybengaLand");
+				playerThree.setHomeKingdom("Wybengaland");
 				playerFour = new Player();
 				playerFour.setHomeKingdom("Mangia");
 				playerOne.setNextPlayer(playerTwo);
@@ -1788,12 +1734,6 @@ public class Screen {
 		
 		//============================= LOOT SCREEN ==========================
 		lblLootValue.setText("");
-		
-		//============================= SAVING AND LOADING ===================
-		btnLoadUsb.setText("Load USB");
-		btnLoadlocal.setText("Load Local");
-		btnSaveLocal.setText("Save Locally");
-		btnSaveUSB.setText("Save USB");
 	}
 	
 	public void spaceHandler(Space b,Space s){
@@ -1895,7 +1835,7 @@ public class Screen {
 		
 		//Combat
 		int cran = rando(1,5);
-		if(cran == 4 && !s.isKingdom()){
+		if(cran == 4){
 			combat("standard");
 			return;
 		}
@@ -1913,7 +1853,7 @@ public class Screen {
 		populateCombat();
 		combatPanel.setVisible(true);
 		
-		Timer t = new Timer(750,null);
+		Timer t = new Timer(1000,null);
 		t.addActionListener(new ActionListener(){
 		     boolean playTurn = true;
 		     public void actionPerformed(ActionEvent e){
