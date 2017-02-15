@@ -293,7 +293,7 @@ public class Screen {
 				//TODO Loading Remotely
 				Board gboard = null;
 			    try {
-			    	 File f = new File ("/media/pi/Saved_Games/gboard.ser");
+			    	 File f = new File ("/media/pi/38AD-5C62/gboard.ser");
 			         FileInputStream fileIn = new FileInputStream(f);
 			         ObjectInputStream in = new ObjectInputStream(fileIn);
 			         gboard = (Board) in.readObject();
@@ -1339,7 +1339,7 @@ public class Screen {
 				gameBoard.currentPlayer = currentPlayer;
 		         gameBoard.dragonLives = dragonLives;
 			     try {
-			    	 File f = new File ("/media/pi/Saved_Games/gboard.ser");
+			    	 File f = new File ("/media/pi/38AD-5C62/gboard.ser");
 
 			         FileOutputStream fileOut = new FileOutputStream(f);
 			         ObjectOutputStream out = new ObjectOutputStream(fileOut);
