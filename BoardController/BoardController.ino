@@ -5,7 +5,7 @@
 #endif
 
 #define PIN 6
-#define NUMPINS 11
+#define NUMLEDS 11
 //#define NUMPLAYERS 4
 #define rxFault 0x80
 #define txFault 0x40
@@ -20,7 +20,7 @@
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMPINS, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMLEDS, PIN, NEO_GRB + NEO_KHZ800);
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -35,8 +35,9 @@ struct Player_type
 };
 
 struct Player_type Player[5];
+uint8_t spaceCount[NUMLEDS];
 bool volatile gameOver = false;
-bool volatile playerMoved = false;
+
 // flag to trigger a Serial printout after an I2C event
 // use volatile for variables that will be used in interrupt service routines.
 // "Volatile" instructs the compiler to get a fresh copy of the data rather than try to
@@ -51,11 +52,14 @@ void setup() {
   Wire.begin(slaveAddress);  // I2C slave address 8 setup.
   Wire.onReceive(i2cReceive);  // register our handler function with the Wire library
 
+  
   Player[0] = {0,strip.Color(255, 0, 0)};   // The Mangelor
   Player[1] = {100,strip.Color(0, 128, 0)};   // The green knight of Derelin
   Player[2] = {100,strip.Color(255, 32, 0)};  // The orange knight of Wybengaland
   Player[3] = {100,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
   Player[4] = {100,strip.Color(255, 0, 255)}; // The kniht who has done literally nothing on our SDP
+
+  spaceCount[Player[0].pos] = 1;
   
   strip.setPixelColor(Player[0].pos, Player[0].color);
   strip.setPixelColor(Player[1].pos, Player[1].color);
@@ -68,22 +72,7 @@ void setup() {
 }
 
 void loop() {
-
-
-  
-  
-//  updateBoard(1, (Player[1].pos+1)%11);
-//  delay(1000);
-//  gameEnd();
-////colorWipe(strip.Color(0, 0, 0, 255), 50); // White RGBW
-//  // Send a theater pixel chase in...
-//  theaterChase(strip.Color(127, 127, 127), 50); // White
-//  theaterChase(strip.Color(127, 0, 0), 50); // Red
-//  theaterChase(strip.Color(0, 0, 127), 50); // Blue
-//
-//  rainbow(20);
-//  rainbowCycle(20);
-//  theaterChaseRainbow(50);
+  delay(10000);
 
 }
 
@@ -128,6 +117,7 @@ byte i2cHandleRx(byte command) {
         int numPlayers = Wire.read();
         for (int i = 1; i<=numPlayers; i++){
           Player[i].pos = i;
+          spaceCount[i] += 1;
           strip.setPixelColor(Player[i].pos, Player[i].color);
         }
         strip.show();
@@ -139,9 +129,21 @@ byte i2cHandleRx(byte command) {
     case 0x0B:  //The Move command: read two bytes in a block to set player and new position 
       if (Wire.available() == 2) { // good write from Master
         int playerNum = Wire.read();
+        uint8_t prevSpace = Player[playerNum].pos;
+        spaceCount[prevSpace] -= 1;
         Player[playerNum].pos = Wire.read();
-//        playerMoved = true;
-//        showBoard();
+        spaceCount[Player[playerNum].pos] += 1;
+        if (spaceCount[prevSpace] == 0){
+          strip.setPixelColor(prevSpace, 0);
+        }
+        else{
+          for(int i = 0; i <= 4; i++){
+            if (Player[i].pos == prevSpace){
+              strip.setPixelColor(Player[i].pos, Player[i].color);
+              break;
+            }
+          }
+        }
         strip.setPixelColor(Player[playerNum].pos, Player[playerNum].color);
         strip.show();
         result = 2;
@@ -156,7 +158,6 @@ byte i2cHandleRx(byte command) {
         gameEnd(winner);
         result = 1;
       } else {
-        
         result = 0xFF;
       }
       break;
@@ -192,25 +193,6 @@ void gameEnd(int win){
   strip.show();
 }
 
-//void showBoard(){
-////  Player_type Player = players;
-//  //first clear the board so a player is not in two positions
-//  for(uint8_t i=0; i<strip.numPixels(); i++) {
-//    strip.setPixelColor(i, 0);
-//  }
-//  for(int i=0; i<(NUMPLAYERS+1); i++) {
-//    strip.setPixelColor(Player[i].pos, Player[i].color);
-//    strip.show();
-//  }
-//}
-
-//void updateBoard(uint8_t pl, uint8_t newspace){
-////  Player_type Player = players;
-//  //first clear the board so a player is not in two positions
-//  strip.setPixelColor(Player[pl].pos, 0);
-//  Player[pl].pos = newspace;
-//  playerMoved = true;
-//}
 //===============================================================================
 
 // Fill the dots one after the other with a color
