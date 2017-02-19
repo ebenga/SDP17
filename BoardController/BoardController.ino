@@ -6,7 +6,7 @@
 
 #define PIN 6
 #define NUMPINS 11
-#define NUMPLAYERS 4
+//#define NUMPLAYERS 4
 #define rxFault 0x80
 #define txFault 0x40
 #define txRequest 0x20
@@ -52,10 +52,10 @@ void setup() {
   Wire.onReceive(i2cReceive);  // register our handler function with the Wire library
 
   Player[0] = {0,strip.Color(255, 0, 0)};   // The Mangelor
-  Player[1] = {1,strip.Color(0, 128, 0)};   // The green knight of Derelin
-  Player[2] = {2,strip.Color(255, 32, 0)};  // The orange knight of Wybengaland
-  Player[3] = {3,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
-  Player[4] = {4,strip.Color(255, 0, 255)}; // The kniht who has done literally nothing on our SDP
+  Player[1] = {100,strip.Color(0, 128, 0)};   // The green knight of Derelin
+  Player[2] = {100,strip.Color(255, 32, 0)};  // The orange knight of Wybengaland
+  Player[3] = {100,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
+  Player[4] = {100,strip.Color(255, 0, 255)}; // The kniht who has done literally nothing on our SDP
   
   strip.setPixelColor(Player[0].pos, Player[0].color);
   strip.setPixelColor(Player[1].pos, Player[1].color);
@@ -122,36 +122,45 @@ byte i2cHandleRx(byte command) {
   // command or mismatch between data expected and received
 
   switch (command) {
-    case 0x0A:  //The Move command: read two bytes in a block to set player and new position 
+    
+    case 0x0A:
+      if (Wire.available() == 1) { // good write from Master
+        int numPlayers = Wire.read();
+        for (int i = 1; i<=numPlayers; i++){
+          Player[i].pos = i;
+          strip.setPixelColor(Player[i].pos, Player[i].color);
+        }
+        strip.show();
+      } else {
+        result = 0xFF;
+      }
+      break;
+
+    case 0x0B:  //The Move command: read two bytes in a block to set player and new position 
       if (Wire.available() == 2) { // good write from Master
         int playerNum = Wire.read();
         Player[playerNum].pos = Wire.read();
 //        playerMoved = true;
-        showBoard();
+//        showBoard();
+        strip.setPixelColor(Player[playerNum].pos, Player[playerNum].color);
+        strip.show();
         result = 2;
       } else {
         result = 0xFF;
       }
       break;
 
-    case 0x0B:
+    case 0x0C:
       if (Wire.available() == 1) { // good write from Master
         int winner = Wire.read();
         gameEnd(winner);
         result = 1;
       } else {
+        
         result = 0xFF;
       }
       break;
-//
-//    case 0x0C:
-//      if (Wire.available() == 1) { // good write from Master
-//        commsTable.brightG = Wire.read();
-//        result = 1;
-//      } else {
-//        result = 0xFF;
-//      }
-//      break;
+
 //
 //    case 0x0D:
 //      if (Wire.available() == 1) { // good write from Master
@@ -183,17 +192,17 @@ void gameEnd(int win){
   strip.show();
 }
 
-void showBoard(){
-//  Player_type Player = players;
-  //first clear the board so a player is not in two positions
-  for(uint8_t i=0; i<strip.numPixels(); i++) {
-    strip.setPixelColor(i, 0);
-  }
-  for(int i=0; i<(NUMPLAYERS+1); i++) {
-    strip.setPixelColor(Player[i].pos, Player[i].color);
-    strip.show();
-  }
-}
+//void showBoard(){
+////  Player_type Player = players;
+//  //first clear the board so a player is not in two positions
+//  for(uint8_t i=0; i<strip.numPixels(); i++) {
+//    strip.setPixelColor(i, 0);
+//  }
+//  for(int i=0; i<(NUMPLAYERS+1); i++) {
+//    strip.setPixelColor(Player[i].pos, Player[i].color);
+//    strip.show();
+//  }
+//}
 
 //void updateBoard(uint8_t pl, uint8_t newspace){
 ////  Player_type Player = players;
