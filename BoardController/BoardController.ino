@@ -176,7 +176,7 @@ byte i2cHandleRx(byte command) {
       }
       break;
 
-    case 0x0C:
+    case 0x0C:  //The Player Wins command: read one byte in a block to set winner and end the game
       if (Wire.available() == 1) { // good write from Master
         int winner = Wire.read();
         gameEnd(winner);
@@ -186,16 +186,16 @@ byte i2cHandleRx(byte command) {
       }
       break;
 
-//
-//    case 0x0D:
-//      if (Wire.available() == 1) { // good write from Master
-//        commsTable.brightB = Wire.read();
-//        result = 1;
-//      } else {
-//        result = 0xFF;
-//      }
-//      break;
-//
+
+    case 0x0D:  //The Reset command: reset colors and player count
+      if (Wire.available() == 0) { // good write from Master
+        gameOver = false;
+        setup();
+      } else {
+        result = 0xFF;
+      }
+      break;
+
     default:
       result = 0xFF;
   }
@@ -209,6 +209,7 @@ void gameEnd(int win){
   //Fill the board with the winner's color then turn off the LEDs after blinking twice
   int winner = win;
   for(uint8_t i=0; i<strip.numPixels(); i++) {
+  // Run the winner's color down the tower and around the board
     strip.setPixelColor(i, Player[winner].color);
     strip.show();
     delay(50);
@@ -218,7 +219,9 @@ void gameEnd(int win){
     strip.setPixelColor(i, 0);
   }
   strip.show();
+  
   for(uint8_t i = 0; i < 3; i++){
+  // Blink on and off 3 times
     delay(500);
     for(uint8_t i=0; i<strip.numPixels(); i++) {
       strip.setPixelColor(i, Player[winner].color);
@@ -230,8 +233,6 @@ void gameEnd(int win){
     }
     strip.show();
   }
-  
-  
 }
 
 //===============================================================================

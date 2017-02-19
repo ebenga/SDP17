@@ -13,13 +13,15 @@ addr = 8 # address of the arduino I2C
 
 data = []
 
-if len(sys.argv) >=3:
+if len(sys.argv) >=2:
 	if int(sys.argv[1])==1:	#The Initialize Player Number command
 		command = 0x0A
 	elif int(sys.argv[1])==2:	#The Move command
 		command = 0x0B
 	elif int(sys.argv[1])==3:	#The Player Wins command
 		command = 0x0C
+	elif int(sys.argv[1])==4:	#The Player Wins command
+		command = 0x0D
 
 	for i in range(len(sys.argv)-2):
 		data.append(int(sys.argv[i+2]))
