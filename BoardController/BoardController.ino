@@ -34,8 +34,14 @@ struct Player_type
     uint32_t color;
 };
 
+struct Space_Manager
+{
+    uint8_t count;
+    uint32_t color;
+};
+
 struct Player_type Player[5];
-uint8_t spaceCount[NUMLEDS];
+struct Space_Manager spaceCount[NUMLEDS];
 bool volatile gameOver = false;
 
 // flag to trigger a Serial printout after an I2C event
@@ -59,7 +65,7 @@ void setup() {
   Player[3] = {100,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
   Player[4] = {100,strip.Color(255, 0, 255)}; // The kniht who has done literally nothing on our SDP
 
-  spaceCount[Player[0].pos] = 1;
+  spaceCount[Player[0].pos].count = 1;
   
   strip.setPixelColor(Player[0].pos, Player[0].color);
   strip.setPixelColor(Player[1].pos, Player[1].color);
@@ -72,8 +78,24 @@ void setup() {
 }
 
 void loop() {
-  delay(10000);
-
+  while (!gameOver){
+    for(int i = 0; i<NUMLEDS; i++){
+      if (spaceCount[i].count>1){
+        int j = 0;
+        while(spaceCount[i].color != Player[j].color){
+          j++;
+        }
+        j=(j+1)%5;
+        while(i != Player[j].pos){
+          j=(j+1)%5;
+        }
+        spaceCount[i].color = Player[j].color;
+        strip.setPixelColor(Player[j].pos, Player[j].color);
+      }
+    }
+    strip.show();
+    delay(750);
+  }
 }
 
 //====================================================
@@ -117,7 +139,7 @@ byte i2cHandleRx(byte command) {
         int numPlayers = Wire.read();
         for (int i = 1; i<=numPlayers; i++){
           Player[i].pos = i;
-          spaceCount[i] += 1;
+          spaceCount[i].count += 1;
           strip.setPixelColor(Player[i].pos, Player[i].color);
         }
         strip.show();
@@ -130,16 +152,18 @@ byte i2cHandleRx(byte command) {
       if (Wire.available() == 2) { // good write from Master
         int playerNum = Wire.read();
         uint8_t prevSpace = Player[playerNum].pos;
-        spaceCount[prevSpace] -= 1;
+        spaceCount[prevSpace].count -= 1;
         Player[playerNum].pos = Wire.read();
-        spaceCount[Player[playerNum].pos] += 1;
-        if (spaceCount[prevSpace] == 0){
+        spaceCount[Player[playerNum].pos].count += 1;
+        if (spaceCount[prevSpace].count == 0){
           strip.setPixelColor(prevSpace, 0);
+          spaceCount[prevSpace].color = 0;
         }
         else{
           for(int i = 0; i <= 4; i++){
             if (Player[i].pos == prevSpace){
               strip.setPixelColor(Player[i].pos, Player[i].color);
+              spaceCount[prevSpace].color = Player[i].color;
               break;
             }
           }
@@ -182,15 +206,32 @@ byte i2cHandleRx(byte command) {
 }
 
 void gameEnd(int win){
-  //Turns off all of the LEDs
+  //Fill the board with the winner's color then turn off the LEDs after blinking twice
   int winner = win;
   for(uint8_t i=0; i<strip.numPixels(); i++) {
     strip.setPixelColor(i, Player[winner].color);
     strip.show();
     delay(50);
   }
-  gameOver = true;
+  delay(500);
+  for(uint8_t i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0);
+  }
   strip.show();
+  for(uint8_t i = 0; i < 3; i++){
+    delay(500);
+    for(uint8_t i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, Player[winner].color);
+    }
+    strip.show();
+    delay(500);
+    for(uint8_t i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, 0);
+    }
+    strip.show();
+  }
+  
+  
 }
 
 //===============================================================================
