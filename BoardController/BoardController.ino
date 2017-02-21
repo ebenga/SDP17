@@ -230,6 +230,11 @@ void gameEnd(int win){
     }
     strip.show();
   }
+  gameOver = true;
+  for(uint8_t i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0);
+  }
+  strip.show();
 }
 
 //===============================================================================
