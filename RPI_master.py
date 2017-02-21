@@ -13,6 +13,14 @@ addr = 8 # address of the arduino I2C
 
 data = []
 
+"""
+There are four commands that can be called:
+	Num Players: "1"; expects one argument; number of players (Ex. python RPI_master.py 1 4)
+	Move Player: "2"; expects two arguments; player number, new position (Ex. python RPI_master.py 2 2 4)
+	Set Winner:  "3"; expects one argument; winning player (Ex. python RPI_master.py 3 2)
+	Reset Board: "4"; expects no argument;  (Ex. python RPI_master.py 4)
+"""
+
 if len(sys.argv) >=2:
 	if int(sys.argv[1])==1:	#The Initialize Player Number command
 		command = 0x0A
@@ -20,35 +28,10 @@ if len(sys.argv) >=2:
 		command = 0x0B
 	elif int(sys.argv[1])==3:	#The Player Wins command
 		command = 0x0C
-	elif int(sys.argv[1])==4:	#The Player Wins command
+	elif int(sys.argv[1])==4:	#The Reset command
 		command = 0x0D
 
 	for i in range(len(sys.argv)-2):
 		data.append(int(sys.argv[i+2]))
 
 	i2c.write_i2c_block_data(addr, command, data)
-
-# while(1):
-# 	try:
-# 		cmd=int(raw_input('Enter Command #:'))
-# 	except ValueError:
-# 		print "Not a command number"
-# 	if (cmd==1):
-# 		try:
-# 			player=int(raw_input('Player:'))
-# 		except ValueError:
-# 			print "Not a player number"
-# 		try:
-# 			pos=int(raw_input('Position:'))
-# 		except ValueError:
-# 			print "Not a position number"
-
-# 		data = [player,pos]
-# 		i2c.write_i2c_block_data(addr, 0x0A, data)
-# 	if (cmd==2):
-# 		try:
-# 			winner=[int(raw_input('Winner:'))]
-# 		except ValueError:
-# 			print "Not a player number"
-# 		i2c.write_i2c_block_data(addr, 0x0B, winner)
-

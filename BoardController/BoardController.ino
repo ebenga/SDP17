@@ -199,9 +199,6 @@ byte i2cHandleRx(byte command) {
     default:
       result = 0xFF;
   }
-//
-//  if (result == 0xFF) commsTable.control |= rxFault;
-//  return result;
 
 }
 
