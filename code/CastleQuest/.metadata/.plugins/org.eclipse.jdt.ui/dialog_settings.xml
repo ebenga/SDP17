@@ -3,10 +3,11 @@
 	<section name="FatJarPackageWizard">
 		<item value="C:\Users\David Lassalle\Documents\GitHub\SDP17\code\CastleQuest" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="Screen - src" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
-		<item value="C:\Users\David Lassalle\Desktop\Saver.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="C:\Users\David Lassalle\Desktop\Mover.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\David Lassalle\Desktop\Mover.jar"/>
 			<item value="C:\Users\David Lassalle\Desktop\Saver.jar"/>
 			<item value="C:\Users\David Lassalle\Desktop\DT.jar"/>
 			<item value="C:\Users\David Lassalle\Desktop\audT.jar"/>
@@ -34,7 +35,12 @@
 			<item value="215" key="DIALOG_Y_ORIGIN"/>
 		</section>
 	</section>
+	<section name="NewClassWizardPage">
+		<item value="false" key="create_constructor"/>
+		<item value="true" key="create_unimplemented"/>
+	</section>
 	<section name="OptionalMessageDialog.hide.">
+		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
 	</section>
 	<section name="quick_assist_proposal_size">
 	</section>

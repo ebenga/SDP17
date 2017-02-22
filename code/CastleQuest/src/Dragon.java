@@ -2,8 +2,13 @@
 public class Dragon implements java.io.Serializable{
 
 	private Space space;
+	private int ID = 0;
 	private int gold = 300;
 	private MagicItem magic = new MagicItem("Mantle of Perception");
+	
+	public int getId(){
+		return ID;
+	}
 	
 	public void setSpace(Space s){
 		space = s;

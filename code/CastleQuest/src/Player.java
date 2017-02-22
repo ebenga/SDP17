@@ -41,7 +41,15 @@ public class Player implements java.io.Serializable{
 	private int rate = 1;
 	private boolean[] visited = {false,false,false,false};
 	private Space homeSpace;
+	private int ID;
 	
+	public int getId(){
+		return ID;
+	}
+	
+	public void setId(int d){
+		ID = d;
+	}
 	
 	public void setHomeSpace(Space h){
 		homeSpace = h;

@@ -437,12 +437,17 @@ public class Board implements java.io.Serializable {
 			case 1: 
 				play1.setSpace(spaces[54]);
 				play1.setHomeSpace(spaces[54]);
+				play2.setSpace(new Space(100,"null","null"));
+				play3.setSpace(new Space(101,"null","null"));
+				play4.setSpace(new Space(102,"null","null"));
 				break;
 			case 2:
 				play1.setSpace(spaces[54]);
 				play1.setHomeSpace(spaces[54]);
 				play2.setSpace(spaces[66]);
 				play2.setHomeSpace(spaces[66]);
+				play3.setSpace(new Space(101,"null","null"));
+				play4.setSpace(new Space(102,"null","null"));
 				break;
 			case 3:
 				play1.setSpace(spaces[54]);
@@ -451,6 +456,7 @@ public class Board implements java.io.Serializable {
 				play2.setHomeSpace(spaces[66]);
 				play3.setSpace(spaces[62]);
 				play3.setHomeSpace(spaces[62]);
+				play4.setSpace(new Space(102,"null","null"));
 				break;
 			case 4:
 				play1.setSpace(spaces[54]);

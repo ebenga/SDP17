@@ -43,14 +43,13 @@ public class Screen {
 	private JPanel rotatePanel;
 	private JPanel dragonPanel;
 	public int numPlayers = 1;
-	public Player playerOne = new Player();
-	public Player playerTwo= new Player();
-	public Player playerThree= new Player();
-	public Player playerFour= new Player();
+	public Player playerOne;
+	public Player playerTwo;
+	public Player playerThree;
+	public Player playerFour;
 	public Player currentPlayer;
 	public Dragon dragon = new Dragon();
 	public boolean dragonLives = true;
-	public RpiRunner lights = new RpiRunner();
 	private JButton btnSettings;
 	private JLabel lblcurrentPlayer;
 	private JButton btnInventory;
@@ -250,6 +249,7 @@ public class Screen {
 		btnLoadlocal = new JButton("Load Local");
 		btnLoadlocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				//TODO movement/initialize
 				Board gboard = null;
 			      try {
 			    	 File f = new File ("/home/pi/Game_Saves/gboard.ser");
@@ -268,24 +268,17 @@ public class Screen {
 			         numPlayers = gameBoard.numPlayer;
 			         dragonLives = gameBoard.dragonLives;
 			         repopulate();
-			         //set lights
-			         lights.reset();
-			         lights.initialize(numPlayers);
-			         lights.move(0, dragon.getSpace().getId());
-			 		 lights.move(1, playerOne.getSpace().getId());
-			 		 lights.move(2, playerTwo.getSpace().getId());
-			 		 lights.move(3, playerThree.getSpace().getId());
-			 		 lights.move(4, playerFour.getSpace().getId());
-			         
 			         startPanel.setVisible(false);
 			         playerStartPanel.setVisible(true);
 			      }catch(IOException i) {
 			         i.printStackTrace();
-			         btnLoadlocal.setText("Failed");
+			         btnLoadlocal.setText("Error");
+			         return;
 			      }catch(ClassNotFoundException c) {
 			         System.out.println("Board class not found");
 			         btnLoadlocal.setText("Error");
 			         c.printStackTrace();
+			         return;
 				}
 			}
 		});
@@ -297,6 +290,7 @@ public class Screen {
 		btnLoadUsb = new JButton("Load USB");
 		btnLoadUsb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//TODO Movements/initialize board
 				Board gboard = null;
 			    try {
 			    	 File f = new File ("/media/pi/Saved_Games/gboard.ser");
@@ -315,23 +309,17 @@ public class Screen {
 			         numPlayers = gameBoard.numPlayer;
 			         dragonLives = gameBoard.dragonLives;
 			         repopulate();
-			         //set lights
-			         lights.reset();
-			         lights.initialize(numPlayers);
-			         lights.move(0, dragon.getSpace().getId());
-			 		 lights.move(1, playerOne.getSpace().getId());
-			 		 lights.move(2, playerTwo.getSpace().getId());
-			 		 lights.move(3, playerThree.getSpace().getId());
-			 		 lights.move(4, playerFour.getSpace().getId());
 			         startPanel.setVisible(false);
 			         playerStartPanel.setVisible(true);
 			    }catch(IOException i) {
 			         i.printStackTrace();
 			         btnLoadUsb.setText("Failed");
+			         return;
 			    }catch(ClassNotFoundException c) {
 			         System.out.println("Board class not found");
 			         btnLoadUsb.setText("Error");
 			         c.printStackTrace();
+			         return;
 				}
 			}
 		});
@@ -892,7 +880,11 @@ public class Screen {
 				if(!currentPlayer.isDead()){
 					if(tier == "Throne Room"){
 						victoryPanel.setVisible(true);
-						lights.win(currentPlayer.getId());
+						try {
+							Runtime.getRuntime().exec("python /home/pi/RPI_master.py 3 "+currentPlayer.getId());
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
 						play("/resources/finalvictory.wav");
 						return;
 					}
@@ -1323,7 +1315,6 @@ public class Screen {
 				currentPlayer = new Player();
 				play("/resources/turnOver.wav");
 				gameBoard = new Board();
-				lights.reset();
 				startPanel.setVisible(true);
 			}
 		});
@@ -1549,7 +1540,7 @@ public class Screen {
 	
 	public void boarder(){
 		//set up # of players and put them in starting positions on board
-		lights.initialize(numPlayers);
+		
 		switch (numPlayers){
 			case 1:
 				playerOne = new Player();
@@ -1557,7 +1548,6 @@ public class Screen {
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
 				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour, dragon);
-				playerOne.setId(1);
 				break;
 			case 2:
 				playerOne = new Player();
@@ -1606,11 +1596,12 @@ public class Screen {
 		
 		currentPlayer = playerOne;
 		repopulate();
-		lights.move(0, dragon.getSpace().getId());
-		lights.move(1, playerOne.getSpace().getId());
-		lights.move(2, playerTwo.getSpace().getId());
-		lights.move(3, playerThree.getSpace().getId());
-		lights.move(4, playerFour.getSpace().getId());
+		try {
+			Runtime.getRuntime().exec("python /home/pi/RPI_master.py 1 "+numPlayers);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//TODO movement
 	}
 	
 	//sets all the labels and text fields to the right value for the current player
@@ -1827,7 +1818,7 @@ public class Screen {
 	
 	public void spaceHandler(Space b,Space s){
 		//performs actions based on which space a player just entered
-		lights.move(currentPlayer.getId(), currentPlayer.getSpace().getId());
+		//TODO movement
 		boolean[] k = currentPlayer.getKeys();
 		//Enter new kingdom and get a key
 		if(s.isKingdom() && !currentPlayer.hasVisited(s.getType())){
@@ -1903,7 +1894,7 @@ public class Screen {
 			} else {
 				play("/resources/gateShut.wav");
 				currentPlayer.setSpace(b);
-				lights.move(currentPlayer.getId(), currentPlayer.getSpace().getId());
+				//TODO move player
 				lblTurnOver.setText("NOT ENOUGH KEYS");
 				rotatePanel.setVisible(true);
 				return;
@@ -1963,6 +1954,7 @@ public class Screen {
 		    	 }
 		 		 if(currentPlayer.isDead() || currentEnemy.isDead()){
 		 			 if(currentPlayer.isDead()){
+		 				 //TODO move player
 		 				 if(rando(1,15) == 11){
 			 				 play("/resources/death2.wav");
 		 				 } else {
@@ -1970,7 +1962,6 @@ public class Screen {
 		 				 }
 		 				 currentPlayer.death();
 		 				lblDamage.setText("YOU HAVE DIED");
-		 				lights.move(currentPlayer.getId(), currentPlayer.getSpace().getId());
 		 			 } else {
 		 				play("/resources/battleWon.wav");
 		 				lblDamage.setText("THEY HAVE DIED");
@@ -2197,7 +2188,7 @@ public class Screen {
 			        		 dragon.AddMagic(playerOne.getMagicItem());
 			        	 }
 			        	 playerOne.death();
-			        	 lights.move(playerOne.getId(), playerOne.getSpace().getId());
+			        	 //TODO move player
 			        	 lblDragonPosition.setText("Knight of Lassallax Incinerated!");
 		        	 }
 		         }
@@ -2216,7 +2207,7 @@ public class Screen {
 			        		 dragon.AddMagic(playerTwo.getMagicItem());
 			        	 }
 			        	 playerTwo.death();
-			        	 lights.move(playerTwo.getId(), playerTwo.getSpace().getId());
+			        	 //TODO move player
 			        	 lblDragonPosition.setText("Knight of Derelin Incinerated!");
 		        	 }
 		         }
@@ -2235,7 +2226,7 @@ public class Screen {
 			        		 dragon.AddMagic(playerThree.getMagicItem());
 			        	 }
 			        	 playerThree.death();
-			        	 lights.move(playerThree.getId(), playerThree.getSpace().getId());
+			        	 //TODO move player
 			        	 lblDragonPosition.setText("Knight of WybengaLand Incinerated!");
 		        	 }
 		         }
@@ -2254,7 +2245,7 @@ public class Screen {
 			        		 dragon.AddMagic(playerFour.getMagicItem());
 			        	 }
 			        	 playerFour.death();
-			        	 lights.move(playerFour.getId(), playerFour.getSpace().getId());
+			        	 //TODO move player
 			        	 lblDragonPosition.setText("Knight of Mangia Incinerated!");
 		        	 }
 		         }
@@ -2306,8 +2297,7 @@ public class Screen {
 		}
 		int ran = rando(0,opts-1);
 		dragon.setSpace(spaces[ran]);
-   	 	lights.move(dragon.getId(), dragon.getSpace().getId());
-
+		//TODO movement
 	}
 	
 	public void lootter(String type){

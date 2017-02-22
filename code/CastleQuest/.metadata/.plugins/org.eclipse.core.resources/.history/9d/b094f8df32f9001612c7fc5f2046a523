@@ -43,10 +43,10 @@ public class Screen {
 	private JPanel rotatePanel;
 	private JPanel dragonPanel;
 	public int numPlayers = 1;
-	public Player playerOne = new Player();
-	public Player playerTwo= new Player();
-	public Player playerThree= new Player();
-	public Player playerFour= new Player();
+	public Player playerOne;
+	public Player playerTwo;
+	public Player playerThree;
+	public Player playerFour;
 	public Player currentPlayer;
 	public Dragon dragon = new Dragon();
 	public boolean dragonLives = true;

@@ -43,10 +43,10 @@ public class Screen {
 	private JPanel rotatePanel;
 	private JPanel dragonPanel;
 	public int numPlayers = 1;
-	public Player playerOne = new Player();
-	public Player playerTwo= new Player();
-	public Player playerThree= new Player();
-	public Player playerFour= new Player();
+	public Player playerOne;
+	public Player playerTwo;
+	public Player playerThree;
+	public Player playerFour;
 	public Player currentPlayer;
 	public Dragon dragon = new Dragon();
 	public boolean dragonLives = true;
@@ -281,11 +281,13 @@ public class Screen {
 			         playerStartPanel.setVisible(true);
 			      }catch(IOException i) {
 			         i.printStackTrace();
-			         btnLoadlocal.setText("Failed");
+			         btnLoadlocal.setText("Error");
+			         return;
 			      }catch(ClassNotFoundException c) {
 			         System.out.println("Board class not found");
 			         btnLoadlocal.setText("Error");
 			         c.printStackTrace();
+			         return;
 				}
 			}
 		});
@@ -328,10 +330,12 @@ public class Screen {
 			    }catch(IOException i) {
 			         i.printStackTrace();
 			         btnLoadUsb.setText("Failed");
+			         return;
 			    }catch(ClassNotFoundException c) {
 			         System.out.println("Board class not found");
 			         btnLoadUsb.setText("Error");
 			         c.printStackTrace();
+			         return;
 				}
 			}
 		});
@@ -1557,7 +1561,6 @@ public class Screen {
 				playerOne.setNextPlayer(playerOne);
 				playerOne.makeFinalPlayer();
 				gameBoard.initialize(1, playerOne, playerTwo, playerThree, playerFour, dragon);
-				playerOne.setId(1);
 				break;
 			case 2:
 				playerOne = new Player();
