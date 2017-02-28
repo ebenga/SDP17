@@ -5,7 +5,7 @@
 #endif
 
 #define PIN 6
-#define NUMLEDS 11
+#define NUMLEDS 68
 //#define NUMPLAYERS 4
 #define rxFault 0x80
 #define txFault 0x40
@@ -60,9 +60,9 @@ void setup() {
 
   
   Player[0] = {0,strip.Color(255, 0, 0)};   // The Mangelor
-  Player[1] = {100,strip.Color(0, 128, 0)};   // The green knight of Derelin
-  Player[2] = {100,strip.Color(255, 32, 0)};  // The orange knight of Wybengaland
-  Player[3] = {100,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
+  Player[1] = {100,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
+  Player[2] = {100,strip.Color(0, 128, 0)};   // The green knight of Derelin
+  Player[3] = {100,strip.Color(255, 32, 0)};  // The orange knight of Wybengaland
   Player[4] = {100,strip.Color(255, 0, 255)}; // The kniht who has done literally nothing on our SDP
 
   spaceCount[Player[0].pos].count = 1;
@@ -190,7 +190,14 @@ byte i2cHandleRx(byte command) {
     case 0x0D:  //The Reset command: reset colors and player count
       if (Wire.available() == 0) { // good write from Master
         gameOver = false;
+        for(uint8_t i=0; i<strip.numPixels(); i++) {
+          strip.setPixelColor(i, 0);
+          spaceCount[i].color = 0;
+          spaceCount[i].count = 0;
+        }
+        strip.show();
         setup();
+        
       } else {
         result = 0xFF;
       }
@@ -233,6 +240,8 @@ void gameEnd(int win){
   gameOver = true;
   for(uint8_t i=0; i<strip.numPixels(); i++) {
     strip.setPixelColor(i, 0);
+    spaceCount[i].color = 0;
+    spaceCount[i].count = 0;
   }
   strip.show();
 }
