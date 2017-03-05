@@ -62,7 +62,7 @@ void setup() {
   Player[0] = {0,strip.Color(255, 0, 0)};   // The Mangelor
   Player[1] = {100,strip.Color(0, 0, 255)};   // The blue knight of Lassallax
   Player[2] = {100,strip.Color(0, 128, 0)};   // The green knight of Derelin
-  Player[3] = {100,strip.Color(255, 32, 0)};  // The orange knight of Wybengaland
+  Player[3] = {100,strip.Color(255, 64 0)};  // The orange knight of Wybengaland
   Player[4] = {100,strip.Color(255, 0, 255)}; // The kniht who has done literally nothing on our SDP
 
   spaceCount[Player[0].pos].count = 1;
