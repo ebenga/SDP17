@@ -117,9 +117,9 @@ public class Screen {
 			"Trap","Trap","Trap","Trap"
 			};
 	private String[] itemCosts = {
-			"50","50","75",
-			"70","60","50","70",
-			"100","100"
+			"25","25","25",
+			"50","50","50","50",
+			"75","75"
 			};
 	private boolean canBarter = false;
 	private JLabel lblItem1Effect;
@@ -156,7 +156,7 @@ public class Screen {
 			"/resources/theevilking.png"
 	};//courtyard, staircase, throneroom
 	
-	private JLabel lblFighting;
+	private JTextPane lblFighting;
 	private JLabel lblPlayerIcon;
 	private JLabel lblVs;
 	private JLabel lblEnemyIcon;
@@ -197,6 +197,7 @@ public class Screen {
 	private JButton btnSaveUSB;
 	private JButton btnSaveLocal;
 	private JButton btnLoadlocal;
+	private JTextPane lblFighting1;
 	
 
 	/**
@@ -821,10 +822,18 @@ public class Screen {
 		lblPlayerIcon.setBounds(56, 171, 50, 50);
 		combatPanel.add(lblPlayerIcon);
 		
-		lblFighting = new JLabel("Combat with The Evil King");
-		lblFighting.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFighting.setFont(new Font("Cambria", Font.BOLD, 19));
-		lblFighting.setBounds(10, 56, 304, 50);
+//		lblFighting2 = new JLabel("Combat with The Evil King");
+//		lblFighting2.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblFighting2.setFont(new Font("Cambria", Font.BOLD, 19));
+//		lblFighting2.setBounds(10, 56, 304, 50);
+//		combatPanel.add(lblFighting2);
+		
+		lblFighting = new JTextPane();
+		lblFighting.setForeground(Color.BLACK);
+		lblFighting.setFont(new Font("Cambria", Font.BOLD, 20));
+		lblFighting.setEditable(false);
+		lblFighting.setBackground(Color.LIGHT_GRAY);
+		lblFighting.setBounds(31, 76, 256, 60);
 		combatPanel.add(lblFighting);
 		
 		lblVs = new JLabel("VS.");
@@ -893,7 +902,7 @@ public class Screen {
 					if(tier == "Throne Room"){
 						victoryPanel.setVisible(true);
 						lights.win(currentPlayer.getId());
-						play("/resources/finalvictory.wav");
+						play("/resources/finalVictory.wav");
 						return;
 					}
 					if(rando(1,6) != 1){
@@ -912,6 +921,8 @@ public class Screen {
 		btnContinue.setBackground(Color.WHITE);
 		btnContinue.setBounds(99, 11, 126, 45);
 		combatPanel.add(btnContinue);
+		
+
 		
 		//==================== BAZZAR PAGE =================================
 		
@@ -1084,7 +1095,7 @@ public class Screen {
 		lblYouHaveFound_1 = new JLabel("You have found some ruins!");
 		lblYouHaveFound_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblYouHaveFound_1.setForeground(Color.WHITE);
-		lblYouHaveFound_1.setFont(new Font("Cambria", Font.BOLD, 22));
+		lblYouHaveFound_1.setFont(new Font("Cambria", Font.BOLD, 18));
 		lblYouHaveFound_1.setBounds(5, 69, 314, 59);
 		ruinPanel.add(lblYouHaveFound_1);
 		
@@ -1202,7 +1213,7 @@ public class Screen {
 		lblRotate = new JLabel("ROTATE TO NEXT PLAYER");
 		lblRotate.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRotate.setForeground(Color.WHITE);
-		lblRotate.setFont(new Font("Cambria", Font.BOLD, 22));
+		lblRotate.setFont(new Font("Cambria", Font.BOLD, 18));
 		lblRotate.setBounds(10, 116, 304, 51);
 		rotatePanel.add(lblRotate);
 		
@@ -1615,6 +1626,11 @@ public class Screen {
 	
 	//sets all the labels and text fields to the right value for the current player
 	public void repopulate(){
+		//=================== GAME START SCREEN ==============================
+		
+		btnLoadUsb.setText("Load USB");
+		btnLoadlocal.setText("Load Local");
+		
 		//==================== PLAYER START SCREEN ============================
 		
 		String stats = "";
@@ -1632,9 +1648,6 @@ public class Screen {
 		}
 		if(currentPlayer.isStarving()){
 			stats += "Starving: Losing HP\n";
-		}
-		if(currentPlayer.isDead()){
-			stats += "You Died!\n";
 		}
 		if(stats.length()<3){
 			stats = "No Negative Effects\n";
@@ -1672,7 +1685,7 @@ public class Screen {
 		}
 		else {
 			btnPotion.setText("No Potions");
-			btnTrap.setBackground(Color.GRAY);
+			btnPotion.setBackground(Color.GRAY);
 		}
 		//TRAPS
 		if(currentPlayer.hasTrap()){
@@ -2128,15 +2141,15 @@ public class Screen {
 		if(!currentPlayer.hasArmor()){
 			lblItem1.setText("Leather Armor");
 			lblItem1Effect.setText("+20HP");
-			btnBuy1.setText("100");
+			btnBuy1.setText("75");
 		} else if(currentPlayer.getArmor().getType() == "Leather Armor"){
 			lblItem1.setText("Chainmail Armor");
 			lblItem1Effect.setText("+40HP");
-			btnBuy1.setText("100");
+			btnBuy1.setText("75");
 		} else if(currentPlayer.getArmor().getType() == "Chainmail Armor"){
 			lblItem1.setText("Plate Armor");
 			lblItem1Effect.setText("+60HP");
-			btnBuy1.setText("100");
+			btnBuy1.setText("75");
 		} else {
 			int r1 = rando(0,6);
 			lblItem1.setText(itemArray[r1]);
@@ -2147,15 +2160,15 @@ public class Screen {
 		if(!currentPlayer.hasWeapon()){
 			lblItem2.setText("Iron Sword");
 			lblItem2Effect.setText("+20CP");
-			btnBuy2.setText("100");
+			btnBuy2.setText("75");
 		} else if(currentPlayer.getWeapon().getType() == "Iron Sword"){
 			lblItem2.setText("Steel Sword");
 			lblItem2Effect.setText("+40CP");
-			btnBuy2.setText("100");
+			btnBuy2.setText("75");
 		} else if(currentPlayer.getWeapon().getType() == "Steel Sword"){
 			lblItem2.setText("Obsidian Sword");
 			lblItem2Effect.setText("+60CP");
-			btnBuy2.setText("100");
+			btnBuy2.setText("75");
 		} else {
 			int r2 = rando(0,6);
 			lblItem2.setText(itemArray[r2]);
@@ -2282,8 +2295,8 @@ public class Screen {
 	
 	public void dragonMove(){
 		Space s = dragon.getSpace();
-		int opts = 1;
-		Space[] spaces = {s,null,null,null,null};
+		int opts = 0;
+		Space[] spaces = {null,null,null,null};
 		Space r = s.getCount();
 		Space l = s.getClock();
 		Space up = s.getInner();
@@ -2304,6 +2317,7 @@ public class Screen {
 			spaces[opts] = d;
 			opts++;
 		}
+		
 		int ran = rando(0,opts-1);
 		dragon.setSpace(spaces[ran]);
    	 	lights.move(dragon.getId(), dragon.getSpace().getId());
