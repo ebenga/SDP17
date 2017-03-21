@@ -227,7 +227,7 @@ public class Board implements java.io.Serializable {
 		spaces[28].setInner(spaces[12]);
 		spaces[28].setOuter(spaces[44]);
 		spaces[28].setClock(spaces[27]);
-		spaces[28].setCount(spaces[28]);
+		spaces[28].setCount(spaces[29]);
 		
 		spaces[29].setInner(spaces[13]);
 		spaces[29].setOuter(spaces[45]);

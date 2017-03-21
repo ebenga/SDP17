@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import javax.swing.JTextPane;
@@ -30,7 +33,7 @@ import java.net.URISyntaxException;
 public class Screen {
 
 	private Board gameBoard;
-	private JFrame frame;
+	private static JFrame frame;
 	private JPanel startPanel;
 	private JPanel playerStartPanel;
 	private JPanel settingsPanel;
@@ -197,7 +200,7 @@ public class Screen {
 	private JButton btnSaveUSB;
 	private JButton btnSaveLocal;
 	private JButton btnLoadlocal;
-	private JTextPane lblFighting1;
+	//private JTextPane lblFighting1;
 	
 
 	/**
@@ -209,6 +212,9 @@ public class Screen {
 				try {
 					Screen window = new Screen();
 					window.frame.setVisible(true);
+					GraphicsDevice device = GraphicsEnvironment
+					        .getLocalGraphicsEnvironment().getScreenDevices()[0];
+					device.setFullScreenWindow(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -502,7 +508,7 @@ public class Screen {
 		playerStartPanel.add(lblCP);
 		
 		lblFood = new JLabel("Food:");
-		lblFood.setForeground(Color.GREEN);
+		lblFood.setForeground(new Color(0, 128, 0));
 		lblFood.setHorizontalAlignment(SwingConstants.LEFT);
 		lblFood.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblFood.setBounds(10, 381, 104, 25);
@@ -2008,21 +2014,21 @@ public class Screen {
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 40;
-			eHP = 250;
+			eHP = 240;
 			Enemy e = new Enemy(enemies[2],eHP,eCP,icons[2]);
 			return e;
 		} else if(typ == "Royal Staircase"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 35;
-			eHP = 240;
+			eHP = 230;
 			Enemy e = new Enemy(enemies[1],eHP,eCP,icons[1]);
 			return e;
 		} else if(typ == "Courtyard"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 30;
-			eHP = 230;
+			eHP = 220;
 			Enemy e = new Enemy(enemies[0],eHP,eCP,icons[0]);
 			return e;
 		} else if(typ == "epic"){
@@ -2371,10 +2377,10 @@ public class Screen {
 			} else if(r>=9){
 				//magic item
 				String m;
-				if(rando(1,10)<9){
+				if(rando(1,8)<9){
 					m = magicItems[rando(1,2)];
 				} else {
-					m = magicItems[rando(0,2)];
+					m = magicItems[0];
 				}
 				
 				MagicItem temp = new MagicItem(m);
@@ -2420,7 +2426,7 @@ public class Screen {
 			} else {
 				//gold
 				lblLootName.setText("Gold");
-				int g = 5*rando(1,8);
+				int g = 5*rando(4,10);
 				lblLootValue.setText(String.valueOf(g));
 			}
 		}	

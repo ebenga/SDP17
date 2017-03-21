@@ -197,7 +197,7 @@ public class Screen {
 	private JButton btnSaveUSB;
 	private JButton btnSaveLocal;
 	private JButton btnLoadlocal;
-	private JTextPane lblFighting1;
+	//private JTextPane lblFighting1;
 	
 
 	/**
@@ -502,7 +502,7 @@ public class Screen {
 		playerStartPanel.add(lblCP);
 		
 		lblFood = new JLabel("Food:");
-		lblFood.setForeground(Color.GREEN);
+		lblFood.setForeground(new Color(0, 128, 0));
 		lblFood.setHorizontalAlignment(SwingConstants.LEFT);
 		lblFood.setFont(new Font("Cambria", Font.BOLD, 16));
 		lblFood.setBounds(10, 381, 104, 25);
@@ -830,11 +830,11 @@ public class Screen {
 		
 		lblFighting = new JTextPane();
 		lblFighting.setForeground(Color.BLACK);
-		lblFighting.setFont(new Font("Cambria", Font.BOLD, 18));
+		lblFighting.setFont(new Font("Cambria", Font.BOLD, 20));
 		lblFighting.setEditable(false);
 		lblFighting.setBackground(Color.LIGHT_GRAY);
-		lblFighting.setBounds(10, 381, 304, 77);
-		combatPanel.add(lblFighting1);
+		lblFighting.setBounds(31, 76, 256, 60);
+		combatPanel.add(lblFighting);
 		
 		lblVs = new JLabel("VS.");
 		lblVs.setHorizontalAlignment(SwingConstants.CENTER);
@@ -902,7 +902,7 @@ public class Screen {
 					if(tier == "Throne Room"){
 						victoryPanel.setVisible(true);
 						lights.win(currentPlayer.getId());
-						play("/resources/finalvictory.wav");
+						play("/resources/finalVictory.wav");
 						return;
 					}
 					if(rando(1,6) != 1){
@@ -1626,6 +1626,11 @@ public class Screen {
 	
 	//sets all the labels and text fields to the right value for the current player
 	public void repopulate(){
+		//=================== GAME START SCREEN ==============================
+		
+		btnLoadUsb.setText("Load USB");
+		btnLoadlocal.setText("Load Local");
+		
 		//==================== PLAYER START SCREEN ============================
 		
 		String stats = "";
@@ -2003,21 +2008,21 @@ public class Screen {
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 40;
-			eHP = 250;
+			eHP = 240;
 			Enemy e = new Enemy(enemies[2],eHP,eCP,icons[2]);
 			return e;
 		} else if(typ == "Royal Staircase"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 35;
-			eHP = 240;
+			eHP = 230;
 			Enemy e = new Enemy(enemies[1],eHP,eCP,icons[1]);
 			return e;
 		} else if(typ == "Courtyard"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 30;
-			eHP = 230;
+			eHP = 220;
 			Enemy e = new Enemy(enemies[0],eHP,eCP,icons[0]);
 			return e;
 		} else if(typ == "epic"){
@@ -2366,10 +2371,10 @@ public class Screen {
 			} else if(r>=9){
 				//magic item
 				String m;
-				if(rando(1,10)<9){
+				if(rando(1,8)<9){
 					m = magicItems[rando(1,2)];
 				} else {
-					m = magicItems[rando(0,2)];
+					m = magicItems[0];
 				}
 				
 				MagicItem temp = new MagicItem(m);
@@ -2415,7 +2420,7 @@ public class Screen {
 			} else {
 				//gold
 				lblLootName.setText("Gold");
-				int g = 5*rando(1,8);
+				int g = 5*rando(4,10);
 				lblLootValue.setText(String.valueOf(g));
 			}
 		}	
