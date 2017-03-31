@@ -328,7 +328,7 @@ public class Player implements java.io.Serializable{
 	}
 	public void setArmor(Armor a) {
 		if(armor != a){
-			HP += a.getEffect();
+			HP = 200+a.getEffect();
 		}
 		armor = a;
 	}
@@ -341,7 +341,7 @@ public class Player implements java.io.Serializable{
 	}
 	public void setWeapon(Weapon w) {
 		if(weapon != w){
-			CP += w.getEffect();
+			CP = 20+ w.getEffect();
 		}
 		weapon = w;
 	}

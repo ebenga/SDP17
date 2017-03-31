@@ -66,8 +66,8 @@ public class Screen {
 	private JTextPane statusPane;
 	private JTextPane keyPane;
 	private JTextPane magicPane;
-	private JLabel lblcurrentWeapon;
-	private JLabel lblcurrentArmor;
+	private JTextPane lblcurrentWeapon;
+	private JTextPane lblcurrentArmor;
 	private JLabel lblWeapon;
 	private JButton btnPotion;
 	private JButton btnTrap;
@@ -602,18 +602,20 @@ public class Screen {
 		magicPane.setBounds(172, 302, 142, 134);
 		inventoryPanel.add(magicPane);
 		
-		lblcurrentWeapon = new JLabel("null");
-		lblcurrentWeapon.setHorizontalAlignment(SwingConstants.LEFT);
+		lblcurrentWeapon = new JTextPane();
+		lblcurrentWeapon.setBackground(Color.LIGHT_GRAY);
+		//lblcurrentWeapon.setHorizontalAlignment(SwingConstants.LEFT);
 		lblcurrentWeapon.setForeground(Color.BLUE);
 		lblcurrentWeapon.setFont(new Font("Cambria", Font.BOLD, 14));
-		lblcurrentWeapon.setBounds(10, 213, 152, 25);
+		lblcurrentWeapon.setBounds(10, 202, 152, 58);
 		inventoryPanel.add(lblcurrentWeapon);
 		
-		lblcurrentArmor = new JLabel("null");
-		lblcurrentArmor.setHorizontalAlignment(SwingConstants.LEFT);
+		lblcurrentArmor = new JTextPane();
+		lblcurrentArmor.setBackground(Color.LIGHT_GRAY);
+		//lblcurrentArmor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblcurrentArmor.setForeground(Color.RED);
 		lblcurrentArmor.setFont(new Font("Cambria", Font.BOLD, 14));
-		lblcurrentArmor.setBounds(10, 132, 152, 25);
+		lblcurrentArmor.setBounds(10, 123, 152, 47);
 		inventoryPanel.add(lblcurrentArmor);
 		
 		lblWeapon = new JLabel("Weapon");
@@ -1943,8 +1945,8 @@ public class Screen {
 		}
 		
 		//Combat
-		int cran = rando(1,5);
-		if(cran == 4 && !s.isKingdom()){
+		int cran = rando(1,4);
+		if(cran == 3 && !s.isKingdom()){
 			combat("standard");
 			return;
 		}
@@ -1966,7 +1968,9 @@ public class Screen {
 		t.addActionListener(new ActionListener(){
 		     boolean playTurn = true;
 		     public void actionPerformed(ActionEvent e){
-		    	 play(fightSounds[rando(0,3)]);
+		    	 if(rando(0,1) == 1){
+		    		 play(fightSounds[rando(0,3)]);
+		    	 }
 		    	 if(playTurn){
 		    		 lblSwing.setIcon(new ImageIcon(Screen.class.getResource("/resources/playerSwing.png")));
 		    		 int damage = currentPlayer.getCombatPower()/2 + currentPlayer.getCombatPower()/rando(2,5);
@@ -2013,31 +2017,31 @@ public class Screen {
 		if(typ == "Throne Room"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
-			eCP = 40;
-			eHP = 240;
+			eCP = 45;
+			eHP = 245;
 			Enemy e = new Enemy(enemies[2],eHP,eCP,icons[2]);
 			return e;
 		} else if(typ == "Royal Staircase"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 35;
-			eHP = 230;
+			eHP = 235;
 			Enemy e = new Enemy(enemies[1],eHP,eCP,icons[1]);
 			return e;
 		} else if(typ == "Courtyard"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
 			eCP = 30;
-			eHP = 220;
+			eHP = 230;
 			Enemy e = new Enemy(enemies[0],eHP,eCP,icons[0]);
 			return e;
 		} else if(typ == "epic"){
 			enemies = epicEnemies;
 			icons = epicEnemiesIcon;
-			int rs = rando(3,5);
+			int rs = rando(3,6);
 			eCP = 6*rs;
-			rs = rando(3,5);
-			eHP = 40*rs;
+			rs = rando(8,12);
+			eHP = 20*rs;
 		} else {
 			enemies = standardEnemies;
 			icons = standardEnemiesIcon;
