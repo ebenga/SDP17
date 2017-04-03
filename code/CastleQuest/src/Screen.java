@@ -63,6 +63,7 @@ public class Screen {
 	private JLabel lblCP;
 	private JLabel lblFood;
 	private JLabel lblStatus;
+	private JLabel lblKnightcolor;
 	private JTextPane statusPane;
 	private JTextPane keyPane;
 	private JTextPane magicPane;
@@ -124,7 +125,6 @@ public class Screen {
 			"50","50","50","50",
 			"75","75"
 			};
-	private boolean canBarter = false;
 	private JLabel lblItem1Effect;
 	private JLabel lblItem2Effect;
 	private JLabel lblItem3Effect;
@@ -463,7 +463,7 @@ public class Screen {
 		});
 		btnInventory.setBackground(Color.WHITE);
 		btnInventory.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnInventory.setBounds(25, 105, 125, 47);
+		btnInventory.setBounds(25, 150, 125, 47);
 		playerStartPanel.add(btnInventory);
 		
 		btnMove = new JButton("Move");
@@ -483,7 +483,7 @@ public class Screen {
 		});
 		btnMove.setBackground(Color.WHITE);
 		btnMove.setFont(new Font("Cambria", Font.BOLD, 16));
-		btnMove.setBounds(160, 105, 125, 47);
+		btnMove.setBounds(160, 150, 125, 47);
 		playerStartPanel.add(btnMove);
 		
 		lblGold = new JLabel("Gold:");
@@ -527,6 +527,12 @@ public class Screen {
 		statusPane.setBackground(Color.LIGHT_GRAY);
 		statusPane.setBounds(143, 273, 171, 150);
 		playerStartPanel.add(statusPane);
+		
+		lblKnightcolor = new JLabel("knightColor");
+		lblKnightcolor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblKnightcolor.setFont(new Font("Cambria", Font.BOLD, 19));
+		lblKnightcolor.setBounds(10, 100, 304, 47);
+		playerStartPanel.add(lblKnightcolor);
 		
 		//==================== INVENTORY PAGE =============================
 		
@@ -961,7 +967,8 @@ public class Screen {
 		btnBarter = new JButton("Barter");
 		btnBarter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(canBarter){//success
+				int canBarter = rando(0,2);
+				if(canBarter == 1){//success
 					int p1 = Integer.parseInt(btnBuy1.getText());
 					int p2 = Integer.parseInt(btnBuy2.getText());
 					int p3 = Integer.parseInt(btnBuy3.getText());
@@ -974,10 +981,6 @@ public class Screen {
 					btnBuy2.setText(String.valueOf(p2));
 					btnBuy3.setText(String.valueOf(p3));
 					btnBuyFood.setText(String.valueOf(p4));
-					int b = rando(1,4);
-					if(b!=2){
-						canBarter = false;
-					}
 				} else {//fail
 					bazaarPanel.setVisible(false);
 					play("/resources/bazaarCloses.wav");
@@ -1029,14 +1032,14 @@ public class Screen {
 		btnBuy1.setBounds(225, 174, 84, 41);
 		bazaarPanel.add(btnBuy1);
 		
-		btnBuyFood = new JButton("25");
+		btnBuyFood = new JButton("10");
 		btnBuyFood.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(currentPlayer.getGold()>=25){
+				if(currentPlayer.getGold()>=Integer.parseInt(btnBuyFood.getText())){
 					currentPlayer.setFood(currentPlayer.getFood()+5);
-					currentPlayer.setGold(currentPlayer.getGold()-25);
+					currentPlayer.setGold(currentPlayer.getGold()-Integer.parseInt(btnBuyFood.getText()));
 					play("/resources/blip.wav");
-					repopulate();
+					lblBGold.setText("Your Gold: "+currentPlayer.getGold());
 				} else {
 					play("/resources/turnOver.wav");
 				}
@@ -1662,6 +1665,21 @@ public class Screen {
 		}
 		statusPane.setText(stats);
 		lblcurrentPlayer.setText("Knight of " + currentPlayer.getHomeKingdom());
+		String color;
+		int id = currentPlayer.getId();
+		if(id == 1){
+			color = "BLUE";
+		} else if(id == 2){
+			color = "GREEN";
+		} else if(id == 3){
+			color = "ORANGE";
+		} else if(id == 4){
+			color = "PURPLE";
+		} else {
+			color = "";
+		}
+		
+		lblKnightcolor.setText(color);
 		lblGold.setText("Gold: "+currentPlayer.getGold());
 		lblHP.setText("HP: " + currentPlayer.getHealthPoints());
 		lblCP.setText("CP: " + currentPlayer.getCombatPower());
@@ -1827,7 +1845,7 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("25");
+		btnBuyFood.setText("10");
 		
 		////======================== Dragon SCREEN ====================================================
 		lblDragonPosition.setText("Moving...");
@@ -1946,7 +1964,7 @@ public class Screen {
 		
 		//Combat
 		int cran = rando(1,4);
-		if(cran == 3 && !s.isKingdom()){
+		if(cran == 4 && !s.isKingdom()){
 			combat("standard");
 			return;
 		}
@@ -2068,11 +2086,6 @@ public class Screen {
 	
 	public void openBazaar(){
 		stockShelves();
-		int bart = rando(1,4);
-		canBarter = false;
-		if(bart==2){
-			canBarter = true;
-		}
 		play("/resources/bazaarOpens.wav");
 		bazaarPanel.setVisible(true);
 	}
@@ -2381,7 +2394,7 @@ public class Screen {
 			} else if(r>=9){
 				//magic item
 				String m;
-				if(rando(1,8)<9){
+				if(rando(1,8)!=6){
 					m = magicItems[rando(1,2)];
 				} else {
 					m = magicItems[0];
@@ -2430,7 +2443,7 @@ public class Screen {
 			} else {
 				//gold
 				lblLootName.setText("Gold");
-				int g = 5*rando(4,10);
+				int g = rando(1,7)*rando(2,10);
 				lblLootValue.setText(String.valueOf(g));
 			}
 		}	
