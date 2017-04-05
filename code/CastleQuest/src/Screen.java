@@ -919,7 +919,7 @@ public class Screen {
 						play("/resources/finalVictory.wav");
 						return;
 					}
-					if(rando(1,6) != 1){
+					if(rando(0,6) != 5){
 						lootter(tier);
 					} else {
 						play("/resources/turnOver.wav");
