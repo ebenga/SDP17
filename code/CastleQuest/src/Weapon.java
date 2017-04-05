@@ -8,13 +8,13 @@ public class Weapon implements java.io.Serializable{
 		type = typ;
 		switch(typ){
 			case "Iron Sword":
-				effect = 20;
+				effect = 10;
 				break;
 			case "Steel Sword":
-				effect = 40;
+				effect = 20;
 				break;
 			case "Obsidian Sword":
-				effect = 60;
+				effect = 30;
 				break;
 		}
 	}

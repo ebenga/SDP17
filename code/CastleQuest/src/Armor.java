@@ -8,13 +8,13 @@ public class Armor {
 		type = typ;
 		switch(typ){
 			case "Leather Armor":
-				effect = 20;
+				effect = 50;
 				break;
 			case "Chainmail Armor":
-				effect = 40;
+				effect = 100;
 				break;
 			case "Plate Armor":
-				effect = 60;
+				effect = 150;
 				break;
 		}
 	}
