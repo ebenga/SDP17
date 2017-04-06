@@ -1935,7 +1935,7 @@ public class Screen {
 			if(k[0]&&k[1]&&k[2]){
 				//player has all the keys
 				play("/resources/gateOpen.wav");
-				lblTurnOver.setText("NO TURNING BACK");
+				lblTurnOver.setText("THE GATES HAVE OPENED");
 				rotatePanel.setVisible(true);
 				return;
 			} else {

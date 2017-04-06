@@ -1032,7 +1032,7 @@ public class Screen {
 		btnBuy1.setBounds(225, 174, 84, 41);
 		bazaarPanel.add(btnBuy1);
 		
-		btnBuyFood = new JButton("15");
+		btnBuyFood = new JButton("10");
 		btnBuyFood.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(currentPlayer.getGold()>=Integer.parseInt(btnBuyFood.getText())){
@@ -1326,6 +1326,7 @@ public class Screen {
 			         fileOut.close();
 			         btnSaveLocal.setText("Saved");
 			         
+			         System.out.println("Serialized data is saved Locally");
 		    	  } catch (IOException i2){
 		    		  i2.printStackTrace();
 				      btnSaveLocal.setText("Error");
@@ -1844,7 +1845,7 @@ public class Screen {
 		
 		//======================== Bazaar ==========================
 		lblBGold.setText("Your Gold: "+currentPlayer.getGold());
-		btnBuyFood.setText("15");
+		btnBuyFood.setText("10");
 		
 		////======================== Dragon SCREEN ====================================================
 		lblDragonPosition.setText("Moving...");
@@ -1935,7 +1936,7 @@ public class Screen {
 			if(k[0]&&k[1]&&k[2]){
 				//player has all the keys
 				play("/resources/gateOpen.wav");
-				lblTurnOver.setText("NO TURNING BACK");
+				lblTurnOver.setText("THE GATES HAVE OPENED");
 				rotatePanel.setVisible(true);
 				return;
 			} else {
@@ -2061,7 +2062,7 @@ public class Screen {
 			enemies = standardEnemies;
 			icons = standardEnemiesIcon;
 			eCP = rando(16,22);
-			eHP = rando(180,220);
+			eHP = rando(180,210);
 		}
 		//choose enemy
 		int re = rando(0,2);
@@ -2438,7 +2439,7 @@ public class Screen {
 			} else {
 				//gold
 				lblLootName.setText("Gold");
-				int g = rando(10,30);
+				int g = rando(10,50);
 				lblLootValue.setText(String.valueOf(g));
 			}
 		}	

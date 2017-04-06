@@ -84,3 +84,13 @@
 
 2017-04-05 19:05:32,536 [Thread-10] ERROR org.eclipse.jgit.util.FS - xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
 
+2017-04-05 20:36:58,117 [Worker-3] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2017-04-05 20:37:00,787 [Thread-9] ERROR org.eclipse.jgit.util.FS - xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+
+2017-04-05 20:37:00,803 [Thread-10] ERROR org.eclipse.jgit.util.FS - xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+
+2017-04-05 21:31:32,929 [Worker-0] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2017-04-05 21:31:35,097 [Thread-8] ERROR org.eclipse.jgit.util.FS - xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+
+2017-04-05 21:31:35,115 [Thread-9] ERROR org.eclipse.jgit.util.FS - xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+

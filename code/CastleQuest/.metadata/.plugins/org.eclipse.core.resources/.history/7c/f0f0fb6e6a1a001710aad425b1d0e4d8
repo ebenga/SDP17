@@ -143,7 +143,7 @@ public class Player implements java.io.Serializable{
 	
 	public int getHealthPoints() {
 		// returns health points
-		if(HP < 200 && !Diseased){
+		if(HP < 200 && !Starving){
 			while(Food > 0 && HP < 200){
 				HP += 10;
 				Food--;
@@ -189,7 +189,7 @@ public class Player implements java.io.Serializable{
 	}
 	public void setFood(int f) {
 		Food = f;
-		if(HP < 200 && !Diseased){
+		if(HP < 200 && !Starving){
 			while(Food > 0 && HP < 200){
 				HP += 10;
 				Food--;

@@ -1326,6 +1326,7 @@ public class Screen {
 			         fileOut.close();
 			         btnSaveLocal.setText("Saved");
 			         
+			         System.out.println("Serialized data is saved Locally");
 		    	  } catch (IOException i2){
 		    		  i2.printStackTrace();
 				      btnSaveLocal.setText("Error");
@@ -1935,7 +1936,7 @@ public class Screen {
 			if(k[0]&&k[1]&&k[2]){
 				//player has all the keys
 				play("/resources/gateOpen.wav");
-				lblTurnOver.setText("NO TURNING BACK");
+				lblTurnOver.setText("THE GATES HAVE OPENED");
 				rotatePanel.setVisible(true);
 				return;
 			} else {
