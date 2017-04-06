@@ -143,6 +143,15 @@ public class Player implements java.io.Serializable{
 	
 	public int getHealthPoints() {
 		// returns health points
+		if(HP < 200){
+			while(Food > 0 && HP < 200){
+				HP += 10;
+				Food--;
+				if(HP > 200){
+					HP = 200;
+				}
+			}
+		}
 		if(armor == null){
 			return HP;
 		}
@@ -180,6 +189,15 @@ public class Player implements java.io.Serializable{
 	}
 	public void setFood(int f) {
 		Food = f;
+		if(HP < 200){
+			while(Food > 0 && HP < 200){
+				HP += 10;
+				Food--;
+				if(HP > 200){
+					HP = 200;
+				}
+			}
+		}
 	}
 	public void Eat(){
 		Food -= rate;
@@ -406,7 +424,6 @@ public class Player implements java.io.Serializable{
 	
 	public void death(){
 		Deathrounds = 0;
-		gold = 100;
 		HP = 200;
 		effectiveHP = 200;
 		CP = 20;
@@ -418,9 +435,7 @@ public class Player implements java.io.Serializable{
 		Starving = false;
 		potion = null;
 		trap = null;
-		armor = null;
-		weapon = null;
-		//magicItem = null;
+		magicItem = null;
 		currentSpace = homeSpace;
 	}
 

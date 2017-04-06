@@ -2062,7 +2062,7 @@ public class Screen {
 			enemies = standardEnemies;
 			icons = standardEnemiesIcon;
 			eCP = rando(16,22);
-			eHP = rando(180,220);
+			eHP = rando(180,210);
 		}
 		//choose enemy
 		int re = rando(0,2);
@@ -2390,7 +2390,7 @@ public class Screen {
 			} else if(r>=9){
 				//magic item
 				String m;
-				if(rando(1,8)!=6){
+				if(rando(2,7)!=6){
 					m = magicItems[rando(1,2)];
 				} else {
 					m = magicItems[0];
