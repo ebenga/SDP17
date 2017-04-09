@@ -1,6 +1,6 @@
 import java.io.IOException;
 
-public class RpiRunner {
+public class RpiRunner implements java.io.Serializable {
 	
 	public void initialize(int numP){
 		try {

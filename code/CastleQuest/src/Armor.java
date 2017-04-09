@@ -1,5 +1,5 @@
 
-public class Armor {
+public class Armor implements java.io.Serializable {
 
 	private String type;
 	private int effect;

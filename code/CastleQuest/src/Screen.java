@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 
-public class Screen {
+public class Screen implements java.io.Serializable{
 
 	private Board gameBoard;
 	private static JFrame frame;
@@ -258,6 +258,7 @@ public class Screen {
 		btnLoadlocal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Board gboard = null;
+				play("/resources/blip.wav");
 			      try {
 			    	 File f = new File ("/home/pi/Game_Saves/gboard.ser");
 			         FileInputStream fileIn = new FileInputStream(f);
@@ -265,15 +266,184 @@ public class Screen {
 			         gboard = (Board) in.readObject();
 			         in.close();
 			         fileIn.close();
-			         gameBoard = gboard;
-			         currentPlayer = gameBoard.currentPlayer;
-			         playerOne = gameBoard.p1;
-			         playerTwo = gameBoard.p2;
-			         playerThree = gameBoard.p3;
-			         playerFour = gameBoard.p4;
-			         dragon = gameBoard.d;
-			         numPlayers = gameBoard.numPlayer;
-			         dragonLives = gameBoard.dragonLives;
+			         //gameBoard = gboard;
+			         gameBoard = new Board();
+			         numPlayers = gboard.numPlayer;
+			         boarder();
+			         switch(gboard.currentPlayer.getId()){
+			         case 1:
+			        	 currentPlayer = playerOne;
+			        	 break;
+			         case 2:
+			        	 currentPlayer = playerTwo;
+			        	 break;
+			         case 3:
+			        	 currentPlayer = playerThree;
+			        	 break;
+			         case 4:
+			        	 currentPlayer = playerFour;
+			        	 break;
+			        default: 
+			        	currentPlayer = playerOne;
+				        break;
+			         }
+			         //currentPlayer = gboard.currentPlayer;
+			         //player one
+			         gameBoard.setPlayerSpace(playerOne,gboard.p1.getSpace().getId());
+			         playerOne.setFood(gboard.p1.getFood());
+			         playerOne.setGold(gboard.p1.getGold());
+			         playerOne.setKeyofCourage(gboard.p1.getKeys()[0]);
+			         playerOne.setKeyofCourage(gboard.p1.getKeys()[1]);
+			         playerOne.setKeyofCourage(gboard.p1.getKeys()[2]);
+			         if(gboard.p1.hasArmor()){
+			        	 playerOne.setArmor(new Armor(gboard.p1.getArmor().getType()));
+			         }
+			         if(gboard.p1.hasMagicItem()){
+			        	 playerOne.setMagicItem(new MagicItem(gboard.p1.getMagicItem().getType()));
+			         }
+			         if(gboard.p1.hasPotion()){
+			        	 playerOne.setPotion(new Potion(gboard.p1.getPotion().getType()));
+			         }
+			         if(gboard.p1.hasTrap()){
+			        	 playerOne.setTrap(new Trap(gboard.p1.getTrap().getType()));
+			         }
+			         if(gboard.p1.hasWeapon()){
+			        	 playerOne.setWeapon(new Weapon(gboard.p1.getWeapon().getType()));
+			         }
+			         if(gboard.p1.hasVisited("Lassallax")){
+			        	 playerOne.setVisited("Lassallax");
+			         }
+			         if(gboard.p1.hasVisited("Derelin")){
+			        	 playerOne.setVisited("Derelin");
+			         }
+			         if(gboard.p1.hasVisited("WybengaLand")){
+			        	 playerOne.setVisited("WybengaLand");
+			         }
+			         if(gboard.p1.hasVisited("Mangia")){
+			        	 playerOne.setVisited("Mangia");
+			         }
+			         
+			         //Player two
+			         if(numPlayers > 1){
+				         gameBoard.setPlayerSpace(playerTwo,gboard.p2.getSpace().getId());
+				         playerTwo.setFood(gboard.p2.getFood());
+				         playerTwo.setGold(gboard.p2.getGold());
+				         playerTwo.setKeyofCourage(gboard.p2.getKeys()[0]);
+				         playerTwo.setKeyofCourage(gboard.p2.getKeys()[1]);
+				         playerTwo.setKeyofCourage(gboard.p2.getKeys()[2]);
+				         
+				         if(gboard.p2.hasArmor()){
+				        	 playerTwo.setArmor(new Armor(gboard.p2.getArmor().getType()));
+				         }
+				         if(gboard.p2.hasMagicItem()){
+					         playerTwo.setMagicItem(new MagicItem(gboard.p2.getMagicItem().getType()));
+				         }
+				         if(gboard.p2.hasPotion()){
+					         playerTwo.setPotion(new Potion(gboard.p2.getPotion().getType()));
+				         }
+				         if(gboard.p2.hasTrap()){
+					         playerTwo.setTrap(new Trap(gboard.p2.getTrap().getType()));
+				         }
+				         if(gboard.p2.hasWeapon()){
+					         playerTwo.setWeapon(new Weapon(gboard.p2.getWeapon().getType()));
+				         }
+				         
+				         if(gboard.p2.hasVisited("Lassallax")){
+				        	 playerTwo.setVisited("Lassallax");
+				         }
+				         if(gboard.p2.hasVisited("Derelin")){
+				        	 playerTwo.setVisited("Derelin");
+				         }
+				         if(gboard.p2.hasVisited("WybengaLand")){
+				        	 playerTwo.setVisited("WybengaLand");
+				         }
+				         if(gboard.p2.hasVisited("Mangia")){
+				        	 playerTwo.setVisited("Mangia");
+				         }
+			         }
+			         //player three
+			         if(numPlayers > 2){
+				         gameBoard.setPlayerSpace(playerThree,gboard.p3.getSpace().getId());
+				         playerThree.setFood(gboard.p3.getFood());
+				         playerThree.setGold(gboard.p3.getGold());
+				         playerThree.setKeyofCourage(gboard.p3.getKeys()[0]);
+				         playerThree.setKeyofCourage(gboard.p3.getKeys()[1]);
+				         playerThree.setKeyofCourage(gboard.p3.getKeys()[2]);
+				         
+				         if(gboard.p3.hasArmor()){
+				        	 playerThree.setArmor(new Armor(gboard.p3.getArmor().getType()));
+				         }
+				         if(gboard.p3.hasMagicItem()){
+					         playerThree.setMagicItem(new MagicItem(gboard.p3.getMagicItem().getType()));
+				         }
+				         if(gboard.p3.hasPotion()){
+					         playerThree.setPotion(new Potion(gboard.p3.getPotion().getType()));
+				         }
+				         if(gboard.p3.hasTrap()){
+					         playerThree.setTrap(new Trap(gboard.p3.getTrap().getType()));
+				         }
+				         if(gboard.p3.hasWeapon()){
+					         playerThree.setWeapon(new Weapon(gboard.p3.getWeapon().getType()));
+				         }
+				         
+				         if(gboard.p3.hasVisited("Lassallax")){
+				        	 playerThree.setVisited("Lassallax");
+				         }
+				         if(gboard.p3.hasVisited("Derelin")){
+				        	 playerThree.setVisited("Derelin");
+				         }
+				         if(gboard.p3.hasVisited("WybengaLand")){
+				        	 playerThree.setVisited("WybengaLand");
+				         }
+				         if(gboard.p3.hasVisited("Mangia")){
+				        	 playerThree.setVisited("Mangia");
+				         }
+			         }
+			         //player four
+			         if(numPlayers > 3){
+				         gameBoard.setPlayerSpace(playerFour,gboard.p4.getSpace().getId());
+				         playerFour.setFood(gboard.p4.getFood());
+				         playerFour.setGold(gboard.p4.getGold());
+				         playerFour.setKeyofCourage(gboard.p4.getKeys()[0]);
+				         playerFour.setKeyofCourage(gboard.p4.getKeys()[1]);
+				         playerFour.setKeyofCourage(gboard.p4.getKeys()[2]);
+				         
+				         if(gboard.p4.hasArmor()){
+				        	 playerFour.setArmor(new Armor(gboard.p4.getArmor().getType()));
+				         }
+				         if(gboard.p4.hasMagicItem()){
+					         playerFour.setMagicItem(new MagicItem(gboard.p4.getMagicItem().getType()));
+				         }
+				         if(gboard.p4.hasPotion()){
+					         playerFour.setPotion(new Potion(gboard.p4.getPotion().getType()));
+				         }
+				         if(gboard.p4.hasTrap()){
+					         playerFour.setTrap(new Trap(gboard.p4.getTrap().getType()));
+				         }
+				         if(gboard.p4.hasWeapon()){
+					         playerFour.setWeapon(new Weapon(gboard.p4.getWeapon().getType()));
+				         }
+				         
+				         if(gboard.p4.hasVisited("Lassallax")){
+				        	 playerFour.setVisited("Lassallax");
+				         }
+				         if(gboard.p4.hasVisited("Derelin")){
+				        	 playerFour.setVisited("Derelin");
+				         }
+				         if(gboard.p4.hasVisited("WybengaLand")){
+				        	 playerFour.setVisited("WybengaLand");
+				         }
+				         if(gboard.p4.hasVisited("Mangia")){
+				        	 playerFour.setVisited("Mangia");
+				         }
+			         }
+			         //dragon
+			         dragon = new Dragon();
+			         dragon.addGold(gboard.d.getGold()-300);
+			         dragonLives = gboard.dragonLives;
+			         if(dragonLives){
+			        	 gameBoard.setDragonSpace(dragon, gboard.d.getSpace().getId());
+			         }
 			         repopulate();
 			         //set lights
 			         lights.reset();
@@ -305,6 +475,7 @@ public class Screen {
 		btnLoadUsb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Board gboard = null;
+				play("/resources/blip.wav");
 			    try {
 			    	 File f = new File ("/media/pi/Saved_Games/gboard.ser");
 			         FileInputStream fileIn = new FileInputStream(f);
@@ -312,15 +483,183 @@ public class Screen {
 			         gboard = (Board) in.readObject();
 			         in.close();
 			         fileIn.close();
-			         gameBoard = gboard;
-			         currentPlayer = gameBoard.currentPlayer;
-			         playerOne = gameBoard.p1;
-			         playerTwo = gameBoard.p2;
-			         playerThree = gameBoard.p3;
-			         playerFour = gameBoard.p4;
-			         dragon = gameBoard.d;
-			         numPlayers = gameBoard.numPlayer;
-			         dragonLives = gameBoard.dragonLives;
+			         gameBoard = new Board();
+			         numPlayers = gboard.numPlayer;
+			         boarder();
+			         switch(gboard.currentPlayer.getId()){
+			         case 1:
+			        	 currentPlayer = playerOne;
+			        	 break;
+			         case 2:
+			        	 currentPlayer = playerTwo;
+			        	 break;
+			         case 3:
+			        	 currentPlayer = playerThree;
+			        	 break;
+			         case 4:
+			        	 currentPlayer = playerFour;
+			        	 break;
+			        default: 
+			        	currentPlayer = playerOne;
+				        break;
+			         }
+			         //currentPlayer = gboard.currentPlayer;
+			         //player one
+			         gameBoard.setPlayerSpace(playerOne,gboard.p1.getSpace().getId());
+			         playerOne.setFood(gboard.p1.getFood());
+			         playerOne.setGold(gboard.p1.getGold());
+			         playerOne.setKeyofCourage(gboard.p1.getKeys()[0]);
+			         playerOne.setKeyofCourage(gboard.p1.getKeys()[1]);
+			         playerOne.setKeyofCourage(gboard.p1.getKeys()[2]);
+			         if(gboard.p1.hasArmor()){
+			        	 playerOne.setArmor(new Armor(gboard.p1.getArmor().getType()));
+			         }
+			         if(gboard.p1.hasMagicItem()){
+			        	 playerOne.setMagicItem(new MagicItem(gboard.p1.getMagicItem().getType()));
+			         }
+			         if(gboard.p1.hasPotion()){
+			        	 playerOne.setPotion(new Potion(gboard.p1.getPotion().getType()));
+			         }
+			         if(gboard.p1.hasTrap()){
+			        	 playerOne.setTrap(new Trap(gboard.p1.getTrap().getType()));
+			         }
+			         if(gboard.p1.hasWeapon()){
+			        	 playerOne.setWeapon(new Weapon(gboard.p1.getWeapon().getType()));
+			         }
+			         if(gboard.p1.hasVisited("Lassallax")){
+			        	 playerOne.setVisited("Lassallax");
+			         }
+			         if(gboard.p1.hasVisited("Derelin")){
+			        	 playerOne.setVisited("Derelin");
+			         }
+			         if(gboard.p1.hasVisited("WybengaLand")){
+			        	 playerOne.setVisited("WybengaLand");
+			         }
+			         if(gboard.p1.hasVisited("Mangia")){
+			        	 playerOne.setVisited("Mangia");
+			         }
+			         
+			         //Player two
+			         if(numPlayers > 1){
+				         gameBoard.setPlayerSpace(playerTwo,gboard.p2.getSpace().getId());
+				         playerTwo.setFood(gboard.p2.getFood());
+				         playerTwo.setGold(gboard.p2.getGold());
+				         playerTwo.setKeyofCourage(gboard.p2.getKeys()[0]);
+				         playerTwo.setKeyofCourage(gboard.p2.getKeys()[1]);
+				         playerTwo.setKeyofCourage(gboard.p2.getKeys()[2]);
+				         
+				         if(gboard.p2.hasArmor()){
+				        	 playerTwo.setArmor(new Armor(gboard.p2.getArmor().getType()));
+				         }
+				         if(gboard.p2.hasMagicItem()){
+					         playerTwo.setMagicItem(new MagicItem(gboard.p2.getMagicItem().getType()));
+				         }
+				         if(gboard.p2.hasPotion()){
+					         playerTwo.setPotion(new Potion(gboard.p2.getPotion().getType()));
+				         }
+				         if(gboard.p2.hasTrap()){
+					         playerTwo.setTrap(new Trap(gboard.p2.getTrap().getType()));
+				         }
+				         if(gboard.p2.hasWeapon()){
+					         playerTwo.setWeapon(new Weapon(gboard.p2.getWeapon().getType()));
+				         }
+				         
+				         if(gboard.p2.hasVisited("Lassallax")){
+				        	 playerTwo.setVisited("Lassallax");
+				         }
+				         if(gboard.p2.hasVisited("Derelin")){
+				        	 playerTwo.setVisited("Derelin");
+				         }
+				         if(gboard.p2.hasVisited("WybengaLand")){
+				        	 playerTwo.setVisited("WybengaLand");
+				         }
+				         if(gboard.p2.hasVisited("Mangia")){
+				        	 playerTwo.setVisited("Mangia");
+				         }
+			         }
+			         //player three
+			         if(numPlayers > 2){
+				         gameBoard.setPlayerSpace(playerThree,gboard.p3.getSpace().getId());
+				         playerThree.setFood(gboard.p3.getFood());
+				         playerThree.setGold(gboard.p3.getGold());
+				         playerThree.setKeyofCourage(gboard.p3.getKeys()[0]);
+				         playerThree.setKeyofCourage(gboard.p3.getKeys()[1]);
+				         playerThree.setKeyofCourage(gboard.p3.getKeys()[2]);
+				         
+				         if(gboard.p3.hasArmor()){
+				        	 playerThree.setArmor(new Armor(gboard.p3.getArmor().getType()));
+				         }
+				         if(gboard.p3.hasMagicItem()){
+					         playerThree.setMagicItem(new MagicItem(gboard.p3.getMagicItem().getType()));
+				         }
+				         if(gboard.p3.hasPotion()){
+					         playerThree.setPotion(new Potion(gboard.p3.getPotion().getType()));
+				         }
+				         if(gboard.p3.hasTrap()){
+					         playerThree.setTrap(new Trap(gboard.p3.getTrap().getType()));
+				         }
+				         if(gboard.p3.hasWeapon()){
+					         playerThree.setWeapon(new Weapon(gboard.p3.getWeapon().getType()));
+				         }
+				         
+				         if(gboard.p3.hasVisited("Lassallax")){
+				        	 playerThree.setVisited("Lassallax");
+				         }
+				         if(gboard.p3.hasVisited("Derelin")){
+				        	 playerThree.setVisited("Derelin");
+				         }
+				         if(gboard.p3.hasVisited("WybengaLand")){
+				        	 playerThree.setVisited("WybengaLand");
+				         }
+				         if(gboard.p3.hasVisited("Mangia")){
+				        	 playerThree.setVisited("Mangia");
+				         }
+			         }
+			         //player four
+			         if(numPlayers > 3){
+				         gameBoard.setPlayerSpace(playerFour,gboard.p4.getSpace().getId());
+				         playerFour.setFood(gboard.p4.getFood());
+				         playerFour.setGold(gboard.p4.getGold());
+				         playerFour.setKeyofCourage(gboard.p4.getKeys()[0]);
+				         playerFour.setKeyofCourage(gboard.p4.getKeys()[1]);
+				         playerFour.setKeyofCourage(gboard.p4.getKeys()[2]);
+				         
+				         if(gboard.p4.hasArmor()){
+				        	 playerFour.setArmor(new Armor(gboard.p4.getArmor().getType()));
+				         }
+				         if(gboard.p4.hasMagicItem()){
+					         playerFour.setMagicItem(new MagicItem(gboard.p4.getMagicItem().getType()));
+				         }
+				         if(gboard.p4.hasPotion()){
+					         playerFour.setPotion(new Potion(gboard.p4.getPotion().getType()));
+				         }
+				         if(gboard.p4.hasTrap()){
+					         playerFour.setTrap(new Trap(gboard.p4.getTrap().getType()));
+				         }
+				         if(gboard.p4.hasWeapon()){
+					         playerFour.setWeapon(new Weapon(gboard.p4.getWeapon().getType()));
+				         }
+				         
+				         if(gboard.p4.hasVisited("Lassallax")){
+				        	 playerFour.setVisited("Lassallax");
+				         }
+				         if(gboard.p4.hasVisited("Derelin")){
+				        	 playerFour.setVisited("Derelin");
+				         }
+				         if(gboard.p4.hasVisited("WybengaLand")){
+				        	 playerFour.setVisited("WybengaLand");
+				         }
+				         if(gboard.p4.hasVisited("Mangia")){
+				        	 playerFour.setVisited("Mangia");
+				         }
+			         }
+			         //dragon
+			         dragon = new Dragon();
+			         dragon.addGold(gboard.d.getGold()-300);
+			         dragonLives = gboard.dragonLives;
+			         if(dragonLives){
+			        	 gameBoard.setDragonSpace(dragon, gboard.d.getSpace().getId());
+			         }
 			         repopulate();
 			         //set lights
 			         lights.reset();
@@ -330,6 +669,8 @@ public class Screen {
 			 		 lights.move(2, playerTwo.getSpace().getId());
 			 		 lights.move(3, playerThree.getSpace().getId());
 			 		 lights.move(4, playerFour.getSpace().getId());
+			         			         
+
 			         startPanel.setVisible(false);
 			         playerStartPanel.setVisible(true);
 			    }catch(IOException i) {
@@ -916,7 +1257,7 @@ public class Screen {
 					if(tier == "Throne Room"){
 						victoryPanel.setVisible(true);
 						lights.win(currentPlayer.getId());
-						play("/resources/finalVictory.wav");
+						play("/resources/finalvictory.wav");
 						return;
 					}
 					if(rando(0,6) != 5){
@@ -1868,6 +2209,8 @@ public class Screen {
 		lights.move(currentPlayer.getId(), currentPlayer.getSpace().getId());
 		boolean[] k = currentPlayer.getKeys();
 		//Enter new kingdom and get a key
+		System.out.println("Space: " + s.getId() + " " + s.getType() + s.isKingdom());
+		
 		if(s.isKingdom() && !currentPlayer.hasVisited(s.getType())){
 			currentPlayer.setVisited(s.getType());
 			txtpnDesc.setText("Congratulations!\nThe people of " + s.getType() + " have granted you a key!");
@@ -1962,8 +2305,8 @@ public class Screen {
 		}
 		
 		//Combat
-		int cran = rando(1,4);
-		if(cran == 4 && !s.isKingdom()){
+		int cran = rando(1,3);
+		if(cran == 3 && !s.isKingdom()){
 			combat("standard");
 			return;
 		}
@@ -2012,7 +2355,7 @@ public class Screen {
 		 				lblDamage.setText("YOU HAVE DIED");
 		 				lights.move(currentPlayer.getId(), currentPlayer.getSpace().getId());
 		 			 } else {
-		 				play("/resources/battleWon.wav");
+		 				play("/resources/battlewon.wav");
 		 				lblDamage.setText("THEY HAVE DIED");
 		 			 }
 		 			btnContinue.setVisible(true);
@@ -2034,29 +2377,29 @@ public class Screen {
 		if(typ == "Throne Room"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
-			eCP = 45;
-			eHP = 350;
+			eCP = rando(35,45);
+			eHP = rando(300,350);
 			Enemy e = new Enemy(enemies[2],eHP,eCP,icons[2]);
 			return e;
 		} else if(typ == "Royal Staircase"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
-			eCP = 40;
-			eHP = 325;
+			eCP = 35;
+			eHP = 300;
 			Enemy e = new Enemy(enemies[1],eHP,eCP,icons[1]);
 			return e;
 		} else if(typ == "Courtyard"){
 			enemies = royalEnemies;
 			icons = royalEnemiesIcon;
-			eCP = 35;
-			eHP = 300;
+			eCP = 30;
+			eHP = 250;
 			Enemy e = new Enemy(enemies[0],eHP,eCP,icons[0]);
 			return e;
 		} else if(typ == "epic"){
 			enemies = epicEnemies;
 			icons = epicEnemiesIcon;
-			eCP = rando(18,50);
-			eHP = rando(225,300);
+			eCP = rando(18,40);
+			eHP = rando(200,300);
 		} else {
 			enemies = standardEnemies;
 			icons = standardEnemiesIcon;
@@ -2160,11 +2503,11 @@ public class Screen {
 			lblItem1.setText("Leather Armor");
 			lblItem1Effect.setText("+50HP");
 			btnBuy1.setText("75");
-		} else if(currentPlayer.getArmor().getType() == "Leather Armor"){
+		} else if(currentPlayer.getArmor().getEffect() == 50){
 			lblItem1.setText("Chainmail Armor");
 			lblItem1Effect.setText("+100HP");
 			btnBuy1.setText("75");
-		} else if(currentPlayer.getArmor().getType() == "Chainmail Armor"){
+		} else if(currentPlayer.getArmor().getEffect() == 100){
 			lblItem1.setText("Plate Armor");
 			lblItem1Effect.setText("+150HP");
 			btnBuy1.setText("75");
@@ -2179,11 +2522,11 @@ public class Screen {
 			lblItem2.setText("Iron Sword");
 			lblItem2Effect.setText("+10CP");
 			btnBuy2.setText("75");
-		} else if(currentPlayer.getWeapon().getType() == "Iron Sword"){
+		} else if(currentPlayer.getWeapon().getEffect() == 10){
 			lblItem2.setText("Steel Sword");
 			lblItem2Effect.setText("+20CP");
 			btnBuy2.setText("75");
-		} else if(currentPlayer.getWeapon().getType() == "Steel Sword"){
+		} else if(currentPlayer.getWeapon().getEffect() == 20){
 			lblItem2.setText("Obsidian Sword");
 			lblItem2Effect.setText("+30CP");
 			btnBuy2.setText("75");
@@ -2290,7 +2633,7 @@ public class Screen {
 		        	 }
 		         }
 		         
-		 		 if(i>1 || Dwin || Pwin){
+		 		 if(i>2 || Dwin || Pwin){
 		 			 if(Dwin){
 		 				 play("/resources/dragonAppears.wav");
 		 			 } else if(Pwin){
@@ -2301,12 +2644,13 @@ public class Screen {
 		        	 btnDReady.setEnabled(true);
 		        	 btnDReady.setVisible(true);
 		        	 t.stop();
+		         } else{
+		        	 dragonMove();
 		         }
-		 		 dragonMove();
 		         i++;
 		     }
 		});
-		t.setRepeats(true);
+		t.setRepeats(true); 
 		t.start();
 		
 	}
@@ -2389,7 +2733,7 @@ public class Screen {
 			} else if(r>=9){
 				//magic item
 				String m;
-				if(rando(2,7)!=6){
+				if(rando(1,6)!=4){
 					m = magicItems[rando(1,2)];
 				} else {
 					m = magicItems[0];

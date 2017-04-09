@@ -474,6 +474,13 @@ public class Board implements java.io.Serializable {
 		//TODO communicate with benga's board? might have to do that in the setSpace() method for players
 	}
 	
+	public void setPlayerSpace(Player p,int n){
+		p.setSpace(spaces[n]);
+	}
+	public void setDragonSpace(Dragon d, int n){
+		d.setSpace(spaces[n]);
+	}
+	
 	public int rando(int min, int max){
 		//generate random number between min and max (inclusive)
 		Random ran = new Random();
